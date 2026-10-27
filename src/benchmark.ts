@@ -34,6 +34,12 @@ $('#run').addEventListener('click', async () => {
   const video = $('#bench-camera') as HTMLVideoElement;
   await attachCamera(video, camera);
   out.video = `${video.videoWidth}x${video.videoHeight}`;
+  // Pausa per inquadrare il quadro: senza, la prima prova misura anche il
+  // tempo che serve a puntare il telefono (su Android: 10,5 s invece di ~0,6 s).
+  for (let s = 5; s > 0; s--) {
+    say(`Punta il telefono sul quadro: inizio tra ${s}…`);
+    await wait(1000);
+  }
   for (const cfg of CONFIGS) {
     say(`${cfg.name}: carico…`);
     out.results.push(await runOne(cfg, video));

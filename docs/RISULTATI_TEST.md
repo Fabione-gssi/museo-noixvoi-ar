@@ -55,4 +55,34 @@ Il primo caricamento è di circa **420 KB compressi**: app ~140 KB, MindAR + Ten
 
 ### Diagnostica su Chromium desktop (per confronto)
 
-Tutto ✅ tranne l'orientamento (negato in headless, come previsto). Su iPhone e Android: in attesa delle prove.
+Tutto ✅ tranne l'orientamento (negato in headless, come previsto).
+
+## Fase 0: prova su telefono reale
+
+### Android (27/10/2026)
+
+Android 10, Chrome 155. Modello e mezzo usato (schermo o stampa) da confermare.
+
+**Diagnostica: tutto ✅.** Fotocamera posteriore 720×1280; audio e video partono dopo un solo tocco, anche cambiando sorgente senza un nuovo tocco; giroscopio concesso; Opus supportato; WebGL2, memoria locale, service worker e Web Audio funzionano.
+
+**Riconoscimento: tutte e 5 le domande "sì".** Cornice entro 2-3 s a ~1 m; la cornice resta attaccata al quadro mentre il telefono si muove; specchio trovato; cagnolino trovato; telefono fluido e non surriscaldato.
+
+**Benchmark:**
+
+| Prova | Caricamento | Riconoscimento | fps tracker | Tempo agganciato |
+|---|---|---|---|---|
+| A. Set per quadro, maxTrack 1 | 1316 ms | 10544 ms* | 54,7 | 100% |
+| B. Set globale (45 target), maxTrack 1 | 5969 ms | 616 ms | 48,6 | 89% |
+| C. Set per quadro, maxTrack 2 | 140 ms** | 687 ms | 28,5 | 100% |
+
+\* Valore falsato: la prima prova partiva appena aperta la fotocamera, quindi misura anche il tempo per puntare il telefono. Il riconoscimento reale si ricava dalle prove B e C (circa 0,6-0,7 s). Corretto: ora la pagina aspetta 5 secondi prima di iniziare.
+\*\* File già in cache dalla prova A.
+
+**Cosa dice:**
+- Riconoscimento intorno a 0,6-0,7 s (soglia 1,5 s ✅) e circa 50 fps del tracker (soglia 24 ✅): su questo telefono c'è molto margine.
+- Il set globale ci mette **4,5 volte di più a caricarsi** (6 s contro 1,3 s) e resta agganciato meno a lungo (89% contro 100%). Questo conferma la scelta di un set per quadro.
+- `maxTrack 2` dimezza gli fps (28,5 contro 54,7), come al computer. Si resta a 1.
+
+### iPhone
+
+In attesa.

@@ -7,6 +7,12 @@ Per rispondere basta scrivermi in chat, per esempio: "1 iPhone: sì sì no".
 
 ## Fase 0: prova sui telefoni
 
+**Stato:** ✅ Android fatto (27/10): tutto funziona. Restano:
+
+- **A.** Fai i passi qui sotto (2, 3, 4 e 5) con un **iPhone**.
+- **B.** Dimmi il **modello del telefono Android** che hai usato. Si trova in Impostazioni → Info sul telefono.
+- **C.** Dimmi se il quadro l'hai inquadrato **a schermo** o **stampato**. Se hai tempo, ripeti la domanda 4 sull'Android con l'altro mezzo.
+
 Ti servono: un iPhone e un telefono Android (anche di qualche anno fa) e un computer.
 
 ### 1. Prepara il quadro da inquadrare
