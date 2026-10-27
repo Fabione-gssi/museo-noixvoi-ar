@@ -1,0 +1,28 @@
+# Crediti delle immagini
+
+Tutte le immagini sono state scaricate da Wikimedia Commons il 27/10/2026 e sono di **pubblico dominio** (opere di autori morti da oltre 70 anni; riproduzioni fotografiche fedeli di opere bidimensionali).
+
+## Contenuti dell'app
+
+| Opera | Uso | Pagina della fonte | Licenza |
+|---|---|---|---|
+| Jan van Eyck, *Ritratto dei coniugi Arnolfini* (1434), National Gallery, Londra | quadro 04-arnolfini (originale 4386×6000 px) | https://commons.wikimedia.org/wiki/File:Van_Eyck_-_Arnolfini_Portrait.jpg | Public domain (credito su Commons: sito della National Gallery, Londra) |
+
+## Solo per il benchmark della Fase 0 (`public/bench/`, non sono contenuti dell'app)
+
+| Immagine | Pagina della fonte | Licenza |
+|---|---|---|
+| Albrecht Dürer - Selbstbildnis im Pelzrock - Alte Pinakothek.jpg | https://commons.wikimedia.org/wiki/File:Albrecht_D%C3%BCrer_-_Selbstbildnis_im_Pelzrock_-_Alte_Pinakothek.jpg | Public domain |
+| Caspar David Friedrich - Wanderer above the sea of fog.jpg | https://commons.wikimedia.org/wiki/File:Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg | Public domain |
+| Pieter Brueghel the Elder - The Dutch Proverbs - Google Art Project.jpg | https://commons.wikimedia.org/wiki/File:Pieter_Brueghel_the_Elder_-_The_Dutch_Proverbs_-_Google_Art_Project.jpg | Public domain |
+| Mona Lisa, by Leonardo da Vinci, from C2RMF retouched.jpg | https://commons.wikimedia.org/wiki/File:Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg | Public domain |
+| JEAN LOUIS THÉODORE GÉRICAULT - La Balsa de la Medusa (Museo del Louvre, 1818-19).jpg | https://commons.wikimedia.org/wiki/File:JEAN_LOUIS_TH%C3%89ODORE_G%C3%89RICAULT_-_La_Balsa_de_la_Medusa_(Museo_del_Louvre,_1818-19).jpg | Public domain |
+| Leonardo da Vinci - Ginevra de' Benci - Google Art Project.jpg | https://commons.wikimedia.org/wiki/File:Leonardo_da_Vinci_-_Ginevra_de%27_Benci_-_Google_Art_Project.jpg | Public domain |
+| Pieter Bruegel the Elder - Hunters in the Snow (Winter) - Google Art Project.jpg | https://commons.wikimedia.org/wiki/File:Pieter_Bruegel_the_Elder_-_Hunters_in_the_Snow_(Winter)_-_Google_Art_Project.jpg | Public domain |
+| Sandro Botticelli - La nascita di Venere - Google Art Project - edited.jpg | https://commons.wikimedia.org/wiki/File:Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg | Public domain |
+| Las Meninas, by Diego Velázquez, from Prado in Google Earth.jpg | https://commons.wikimedia.org/wiki/File:Las_Meninas,_by_Diego_Vel%C3%A1zquez,_from_Prado_in_Google_Earth.jpg | Public domain |
+| Van Gogh - Starry Night - Google Art Project.jpg | https://commons.wikimedia.org/wiki/File:Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg | Public domain |
+| Eugène Delacroix - Le 28 Juillet. La Liberté guidant le peuple.jpg | https://commons.wikimedia.org/wiki/File:Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg | Public domain |
+| John Constable - The Hay Wain (1821).jpg | https://commons.wikimedia.org/wiki/File:John_Constable_-_The_Hay_Wain_(1821).jpg | Public domain |
+| 1665 Girl with a Pearl Earring.jpg | https://commons.wikimedia.org/wiki/File:1665_Girl_with_a_Pearl_Earring.jpg | Public domain |
+| The Night Watch - HD.jpg | https://commons.wikimedia.org/wiki/File:The_Night_Watch_-_HD.jpg | Public domain |
