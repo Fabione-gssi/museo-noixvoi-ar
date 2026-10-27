@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Studio · Quadri che prendono vita</title>
+</head>
+<body>
+  <header class="topbar">
+    <a href="#/" class="brand">Studio <span>Quadri che prendono vita</span></a>
+    <nav>
+      <a href="#/">Quadri</a>
+      <a href="#/pubblica">Verifica e pubblica</a>
+      <button id="undo" class="btn ghost" hidden>↶ Annulla</button>
+    </nav>
+  </header>
+  <div id="jobbar" class="jobbar" hidden><div class="jobbar-text"></div><div class="jobbar-track"><div class="jobbar-fill"></div></div></div>
+  <main id="view"></main>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

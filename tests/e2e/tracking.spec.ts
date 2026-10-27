@@ -31,11 +31,11 @@ const mainFound = (p: Probe) => p.events.some((e) => e.type === 'found' && e.tar
 const discovered = (label: string) => (p: Probe) => p.events.some((e) => e.type.startsWith('discover') && e.target === label);
 
 test.describe('scenari principali', () => {
-  test('quadro fermo: riconosciuto', async () => {
+  test('quadro fermo: riconosciuto @principale', async () => {
     const r = await runScenario('fermo', mainFound);
     expect(r.passed, JSON.stringify(r.events)).toBe(true);
   });
-  test('avvicinamento allo specchio: particolare trovato', async () => {
+  test('avvicinamento allo specchio: particolare trovato @principale', async () => {
     const r = await runScenario('avvicinamento-specchio', discovered('Lo specchio convesso'), 40_000);
     expect(r.passed, JSON.stringify(r.events)).toBe(true);
   });
@@ -58,7 +58,7 @@ test.describe('robustezza (solo registrazione)', () => {
   }
 });
 
-test('fotocamera negata: si apre la modalità senza fotocamera', async () => {
+test('fotocamera negata: si apre la modalità senza fotocamera @principale', async () => {
   const browser = await launchWithCamera(null);
   try {
     const page = await newPage(browser, { camera: false });

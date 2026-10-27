@@ -5,16 +5,19 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && tsc --noEmit -p studio && vite build",
     "preview": "vite preview --host",
     "build:content": "node scripts/build-content.mjs",
     "test": "vitest run tests/unit && playwright test",
     "bench": "node scripts/bench.mjs",
     "test:unit": "vitest run tests/unit",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "studio": "node studio/server.mjs --open",
+    "setup": "node studio/setup.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
+    "@types/qrcode": "^1.5.6",
     "@types/three": "^0.186.0",
     "@vitejs/plugin-basic-ssl": "^2.3.0",
     "ajv": "^8.20.0",

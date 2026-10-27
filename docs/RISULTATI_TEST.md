@@ -2,6 +2,58 @@
 
 > **Avviso importante.** Questi test girano su un computer Windows, con Chromium headless e una fotocamera *simulata* (video sintetici generati dall'immagine del quadro). **Non sostituiscono la prova su telefoni reali**: non riproducono autofocus, esposizione automatica, mosso vero, riflessi e moiré reali, né la potenza di calcolo di un telefono. I numeri veri arriveranno dalle prove in `DA_FARE_UTENTE.md`.
 
+## Fase 1 (27/10/2026)
+
+Comandi: `npm run test:unit`, poi `node scripts/make-test-videos.mjs` e `npm run test:e2e`. Esito: **13 test unitari e 28 test E2E superati su 28**. Anche "Verifica tutto" lanciato dallo Studio è finito con tutti i passi ✅.
+
+**Test unitari**:
+- schema `meta.json` (validi i due quadri generati; rifiutati un'esperienza sconosciuta e coordinate fuori dall'immagine);
+- ricerca delle frasi nell'allineamento;
+- costruzione della timeline (unione di particolari nominati insieme, sequenza manuale);
+- sottotitoli VTT;
+- interpolazione delle inquadrature e adattamento allo schermo.
+
+### Racconto: *La zattera della Medusa* (tela scura), fotocamera simulata
+
+| Scenario | Esito | Primo riconoscimento |
+|---|---|---|
+| Quadro fermo a ~1 m: parte il racconto, la camera va sul primo particolare quando la voce lo nomina, compaiono i sottotitoli | ✅ | 269 ms |
+| Scansione della tela | ✅ | 721 ms |
+| Inclinazione | ✅ | 284 ms |
+| Riflesso | ✅ | 268 ms |
+| Poca luce | ✅ | 266 ms |
+| Sfocatura | ✅ | 274 ms |
+| Capitoli: salto al particolare, pausa, −15 s, sottotitoli disattivabili | ✅ | — |
+| Senza fotocamera: il racconto parte comunque | ✅ | — |
+
+Nonostante la tela scura, la *Medusa* ha **3725 punti** di riconoscimento, più dell'*Arnolfini*. La tela scura di per sé non è un problema nell'immagine digitale; in sala lo diventano luce e riflessi.
+
+Verificato a occhio sugli screenshot: sulla frase "c'è la nave Argus" la camera inquadra proprio la nave all'orizzonte.
+
+### Comuni
+
+- Blocca/Sblocca ✅.
+- Blocco automatico dopo che il quadro è perso a lungo ✅.
+- Scelta del quadro senza `?p` ✅.
+- Fotocamera negata → modalità senza fotocamera ✅.
+
+### Arnolfini (ripetuti)
+
+Tutti gli scenari della Fase 0 sono ancora superati: primo riconoscimento 238-426 ms; specchio e cagnolino trovati; nessun falso riconoscimento.
+
+### Studio (E2E)
+
+| Prova | Esito |
+|---|---|
+| Aggiungere un quadro da zero, solo con l'interfaccia (titolo, informazioni, immagine, testo, voce demo, scelta dell'interazione, caricamento video), poi "Prepara". In `contenuti/` ci sono solo file semplici e il `meta.json` generato è valido | ✅ (~30 s) |
+| L'app mostra subito il nuovo quadro e il suo video | ✅ |
+| Anteprima con fotocamera simulata: riconoscimento (0,5 s) e avvio del racconto | ✅ |
+| Eliminazione con conferma e recupero con "Annulla" | ✅ |
+
+**Non verificato**:
+- l'anteprima sul telefono via Wi-Fi (serve un telefono vero sulla stessa rete);
+- la pubblicazione dallo Studio. Usa gli stessi comandi già provati (commit, push, GitHub Actions), ma il pulsante non è stato premuto per non pubblicare contenuti di prova.
+
 ## Fase 0 (27/10/2026)
 
 Comandi: `node scripts/make-test-videos.mjs` (genera i video), poi `npm test`. Esito: **14 test superati su 14**.

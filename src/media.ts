@@ -37,7 +37,10 @@ export async function unlockAll(): Promise<UnlockResult> {
   const audioP = playSilently(audioEl);
   const videoP = playSilently(mediaVideoEl);
   const orientP = requestOrientation();
-  const camP = navigator.mediaDevices?.getUserMedia
+  const sim = simulatedCamera();
+  const camP = sim
+    ? Promise.resolve(sim)
+    : navigator.mediaDevices?.getUserMedia
     ? navigator.mediaDevices.getUserMedia({
         audio: false,
         video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } },
@@ -51,6 +54,20 @@ export async function unlockAll(): Promise<UnlockResult> {
     camP.then((s) => ({ s, e: undefined }), (e: unknown) => ({ s: null, e: describeCameraError(e) })),
   ]);
   return { camera: cam.s, cameraError: cam.e, audio, orientation };
+}
+
+/**
+ * Fotocamera simulata dello Studio (anteprima): con ?simcam=1 l'app usa lo
+ * stream offerto dalla pagina che la contiene, se è della stessa origine.
+ */
+function simulatedCamera(): MediaStream | null {
+  if (!new URLSearchParams(location.search).has('simcam')) return null;
+  try {
+    const s = (window.parent as unknown as { __studioSimCamera?: MediaStream }).__studioSimCamera;
+    return s ? new MediaStream(s.getVideoTracks().map((t) => t.clone())) : null;
+  } catch {
+    return null;
+  }
 }
 
 async function playSilently(el: HTMLMediaElement) {

@@ -19,7 +19,7 @@ async function waitStory(page: Page, timeout = 30_000) {
 test.describe('racconto', () => {
   test.skip(!meta, 'nessun quadro con esperienza racconto');
 
-  test('riconosce la tela e avvia il racconto con audio e sottotitoli', async () => {
+  test('riconosce la tela e avvia il racconto con audio e sottotitoli @principale', async () => {
     const browser = await launchWithCamera(`${meta.id}/fermo`);
     try {
       const page = await newPage(browser);
@@ -61,7 +61,7 @@ test.describe('racconto', () => {
     }
   });
 
-  test('senza fotocamera il racconto parte comunque', async () => {
+  test('senza fotocamera il racconto parte comunque @principale', async () => {
     const browser = await launchWithCamera(null);
     try {
       const page = await newPage(browser, { camera: false });

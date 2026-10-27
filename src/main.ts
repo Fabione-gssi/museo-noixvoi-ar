@@ -43,6 +43,8 @@ async function init() {
   }
   const id = params.get('p');
   if (id && !index.paintings.some((p) => p.id === id)) $('#welcome-note').textContent = 'Quadro non trovato: scegline uno dall\'elenco.';
+  // Segnale per i test e per l'anteprima dello Studio: l'app è pronta a ricevere il tap.
+  document.body.dataset.ready = '1';
 }
 
 async function onStart() {

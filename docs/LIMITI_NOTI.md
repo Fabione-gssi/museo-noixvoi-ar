@@ -1,6 +1,6 @@
 # Limiti noti
 
-Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 0.
+Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 1.
 
 ## Riconoscimento delle immagini (MindAR)
 
@@ -18,8 +18,25 @@ Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 0.
 - I test con fotocamera simulata girano su un computer: velocità e fps **non** sono quelli di un telefono. Il rallentamento della CPU 4x è solo un'approssimazione.
 - I video sintetici non riproducono messa a fuoco automatica, esposizione automatica, mosso reale, moiré e riflessi veri. **Non sostituiscono la prova su telefoni reali.**
 
+## Voce DEMO e allineamento
+
+- La voce sintetica sbaglia i nomi stranieri (es. "Géricault"). Si corregge con il file `pronuncia.txt` del quadro (nello Studio: "Correggi la pronuncia"), che cambia solo l'audio, non i sottotitoli.
+- Per le registrazioni vere l'allineamento audio-testo usa Whisper "small" in locale. Sulla voce demo della *Medusa* ha riconosciuto l'87% delle parole, con uno scarto medio di 0,11 s rispetto ai tempi esatti. Se la registrazione si discosta molto dal testo (sotto il 60% di parole riconosciute) la pipeline lo segnala.
+- Lo scorrimento delle parole nei sottotitoli è stimato in proporzione alla lunghezza delle parole: preciso per frase, approssimato per parola.
+
+## Racconto
+
+- I movimenti di camera automatici dipendono dalle frasi "ancora" in `regioni.json`: se il testo cambia e una frase non si trova più, quel movimento salta e la pipeline lo segnala. Dallo Studio si può sempre passare a una sequenza fatta a mano.
+- La parallasse col giroscopio è leggera per scelta (niente effetti che diano fastidio). Su iPhone richiede il permesso al primo tap: se viene negato, il racconto funziona lo stesso.
+- Il video caricato non ha sottotitoli automatici (vanno inclusi nel video stesso).
+
+## Blocca/Sblocca
+
+- Quando il quadro si perde, per 1,5 s si tiene l'ultima posizione. Poi per 3 s la sovrapposizione si sposta col giroscopio: è una compensazione approssimata, non un vero tracciamento. Dopo si passa da soli alla modalità bloccata, sull'ultima inquadratura buona.
+
 ## Studio
 
+- **Anteprima sul telefono**: funziona solo con telefono e computer sulla stessa rete Wi-Fi, con un certificato autofirmato da accettare a mano. Un tunnel gratuito su internet (`cloudflared` di Cloudflare, senza account) sarebbe più comodo: il suo scaricamento automatico è stato bloccato dalle impostazioni di sicurezza di questa sessione, quindi non è stato verificato. Si può aggiungere con il tuo permesso.
 - Il pannello di gestione è solo locale. Un pannello online (es. modifiche via GitHub dal browser) è escluso dalla v1, perché la pipeline pesante (compilazione target, trascrizione audio, mappe di profondità) non gira nel browser e un sito statico non può salvare nulla.
 
 ## Hosting

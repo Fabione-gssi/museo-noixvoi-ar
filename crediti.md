@@ -8,6 +8,19 @@ Tutte le immagini sono state scaricate da Wikimedia Commons il 27/10/2026 e sono
 |---|---|---|---|
 | Jan van Eyck, *Ritratto dei coniugi Arnolfini* (1434), National Gallery, Londra | quadro 04-arnolfini (originale 4386×6000 px) | https://commons.wikimedia.org/wiki/File:Van_Eyck_-_Arnolfini_Portrait.jpg | Public domain (credito su Commons: sito della National Gallery, Londra) |
 
+| Théodore Géricault, *La zattera della Medusa* (1818-1819), Louvre | quadro 06-zattera-medusa (originale 5872×4008 px) | https://commons.wikimedia.org/wiki/File:JEAN_LOUIS_TH%C3%89ODORE_G%C3%89RICAULT_-_La_Balsa_de_la_Medusa_(Museo_del_Louvre,_1818-19).jpg | Public domain (riproduzione fedele di opera bidimensionale in pubblico dominio; fonte indicata su Commons: sconosciuta) |
+
+## Voce e modelli (usati solo sul computer, non nell'app)
+
+| Cosa | Uso | Licenza |
+|---|---|---|
+| Voce Piper **it_IT-serena-medium** (addestrata sul dataset sintetico "serena-synthetic-it-27h" di committa) | Voce DEMO dei quadri dell'MVP. Non è la voce di una persona reale né un'imitazione | Dataset CC-BY-4.0 (https://huggingface.co/datasets/committa/serena-synthetic-it-27h), modello https://huggingface.co/rhasspy/piper-voices |
+| Piper (motore di sintesi vocale, piper-tts 1.8) | Genera l'audio DEMO in locale | GPL-3.0: strumento usato solo offline, non distribuito con l'app; l'audio prodotto non è soggetto alla GPL |
+| faster-whisper + modello Whisper "small" | Allinea le registrazioni vere al testo (sottotitoli) | MIT |
+| Depth Anything V2 Small (ONNX) | Mappa di profondità per la parallasse del racconto | Apache-2.0 (https://huggingface.co/depth-anything/Depth-Anything-V2-Small) |
+
+Quando nell'app si sente la voce DEMO, compare il badge "DEMO". Credito: "Voce sintetica: Piper, voce serena (dataset CC-BY-4.0 di committa)".
+
 ## Solo per il benchmark della Fase 0 (`public/bench/`, non sono contenuti dell'app)
 
 | Immagine | Pagina della fonte | Licenza |

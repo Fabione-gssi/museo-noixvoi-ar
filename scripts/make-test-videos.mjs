@@ -82,6 +82,9 @@ const VARIANTS = {
 
 async function writeVideo(name, frames, wall, vf) {
   const file = path.join(OUT, `${name}.mjpeg`);
+  // Già generato da un'immagine invariata: si salta (la generazione è lenta).
+  const source = path.join(ROOT, 'public/data', id, meta.image);
+  if (fs.existsSync(file) && fs.statSync(file).mtimeMs > fs.statSync(source).mtimeMs) return;
   const args = ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-'];
   if (vf) args.push('-vf', vf);
   args.push('-q:v', '4', '-f', 'mjpeg', file);

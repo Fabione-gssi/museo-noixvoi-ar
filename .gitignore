@@ -7,3 +7,5 @@ tests/video/
 *.log
 .venv/
 .models/
+.studio/
+pubblicazione/

@@ -22,6 +22,10 @@ export async function startRacconto(meta: PaintingMeta, screen: HTMLElement, onB
   $('.story-title', screen).textContent = meta.title;
   $('.story-artist', screen).textContent = [meta.artist, meta.year].filter(Boolean).join(', ');
   $('.badge-demo', screen).hidden = !meta.demo;
+  // Attribuzione richiesta dalla licenza CC-BY-4.0 del dataset della voce DEMO.
+  $('.reconstruction', screen).textContent = meta.demo
+    ? 'Ricostruzione narrativa. Voce sintetica DEMO: Piper, voce "serena" (dataset CC-BY-4.0 di committa).'
+    : 'Ricostruzione narrativa: voce e animazioni non sono originali dell\'opera.';
   let handle: StoryHandle = { stop() {} };
   $<HTMLButtonElement>('.story-back', screen).onclick = () => {
     handle.stop();
