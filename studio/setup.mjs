@@ -20,6 +20,8 @@ const DOWNLOADS = [
   ['piper/it_IT-serena-medium.onnx.json', 'https://huggingface.co/rhasspy/piper-voices/resolve/main/it/it_IT/serena/medium/it_IT-serena-medium.onnx.json'],
   // Profondità: Depth Anything V2 Small (Apache-2.0).
   ['depth/depth-anything-v2-small.onnx', 'https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/main/onnx/model.onnx'],
+  // Anteprima sul telefono via internet: cloudflared ufficiale (Apache-2.0), versione fissata.
+  ...(process.platform === 'win32' ? [['bin/cloudflared.exe', 'https://github.com/cloudflare/cloudflared/releases/download/2026.10.0/cloudflared-windows-amd64.exe']] : []),
 ];
 
 async function main() {

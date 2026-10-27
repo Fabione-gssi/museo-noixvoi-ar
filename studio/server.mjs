@@ -496,14 +496,7 @@ async function verifyAll() {
 }
 
 // ---- Avvio ------------------------------------------------------------------------
-const vite = await createVite({
-  root: ROOT,
-  configFile: path.join(ROOT, 'vite.config.ts'),
-  appType: 'mpa',
-  server: { middlewareMode: true, hmr: { port: PORT + 1, host: '127.0.0.1' } },
-  logLevel: 'warn',
-});
-
+let vite = null;
 const ALLOWED_HOSTS = new Set([`127.0.0.1:${PORT}`, `localhost:${PORT}`]);
 
 const server = http.createServer(async (req, res) => {
@@ -529,7 +522,21 @@ const server = http.createServer(async (req, res) => {
     }
     return;
   }
+  if (!vite) {
+    res.writeHead(503);
+    return res.end('Lo Studio si sta avviando, riprova tra un attimo.');
+  }
   vite.middlewares(req, res);
+});
+
+// Vite usa lo stesso server (e la stessa porta) anche per il ricaricamento
+// automatico: nessuna seconda porta che possa risultare occupata.
+vite = await createVite({
+  root: ROOT,
+  configFile: path.join(ROOT, 'vite.config.ts'),
+  appType: 'mpa',
+  server: { middlewareMode: true, hmr: { server } },
+  logLevel: 'warn',
 });
 
 server.on('error', (e) => {

@@ -17,6 +17,7 @@ Tutte le immagini sono state scaricate da Wikimedia Commons il 27/10/2026 e sono
 | Voce Piper **it_IT-serena-medium** (addestrata sul dataset sintetico "serena-synthetic-it-27h" di committa) | Voce DEMO dei quadri dell'MVP. Non è la voce di una persona reale né un'imitazione | Dataset CC-BY-4.0 (https://huggingface.co/datasets/committa/serena-synthetic-it-27h), modello https://huggingface.co/rhasspy/piper-voices |
 | Piper (motore di sintesi vocale, piper-tts 1.8) | Genera l'audio DEMO in locale | GPL-3.0: strumento usato solo offline, non distribuito con l'app; l'audio prodotto non è soggetto alla GPL |
 | faster-whisper + modello Whisper "small" | Allinea le registrazioni vere al testo (sottotitoli) | MIT |
+| cloudflared 2026.10.0 (Cloudflare, firmato) | Link di anteprima sul telefono dallo Studio (quick tunnel gratuito) | Apache-2.0 |
 | Depth Anything V2 Small (ONNX) | Mappa di profondità per la parallasse del racconto | Apache-2.0 (https://huggingface.co/depth-anything/Depth-Anything-V2-Small) |
 
 Quando nell'app si sente la voce DEMO, compare il badge "DEMO". Credito: "Voce sintetica: Piper, voce serena (dataset CC-BY-4.0 di committa)".

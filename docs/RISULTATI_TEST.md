@@ -50,8 +50,14 @@ Tutti gli scenari della Fase 0 sono ancora superati: primo riconoscimento 238-42
 | Anteprima con fotocamera simulata: riconoscimento (0,5 s) e avvio del racconto | ✅ |
 | Eliminazione con conferma e recupero con "Annulla" | ✅ |
 
+**Anteprima sul telefono via internet** (cloudflared, aggiunto dopo la tua approvazione):
+- il link pubblico `https://…trycloudflare.com` è stato creato in circa 20 s;
+- aperto da fuori con fotocamera simulata: quadro riconosciuto in 212 ms e racconto avviato;
+- dopo "Chiudi" il link risponde 502, cioè non è più raggiungibile.
+
+**Galaxy A56, racconto della *Medusa***: tutte le 8 risposte "sì".
+
 **Non verificato**:
-- l'anteprima sul telefono via Wi-Fi (serve un telefono vero sulla stessa rete);
 - la pubblicazione dallo Studio. Usa gli stessi comandi già provati (commit, push, GitHub Actions), ma il pulsante non è stato premuto per non pubblicare contenuti di prova.
 
 ## Fase 0 (27/10/2026)

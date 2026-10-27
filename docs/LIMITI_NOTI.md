@@ -36,7 +36,7 @@ Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 1.
 
 ## Studio
 
-- **Anteprima sul telefono**: funziona solo con telefono e computer sulla stessa rete Wi-Fi, con un certificato autofirmato da accettare a mano. Un tunnel gratuito su internet (`cloudflared` di Cloudflare, senza account) sarebbe più comodo: il suo scaricamento automatico è stato bloccato dalle impostazioni di sicurezza di questa sessione, quindi non è stato verificato. Si può aggiungere con il tuo permesso.
+- **Anteprima sul telefono**: usa un "quick tunnel" gratuito di Cloudflare (`cloudflared` 2026.10.0, firmato da Cloudflare, Apache-2.0, nessun account). Limiti: indirizzo casuale che cambia a ogni apertura; servizio gratuito senza garanzie di disponibilità; chi conosce l'indirizzo vede l'anteprima finché resta attiva. Viene esposto solo il sito dei visitatori, mai lo Studio. Se il tunnel non parte, si usa la rete locale (stesso Wi-Fi, certificato autofirmato da accettare).
 - Il pannello di gestione è solo locale. Un pannello online (es. modifiche via GitHub dal browser) è escluso dalla v1, perché la pipeline pesante (compilazione target, trascrizione audio, mappe di profondità) non gira nel browser e un sito statico non può salvare nulla.
 
 ## Hosting

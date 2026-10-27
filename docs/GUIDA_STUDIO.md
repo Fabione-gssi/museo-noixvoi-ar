@@ -11,6 +11,12 @@ Lo Studio è il pannello con cui gestisci i quadri **senza toccare file**. Gira 
    - Se Windows chiede il permesso di installare qualcosa (Node.js, Python, ffmpeg), rispondi **Sì**.
 4. Per chiudere lo Studio, chiudi la finestra nera.
 
+**Se compare "porta già in uso" (o "Port … is already in use")**: lo Studio è già aperto in un'altra finestra nera. Usa quella, oppure chiudila e fai di nuovo doppio clic. Se non trovi la finestra, apri PowerShell e incolla:
+
+```
+Get-NetTCPConnection -State Listen -LocalPort 5300 | ForEach-Object { Stop-Process -Id $_.OwningProcess }
+```
+
 ## Aggiungere un quadro
 
 1. Nella pagina **Quadri** premi **+ Aggiungi quadro** e scrivi il titolo.
@@ -45,9 +51,10 @@ Scheda **Anteprima**: a sinistra c'è la vera app in una cornice a forma di tele
 
 - **Fotocamera simulata**: con i cursori ti avvicini, inclini il telefono, aggiungi un riflesso o abbassi la luce, senza bisogno di un telefono.
 - **Webcam del computer**: inquadri una stampa del quadro con la webcam.
-- **Crea il link per il telefono**: compare un codice QR da inquadrare con un telefono collegato **allo stesso Wi-Fi** del computer.
-  - Al primo accesso il telefono avvisa che il certificato "non è attendibile". È normale: tocca **Avanzate → Procedi**.
-  - Se Windows chiede di consentire l'accesso alla rete, scegli **Consenti** (rete privata).
+- **Crea il link per il telefono**: dopo circa 20 secondi compare un codice QR da inquadrare con il telefono.
+  - Funziona anche in rete mobile, attraverso un collegamento gratuito di Cloudflare.
+  - L'indirizzo è casuale e resta valido finché premi **"Chiudi l'anteprima sul telefono"** o chiudi lo Studio.
+  - Se il collegamento via internet non parte, lo Studio usa la rete locale. In quel caso serve lo stesso Wi-Fi e, al primo accesso, devi toccare **Avanzate → Procedi** sull'avviso del certificato.
 
 ## Pubblicare
 

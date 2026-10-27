@@ -27,15 +27,17 @@ export function previewPanel(d: PaintingDetails, folder: string) {
   const phoneBox = h('div', {});
   const off = onServerEvent((e) => {
     if (e.event !== 'tunnel') return;
-    const ev = e as { step?: string; urls?: string[]; message?: string };
-    if (ev.step === 'fatto' && ev.urls) void showPhone(ev.urls.map((u) => `${u}?p=${encodeURIComponent(d.id)}`));
+    const ev = e as { step?: string; urls?: string[]; message?: string; local?: boolean };
+    if (ev.step === 'fatto' && ev.urls) void showPhone(ev.urls.map((u) => `${u}?p=${encodeURIComponent(d.id)}`), !!ev.local);
     else if (ev.message) phoneBox.replaceChildren(h('p.muted', {}, ev.message));
   });
-  async function showPhone(urls: string[]) {
+  async function showPhone(urls: string[], local: boolean) {
     phoneBox.replaceChildren(
-      h('p', {}, 'Inquadra il codice con il telefono collegato allo stesso Wi-Fi di questo computer.'),
+      h('p', {}, local ? 'Inquadra il codice con il telefono collegato allo stesso Wi-Fi di questo computer.' : 'Inquadra il codice con il telefono: funziona anche in rete mobile. Il link resta valido finché lo Studio è aperto (o finché premi "Chiudi").'),
       ...(await Promise.all(urls.map(async (u) => h('div.qr', {}, h('img', { src: await QRCode.toDataURL(u, { margin: 1, width: 220 }), alt: `Codice QR per ${u}` }), h('code', {}, u))))),
-      h('p.muted', {}, 'Al primo accesso il telefono avvisa che il certificato "non è attendibile": è normale per un\'anteprima locale. Tocca "Avanzate" e poi "Procedi". Se Windows chiede di consentire l\'accesso alla rete, scegli "Consenti" (rete privata).'),
+      local
+        ? h('p.muted', {}, 'Al primo accesso il telefono avvisa che il certificato "non è attendibile": è normale per un\'anteprima locale. Tocca "Avanzate" e poi "Procedi". Se Windows chiede di consentire l\'accesso alla rete, scegli "Consenti" (rete privata).')
+        : h('p.muted', {}, 'Chi conosce questo indirizzo casuale può vedere l\'anteprima mentre è attiva: chiudila quando hai finito.'),
       h('button.btn', { onclick: () => attempt(() => api('preview-link', { method: 'DELETE' }), 'Anteprima sul telefono chiusa.').then(() => phoneBox.replaceChildren()) }, 'Chiudi l\'anteprima sul telefono'));
   }
 
