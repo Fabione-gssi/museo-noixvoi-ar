@@ -61,7 +61,9 @@ Tutto ✅ tranne l'orientamento (negato in headless, come previsto).
 
 ### Android (27/10/2026)
 
-Android 10, Chrome 155. Modello e mezzo usato (schermo o stampa) da confermare.
+**Samsung Galaxy A56** (Android, Chrome 155). Provato sia **a schermo** sia **su stampa**: funziona in entrambi i casi.
+
+Attenzione: il Galaxy A56 è un telefono di fascia media del 2025, quindi più potente del "fascia media di 3-4 anni fa" indicato come obiettivo. Il margine sugli fps è ampio, ma su telefoni più vecchi resta da verificare.
 
 **Diagnostica: tutto ✅.** Fotocamera posteriore 720×1280; audio e video partono dopo un solo tocco, anche cambiando sorgente senza un nuovo tocco; giroscopio concesso; Opus supportato; WebGL2, memoria locale, service worker e Web Audio funzionano.
 
@@ -85,4 +87,4 @@ Android 10, Chrome 155. Modello e mezzo usato (schermo o stampa) da confermare.
 
 ### iPhone
 
-In attesa.
+**Non provato**: al momento non c'è un iPhone disponibile. Si prosegue senza, ma è un **rischio aperto**: su iOS Safari fotocamera, sblocco dell'audio, permesso del giroscopio e prestazioni di TensorFlow.js sono i punti più delicati. La prova va fatta prima del rilascio dell'MVP (criterio di accettazione (a)).
