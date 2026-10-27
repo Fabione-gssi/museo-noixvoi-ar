@@ -1,6 +1,6 @@
 # Limiti noti
 
-Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 1.
+Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 2.
 
 ## Riconoscimento delle immagini (MindAR)
 
@@ -11,6 +11,8 @@ Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 1.
 - **Riflessi del vetro e luce radente**: una macchia di luce copre i punti caratteristici. Il test con riflesso simulato è registrato in `docs/RISULTATI_TEST.md`; serve comunque la prova sul campo.
 - **Distanza**: se ci si avvicina molto, il quadro intero esce dall'inquadratura e il tracking si perde. Per questo i particolari hanno anche un proprio target (il ritaglio) oltre al metodo mirino.
 - **Particolari piccoli o con poca texture**: se un ritaglio ha pochi punti, si usa solo il mirino (soglia nella pipeline: 250 punti, da tarare con le prove reali).
+- **Soglia dei punti poco selettiva**: MindAR conta i punti sul ritaglio ingrandito, quindi finora tutti i particolari (anche lo scudo scuro della *Ronda*, 682 punti) superano la soglia di 250 e hanno sia il riconoscimento da vicino sia il mirino. La soglia andrà tarata sui risultati dei telefoni.
+- **Particolari vicini tra loro** (firma e specchio dell'*Arnolfini*): avvicinandosi a uno si può trovare anche l'altro. Un particolare nuovo apre la sua scheda anche se ce n'è già una aperta; uno già trovato non interrompe l'ascolto.
 - **Un target alla volta (`maxTrack 1`)**: mentre il quadro intero è agganciato, i ritagli non vengono cercati. Da vicino il quadro intero si perde e il ritaglio subentra. È una scelta di prestazioni, misurata nel benchmark.
 
 ## Test automatici

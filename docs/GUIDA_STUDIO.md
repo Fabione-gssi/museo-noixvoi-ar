@@ -45,6 +45,23 @@ Nella scheda **Racconto**:
 
 **Selettore di audio**: clicca sull'onda per scegliere un istante; trascina il dito o il mouse sulle parole per selezionare un pezzo; **"Ascolta la selezione"** per sentirlo.
 
+## I dettagli
+
+Se l'interazione è **Dettagli**, nella scheda **Dettagli** segni i particolari da far scoprire:
+
+1. **+ Aggiungi particolare**, poi **trascina sull'immagine** per disegnare il riquadro. Per spostarlo trascina dentro il riquadro; per ridimensionarlo usa il pallino giallo nell'angolo.
+2. Scrivi il **nome**: è quello che vede il visitatore (es. "Lo specchio").
+3. Scegli **che cosa parte** quando il visitatore lo trova:
+   - **il pezzo dell'audio principale che ne parla** (automatico): lo trova da solo, usando la frase del testo indicata in "Frase del testo che parla di questo particolare";
+   - **un pezzo scelto da te**: trascina sulle parole della trascrizione in basso, poi **"Usa la selezione fatta sulla traccia"**;
+   - **un audio o un video caricato**: trascina il file nel riquadro tratteggiato;
+   - **solo testo**: scrivilo in "Testo della scheda".
+4. **Salva i particolari**, poi **Prepara**.
+
+Accanto a ogni particolare vedi quanto è riconoscibile:
+- **"Riconoscibile da vicino e col mirino"**: il telefono lo riconosce sia avvicinandosi sia tenendolo nel cerchio al centro dello schermo;
+- **"Solo col mirino"**: c'è poca texture, quindi funziona solo con il cerchio al centro, guardando il quadro intero.
+
 ## Provare
 
 Scheda **Anteprima**: a sinistra c'è la vera app in una cornice a forma di telefono.

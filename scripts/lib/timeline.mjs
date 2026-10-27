@@ -20,6 +20,26 @@ export function findPhraseTime(alignment, phrase) {
   return null;
 }
 
+/**
+ * Pezzo di audio che parla di un particolare: la frase che contiene `phrase`,
+ * allungata alle frasi successive dello stesso paragrafo finché dura almeno
+ * `minSec` secondi. Restituisce anche il testo, per la scheda e i sottotitoli.
+ */
+export function segmentFor(alignment, phrase, minSec = 6) {
+  const hit = findPhraseTime(alignment, phrase);
+  if (!hit) return null;
+  const ss = alignment.sentences;
+  let i = ss.findIndex((s) => hit.start >= s.start - 0.01 && hit.start <= s.end + 0.01);
+  if (i < 0) return null;
+  let j = i;
+  while (ss[j].end - ss[i].start < minSec && ss[j + 1] && (ss[j + 1].paragraph ?? 0) === (ss[i].paragraph ?? 0)) j++;
+  return {
+    from: round(ss[i].start),
+    to: round(ss[j].end),
+    text: ss.slice(i, j + 1).map((s) => s.text).join(' '),
+  };
+}
+
 const FULL = { x: 0, y: 0, w: 1, h: 1 };
 
 /**

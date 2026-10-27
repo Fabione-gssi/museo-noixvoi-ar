@@ -1,0 +1,5 @@
+# Come la voce demo deve leggere le parole difficili (parola = lettura).
+Jan van Eyck = Ian van Èik
+Johannes de eyck fuit hic 1434 = Iohànnes de èik fùit ic, millequattrocentotrentaquattro
+van Eyck = van Èik
+National Gallery = Nèscional Gàlleri

@@ -152,3 +152,8 @@ audio { width: 100%; margin: 8px 0; }
 .dialog::backdrop { background: #0006; }
 .dialog label { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
 .dialog .row { justify-content: flex-end; }
+.rect-handle { position: absolute; right: -8px; bottom: -8px; width: 16px; height: 16px; border-radius: 50%; background: #ffc400; border: 2px solid #fff; pointer-events: auto; cursor: nwse-resize; }
+.det-list { max-height: 260px; }
+.det-form { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+.det-kinds { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
+.det-kinds legend { font-weight: 600; padding: 0 4px; }

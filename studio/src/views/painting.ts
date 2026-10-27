@@ -2,6 +2,7 @@ import { api, fileUrl, onServerEvent, type PaintingDetails } from '../api';
 import { h, attempt, uploadBox, toast, budgetBar, confirmDialog } from '../ui';
 import { raccontoEditor } from './racconto-editor';
 import { previewPanel } from './preview';
+import { dettagliEditor } from './dettagli-editor';
 
 const TABS: [string, string][] = [
   ['info', 'Informazioni'],
@@ -9,12 +10,13 @@ const TABS: [string, string][] = [
   ['testo', 'Testo e audio'],
   ['interazione', 'Interazione'],
   ['racconto', 'Racconto'],
+  ['dettagli', 'Dettagli'],
   ['anteprima', 'Anteprima'],
 ];
 
 const EXPERIENCES = [
   { id: 'racconto', name: 'Racconto', line: 'Dopo aver inquadrato il quadro parte una storia animata (o un video) con voce e sottotitoli.', ready: true },
-  { id: 'dettagli', name: 'Dettagli', line: 'Il visitatore inquadra un particolare e parte un contenuto. L\'editor dei particolari arriva nella Fase 2.', ready: true },
+  { id: 'dettagli', name: 'Dettagli', line: 'Il visitatore inquadra un particolare (o lo tiene nel mirino) e parte un audio, un video o un testo.', ready: true },
   { id: 'caccia', name: 'Caccia', line: 'Una lente rivela elementi nascosti. In arrivo nella Fase 3.', ready: false },
   { id: 'personaggio', name: 'Personaggio', line: 'Il personaggio si anima e risponde alle domande. In arrivo nella Fase 4.', ready: false },
 ];
@@ -25,7 +27,8 @@ export async function paintingView(root: HTMLElement, folder: string, tab = 'inf
   const cleanups: (() => void)[] = [];
   const d = await api<PaintingDetails>(`paintings/${enc(folder)}`);
   const reload = () => paintingView(root, folder, tab).then((c) => cleanups.push(c));
-  const visibleTabs = TABS.filter(([id]) => id !== 'racconto' || d.experience === 'racconto');
+  // Le schede degli editor compaiono solo per l'interazione scelta.
+  const visibleTabs = TABS.filter(([id]) => (id !== 'racconto' || d.experience === 'racconto') && (id !== 'dettagli' || d.experience === 'dettagli'));
   if (!visibleTabs.some(([id]) => id === tab)) tab = 'info';
 
   const prepare = () =>
@@ -56,6 +59,11 @@ export async function paintingView(root: HTMLElement, folder: string, tab = 'inf
   if (tab === 'interazione') body.append(experienceTab(d, folder, reload));
   if (tab === 'racconto') {
     const ed = raccontoEditor(d, folder, reload, prepare);
+    body.append(ed.el);
+    cleanups.push(ed.destroy);
+  }
+  if (tab === 'dettagli') {
+    const ed = dettagliEditor(d, folder, prepare);
     body.append(ed.el);
     cleanups.push(ed.destroy);
   }

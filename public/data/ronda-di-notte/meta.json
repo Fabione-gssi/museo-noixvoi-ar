@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "id": "ronda-di-notte",
+  "order": 1,
+  "title": "La ronda di notte",
+  "artist": "Rembrandt van Rijn",
+  "year": "1642",
+  "room": "",
+  "experience": "dettagli",
+  "demo": true,
+  "aspect": 1.1971326164874552,
+  "image": "immagine.jpg",
+  "audio": {
+    "src": "audio.opus",
+    "fallback": "audio.m4a",
+    "durationSec": 126.6
+  },
+  "subtitles": "subtitles.vtt",
+  "alignment": "alignment.json",
+  "targets": {
+    "mind": "targets.mind",
+    "main": {
+      "targetIndex": 0,
+      "image": "target.jpg",
+      "points": 2563
+    }
+  },
+  "dettagli": [
+    {
+      "id": "capitano",
+      "label": "Il capitano",
+      "crop": {
+        "x": 0.334,
+        "y": 0.449,
+        "w": 0.218,
+        "h": 0.537
+      },
+      "trigger": [
+        "target",
+        "reticle"
+      ],
+      "targetIndex": 1,
+      "image": "dettaglio-capitano.jpg",
+      "points": 1357,
+      "thumb": "mini-capitano.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 34.77,
+          "to": 41.55
+        }
+      },
+      "text": "Il capitano Frans Banninck Cocq, vestito di nero con una fascia rossa, tende la mano e dà l'ordine di mettersi in marcia.",
+      "source": "testo.txt: \"Il capitano Frans Banninck Cocq, vestito di nero con una fascia rossa, tende la mano e dà …\""
+    },
+    {
+      "id": "luogotenente",
+      "label": "Il luogotenente",
+      "crop": {
+        "x": 0.552,
+        "y": 0.486,
+        "w": 0.148,
+        "h": 0.485
+      },
+      "trigger": [
+        "target",
+        "reticle"
+      ],
+      "targetIndex": 2,
+      "image": "dettaglio-luogotenente.jpg",
+      "points": 1646,
+      "thumb": "mini-luogotenente.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 42,
+          "to": 52.6
+        }
+      },
+      "text": "Accanto a lui il luogotenente Willem van Ruytenburch, tutto vestito di chiaro, ascolta il comando. La luce cade proprio sulla mano del capitano, che sembra uscire dal quadro verso di noi.",
+      "source": "testo.txt: \"Accanto a lui il luogotenente Willem van Ruytenburch, tutto vestito di chiaro, ascolta il …\""
+    },
+    {
+      "id": "bambina",
+      "label": "La bambina nella luce",
+      "crop": {
+        "x": 0.252,
+        "y": 0.58,
+        "w": 0.122,
+        "h": 0.282
+      },
+      "trigger": [
+        "target",
+        "reticle"
+      ],
+      "targetIndex": 3,
+      "image": "dettaglio-bambina.jpg",
+      "points": 1920,
+      "thumb": "mini-bambina.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 72.91,
+          "to": 79.2
+        }
+      },
+      "text": "È una bambina vestita d'oro, colpita dalla luce come da un riflettore. Dalla sua cintura pende un pollo morto.",
+      "source": "testo.txt: \"È una bambina vestita d'oro, colpita dalla luce come da un riflettore. Dalla sua cintura p…\""
+    },
+    {
+      "id": "moschettiere",
+      "label": "L'uomo in rosso",
+      "crop": {
+        "x": 0.134,
+        "y": 0.475,
+        "w": 0.144,
+        "h": 0.448
+      },
+      "trigger": [
+        "target",
+        "reticle"
+      ],
+      "targetIndex": 4,
+      "image": "dettaglio-moschettiere.jpg",
+      "points": 878,
+      "thumb": "mini-moschettiere.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 64.48,
+          "to": 67.82
+        }
+      },
+      "text": "A sinistra, un uomo vestito di rosso maneggia il suo moschetto.",
+      "source": "testo.txt: \"A sinistra, un uomo vestito di rosso maneggia il suo moschetto.\""
+    },
+    {
+      "id": "tamburino",
+      "label": "Il tamburino",
+      "crop": {
+        "x": 0.872,
+        "y": 0.601,
+        "w": 0.128,
+        "h": 0.255
+      },
+      "trigger": [
+        "target",
+        "reticle"
+      ],
+      "targetIndex": 5,
+      "image": "dettaglio-tamburino.jpg",
+      "points": 1701,
+      "thumb": "mini-tamburino.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 80.1,
+          "to": 87.23
+        }
+      },
+      "text": "A destra, il tamburino batte il suo grande tamburo per dare il ritmo alla marcia. Ai suoi piedi un cane abbaia, spaventato dal rumore.",
+      "source": "testo.txt: \"A destra, il tamburino batte il suo grande tamburo per dare il ritmo alla marcia. Ai suoi …\""
+    },
+    {
+      "id": "cane",
+      "label": "Il cane",
+      "crop": {
+        "x": 0.748,
+        "y": 0.794,
+        "w": 0.131,
+        "h": 0.115
+      },
+      "trigger": [
+        "target",
+        "reticle"
+      ],
+      "targetIndex": 6,
+      "image": "dettaglio-cane.jpg",
+      "points": 1085,
+      "thumb": "mini-cane.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 84.54,
+          "to": 87.23
+        }
+      },
+      "text": "Ai suoi piedi un cane abbaia, spaventato dal rumore.",
+      "source": "testo.txt: \"Ai suoi piedi un cane abbaia, spaventato dal rumore.\""
+    },
+    {
+      "id": "scudo",
+      "label": "Lo scudo con i nomi",
+      "crop": {
+        "x": 0.526,
+        "y": 0.074,
+        "w": 0.148,
+        "h": 0.229
+      },
+      "trigger": [
+        "target",
+        "reticle"
+      ],
+      "targetIndex": 7,
+      "image": "dettaglio-scudo.jpg",
+      "points": 682,
+      "thumb": "mini-scudo.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 91.62,
+          "to": 97.89
+        }
+      },
+      "text": "Accanto all'arco c'è uno scudo con i nomi di molti degli uomini ritratti: è il modo in cui ancora oggi sappiamo chi sono.",
+      "source": "testo.txt: \"Accanto all'arco c'è uno scudo con i nomi di molti degli uomini ritratti: è il modo in cui…\""
+    }
+  ],
+  "budget": {
+    "bytes": 5521898,
+    "limit": 6291456
+  }
+}

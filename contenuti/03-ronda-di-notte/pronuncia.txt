@@ -1,0 +1,7 @@
+# Come la voce demo deve leggere le parole difficili (parola = lettura).
+Banninck Cocq = Bànnink Cok
+Willem van Ruytenburch = Uìllem van Ròitenburg
+Kloveniersdoelen = Klovenìrsdulen
+Rembrandt = Rèmbrant
+Gerrit Lundens = Gherrit Lùndens
+Amsterdam = Àmsterdam

@@ -26,11 +26,11 @@ test.describe('racconto', () => {
       await page.goto(`/?p=${meta.id}&notutorial`);
       await page.click('#start');
       await waitStory(page);
-      await expect(page.locator('.badge-demo')).toBeVisible({ visible: meta.demo });
+      await expect(page.locator('#story .badge-demo')).toBeVisible({ visible: meta.demo });
       // Il primo movimento di camera arriva quando l'audio nomina il primo particolare.
       const first = meta.racconto.timeline.find((k: { args: { label?: string } }) => k.args.label);
       await expect.poll(async () => (await probe(page)).events.some((e) => e.type === 'camera'), { timeout: (first.t + 8) * 1000 }).toBe(true);
-      await expect(page.locator('.subtitles')).not.toBeEmpty();
+      await expect(page.locator('#story .subtitles')).not.toBeEmpty();
       const p = await probe(page);
       saveResult(`racconto-${meta.id}-fermo`, p);
       expect(p.firstFoundMs).toBeLessThan(1500);
@@ -55,7 +55,7 @@ test.describe('racconto', () => {
       await page.getByRole('button', { name: 'Indietro di 15 secondi' }).click();
       await expect.poll(async () => (await probe(page)).storyTime).toBeLessThan(t0 - 10);
       await page.getByRole('button', { name: 'Sottotitoli' }).click();
-      await expect(page.locator('.subtitles')).toBeHidden();
+      await expect(page.locator('#story .subtitles')).toBeHidden();
     } finally {
       await browser.close();
     }
@@ -110,11 +110,11 @@ test('blocca e sblocca nella vista AR', async () => {
 });
 
 test('quadro perso a lungo: blocco automatico sull\'ultima inquadratura buona', async () => {
-  // Il video "avvicinamento" a un certo punto esce dal quadro intero per oltre 1,5 s.
-  const browser = await launchWithCamera('arnolfini/avvicinamento-cane');
+  // Avvicinandosi allo scudo (ritaglio scuro) il quadro intero esce dall'inquadratura per oltre 1,5 s.
+  const browser = await launchWithCamera('ronda-di-notte/avvicinamento-scudo');
   try {
     const page = await newPage(browser);
-    await page.goto('/?p=arnolfini&notutorial');
+    await page.goto('/?p=ronda-di-notte&notutorial');
     await page.click('#start');
     await expect.poll(async () => (await probe(page)).events.map((e) => e.type), { timeout: 40_000 }).toContain('lock:auto');
   } finally {

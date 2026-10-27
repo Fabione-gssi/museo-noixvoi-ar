@@ -2,6 +2,47 @@
 
 > **Avviso importante.** Questi test girano su un computer Windows, con Chromium headless e una fotocamera *simulata* (video sintetici generati dall'immagine del quadro). **Non sostituiscono la prova su telefoni reali**: non riproducono autofocus, esposizione automatica, mosso vero, riflessi e moiré reali, né la potenza di calcolo di un telefono. I numeri veri arriveranno dalle prove in `DA_FARE_UTENTE.md`.
 
+## Fase 2 (27/10/2026)
+
+Esito: **16 test unitari e 36 test E2E superati su 36**. I nuovi test unitari verificano la ricerca del pezzo di audio di un particolare.
+
+### Dettagli con fotocamera simulata
+
+| Quadro, percorso di camera | Particolare trovato | Come | Quando |
+|---|---|---|---|
+| *Arnolfini*, avvicinamento allo specchio | Lo specchio convesso | mirino | 1,6 s |
+| *Arnolfini*, avvicinamento alla firma (particolare piccolo) | La firma del pittore | ritaglio riconosciuto da vicino | 0,6 s |
+| *Ronda*, avvicinamento al capitano | Il capitano | mirino | 5,6 s (il video si avvicina lentamente) |
+| *Ronda*, avvicinamento al luogotenente | Il luogotenente | mirino | 5,6 s |
+| *Ronda*, avvicinamento allo scudo (il particolare più scuro) | Lo scudo con i nomi | mirino | 4,8 s |
+
+Per ogni particolare il test verifica che:
+- compaia la scheda con il nome giusto;
+- l'audio parta **dentro il pezzo che parla di quel particolare** (tempi presi da `meta.json`);
+- il particolare risulti spuntato in "Trova i particolari";
+- l'avanzamento resti dopo aver ricaricato la pagina.
+
+**Senza fotocamera**, per entrambi i quadri:
+- si tocca un particolare e si apre la sua scheda;
+- "Chiudi" funziona;
+- "Ascolta il racconto completo" fa partire tutto il racconto.
+
+### Correzioni nate dai test
+
+- Avvicinandosi alla firma si passa sopra lo specchio, la cui scheda si apriva per prima e bloccava la firma. Ora un particolare **nuovo** apre la sua scheda anche se ce n'è già una aperta.
+- Il blocco automatico scattava anche quando, da vicino, era agganciato il ritaglio di un particolare. Ora scatta solo se non è agganciato nulla.
+
+### Studio
+
+Nuovo test dell'editor dei particolari:
+- si disegna un riquadro trascinando sull'immagine;
+- gli si dà un nome e "Solo testo";
+- si salva e si prepara.
+
+Le coordinate in `regioni.json` corrispondono al trascinamento e il `meta.json` è valido. Tutti e 5 i test dello Studio sono superati.
+
+**Non verificato**: i particolari su telefono vero (vedi DA_FARE_UTENTE.md, Fase 2).
+
 ## Fase 1 (27/10/2026)
 
 Comandi: `npm run test:unit`, poi `node scripts/make-test-videos.mjs` e `npm run test:e2e`. Esito: **13 test unitari e 28 test E2E superati su 28**. Anche "Verifica tutto" lanciato dallo Studio è finito con tutti i passi ✅.

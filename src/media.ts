@@ -18,6 +18,8 @@ function silentWav(samples: number) {
 
 export const audioEl = document.createElement('audio');
 audioEl.preload = 'auto';
+// Esposto per i test automatici (stato della riproduzione).
+(window as unknown as { __audio: HTMLAudioElement }).__audio = audioEl;
 export const mediaVideoEl = document.createElement('video');
 mediaVideoEl.playsInline = true;
 mediaVideoEl.setAttribute('playsinline', '');

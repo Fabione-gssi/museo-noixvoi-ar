@@ -1,14 +1,24 @@
 {
   "paintings": [
     {
+      "id": "ronda-di-notte",
+      "title": "La ronda di notte",
+      "artist": "Rembrandt van Rijn",
+      "year": "1642",
+      "room": "",
+      "experience": "dettagli",
+      "demo": true,
+      "bytes": 5521898
+    },
+    {
       "id": "arnolfini",
       "title": "Ritratto dei coniugi Arnolfini",
       "artist": "Jan van Eyck",
       "year": "1434",
       "room": "",
       "experience": "dettagli",
-      "demo": false,
-      "bytes": 2063544
+      "demo": true,
+      "bytes": 5146740
     },
     {
       "id": "zattera-medusa",
@@ -21,5 +31,5 @@
       "bytes": 2949869
     }
   ],
-  "totalBytes": 5013413
+  "totalBytes": 13618507
 }

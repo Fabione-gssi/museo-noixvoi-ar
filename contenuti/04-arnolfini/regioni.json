@@ -1,7 +1,11 @@
 {
-  "_nota": "Coordinate normalizzate (0-1) ricavate dalle descrizioni in dettagli.txt. Generato, da confermare con anteprima.jpg.",
+  "_nota": "Coordinate normalizzate (0-1) individuate guardando l'immagine. 'ancora' è la frase di testo.txt che parla del particolare: la pipeline ne ricava il pezzo di audio e il testo della scheda. Da confermare con revisione/arnolfini.jpg.",
   "dettagli": [
-    { "id": "specchio", "label": "Lo specchio convesso", "crop": { "x": 0.415, "y": 0.233, "w": 0.178, "h": 0.130 } },
-    { "id": "cane", "label": "Il cagnolino", "crop": { "x": 0.36, "y": 0.815, "w": 0.225, "h": 0.175 } }
+    { "id": "specchio", "label": "Lo specchio convesso", "crop": { "x": 0.415, "y": 0.233, "w": 0.178, "h": 0.13 }, "ancora": "Lo specchio convesso riflette tutta la stanza" },
+    { "id": "firma", "label": "La firma del pittore", "crop": { "x": 0.425, "y": 0.188, "w": 0.165, "h": 0.05 }, "ancora": "Sopra lo specchio c'è una scritta elegante" },
+    { "id": "lampadario", "label": "Il lampadario", "crop": { "x": 0.364, "y": 0.021, "w": 0.293, "h": 0.177 }, "ancora": "In alto pende un lampadario di ottone" },
+    { "id": "cane", "label": "Il cagnolino", "crop": { "x": 0.36, "y": 0.815, "w": 0.225, "h": 0.175 }, "ancora": "c'è un cagnolino dal pelo arruffato" },
+    { "id": "zoccoli", "label": "Gli zoccoli", "crop": { "x": 0.0, "y": 0.85, "w": 0.16, "h": 0.135 }, "ancora": "vedi gli zoccoli di legno dell'uomo" },
+    { "id": "arance", "label": "Le arance", "crop": { "x": 0.055, "y": 0.495, "w": 0.105, "h": 0.07 }, "ancora": "Vicino alla finestra ci sono alcune arance" }
   ]
 }

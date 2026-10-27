@@ -1,0 +1,12 @@
+{
+  "_nota": "Coordinate normalizzate (0-1) individuate guardando l'immagine (cornice esclusa). 'ancora' è la frase di testo.txt che parla del particolare: la pipeline ne ricava il pezzo di audio e il testo della scheda. Da confermare con revisione/ronda-di-notte.jpg.",
+  "dettagli": [
+    { "id": "capitano", "label": "Il capitano", "crop": { "x": 0.334, "y": 0.449, "w": 0.218, "h": 0.537 }, "ancora": "Il capitano Frans Banninck Cocq" },
+    { "id": "luogotenente", "label": "Il luogotenente", "crop": { "x": 0.552, "y": 0.486, "w": 0.148, "h": 0.485 }, "ancora": "Accanto a lui il luogotenente" },
+    { "id": "bambina", "label": "La bambina nella luce", "crop": { "x": 0.252, "y": 0.58, "w": 0.122, "h": 0.282 }, "ancora": "È una bambina vestita d'oro" },
+    { "id": "moschettiere", "label": "L'uomo in rosso", "crop": { "x": 0.134, "y": 0.475, "w": 0.144, "h": 0.448 }, "ancora": "un uomo vestito di rosso" },
+    { "id": "tamburino", "label": "Il tamburino", "crop": { "x": 0.872, "y": 0.601, "w": 0.128, "h": 0.255 }, "ancora": "il tamburino batte il suo grande tamburo" },
+    { "id": "cane", "label": "Il cane", "crop": { "x": 0.748, "y": 0.794, "w": 0.131, "h": 0.115 }, "ancora": "Ai suoi piedi un cane abbaia" },
+    { "id": "scudo", "label": "Lo scudo con i nomi", "crop": { "x": 0.526, "y": 0.074, "w": 0.148, "h": 0.229 }, "ancora": "c'è uno scudo con i nomi" }
+  ]
+}

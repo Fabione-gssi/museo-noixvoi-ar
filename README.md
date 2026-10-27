@@ -2,10 +2,13 @@
 
 App per il telefono dei visitatori del museo: si inquadra un quadro e prende vita (particolari da scoprire, caccia con la lente, personaggio che parla, racconto animato). Funziona nel browser, senza installare nulla, a costo zero.
 
-**Stato: Fase 1** (motore generico, esperienza "racconto", Studio base). Quadri di prova:
+**Stato: Fase 2** (motore generico, esperienze "racconto" e "dettagli", Studio con i loro editor). Quadri di prova:
 
-- *La zattera della Medusa*: racconto completo con voce DEMO;
-- *Arnolfini*: riconoscimento dei particolari, contenuti in arrivo nella Fase 2.
+- *La zattera della Medusa*: racconto;
+- *La ronda di notte*: 7 particolari;
+- *Arnolfini*: 6 particolari.
+
+Tutti hanno la voce DEMO.
 
 ## Per te
 

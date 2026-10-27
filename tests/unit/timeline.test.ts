@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 // @ts-expect-error modulo JS della pipeline
-import { findPhraseTime, buildTimeline, toVtt } from '../../scripts/lib/timeline.mjs';
+import { findPhraseTime, buildTimeline, toVtt, segmentFor } from '../../scripts/lib/timeline.mjs';
 import { rectAt, fitToScreen, parseVtt, cueAt, keyIndexAt, FULL, type Keyframe } from '../../src/story/timeline';
 
 const alignment = {
@@ -86,5 +86,17 @@ describe('inquadrature del racconto', () => {
     const r = fitToScreen({ x: 0.4, y: 0.4, w: 0.2, h: 0.2 }, 1.5, 0.5, 1);
     expect((r.w * 1.5) / r.h).toBeCloseTo(0.5, 5);
     expect(r.x + r.w / 2).toBeCloseTo(0.5, 5);
+  });
+});
+
+describe('segmentFor (pezzo di audio di un particolare)', () => {
+  it('prende la frase che contiene l\'ancora e la allunga fino alla durata minima', () => {
+    expect(segmentFor(alignment, 'nave Argus', 1)).toEqual({ from: 3, to: 6, text: "Laggiù, minuscola, c'è la nave Argus." });
+    const long = segmentFor(alignment, 'Guarda prima', 5);
+    expect(long).toMatchObject({ from: 0, to: 6 });
+    expect(long.text).toContain('Argus');
+  });
+  it('restituisce null se la frase non c\'è', () => {
+    expect(segmentFor(alignment, 'cavallo bianco')).toBeNull();
   });
 });

@@ -59,7 +59,11 @@ function path_(keys, seconds) {
 function shots() {
   const full = { ...toWall(0.5, 0.5), h: PAINT_H * 1.15 };
   const out = { fermo: path_([full, full], 8) };
-  for (const d of meta.dettagli.filter((x) => x.targetIndex)) {
+  // Avvicinamenti: al massimo tre particolari (i primi due e quello con meno punti), per contenere i tempi.
+  const withTarget = meta.dettagli.filter((x) => x.targetIndex);
+  const weakest = [...withTarget].sort((a, b) => a.points - b.points)[0];
+  const chosen = [...new Set([...withTarget.slice(0, 2), weakest].filter(Boolean))];
+  for (const d of chosen) {
     const c = toWall(d.crop.x + d.crop.w / 2, d.crop.y + d.crop.h / 2);
     const close = { ...c, h: d.crop.h * PAINT_H * 1.7 };
     const mid = { ...c, h: d.crop.h * PAINT_H * 4 };

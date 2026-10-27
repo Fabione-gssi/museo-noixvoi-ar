@@ -59,11 +59,25 @@ export interface Rect { x: number; y: number; w: number; h: number }
 export interface Keyframe { t: number; action: 'cameraTo'; args: { rect: Rect; label?: string; id?: string }; source?: string }
 export interface Alignment { durationSec: number; sentences: { text: string; start: number; end: number; words: { w: string; start: number; end: number }[] }[] }
 
+/** Particolare come scritto in contenuti/<quadro>/regioni.json. */
+export interface RegionDetail {
+  id: string;
+  label: string;
+  crop: Rect;
+  ancora?: string;
+  text?: string;
+  media?: { type: 'segmento'; from: number; to: number } | { type: 'audio' | 'video'; file: string } | { type: 'testo' };
+}
+
 export interface PaintingDetails extends PaintingSummary {
   text: string;
   pronuncia: string;
-  regions: { dettagli: { id: string; label: string; crop: Rect; ancora?: string }[]; racconto?: { inquadraturaIntera?: string[]; timeline?: Keyframe[] } };
-  meta: null | { aspect: number; demo: boolean; audio?: { durationSec: number }; racconto?: { timeline: Keyframe[]; video?: unknown }; budget?: { bytes: number; limit: number }; targets: { main: { points: number } } };
+  regions: { dettagli: RegionDetail[]; racconto?: { inquadraturaIntera?: string[]; timeline?: Keyframe[] } };
+  meta: null | {
+    aspect: number; demo: boolean; audio?: { durationSec: number }; racconto?: { timeline: Keyframe[]; video?: unknown };
+    budget?: { bytes: number; limit: number }; targets: { main: { points: number } };
+    dettagli: { id: string; points?: number; trigger: string[]; text?: string; media?: { type: string; audioSegment?: { from: number; to: number } } }[];
+  };
   alignment: Alignment | null;
   quality: null | { width: number; height: number; points?: number; tips: { level: string; text: string }[] };
   triage: Record<string, { score: number | null; note: string }>;

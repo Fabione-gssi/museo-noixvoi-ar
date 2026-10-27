@@ -1,15 +1,22 @@
 {
   "schemaVersion": 1,
   "id": "arnolfini",
-  "order": 1,
+  "order": 2,
   "title": "Ritratto dei coniugi Arnolfini",
   "artist": "Jan van Eyck",
   "year": "1434",
   "room": "",
   "experience": "dettagli",
-  "demo": false,
+  "demo": true,
   "aspect": 0.731,
   "image": "immagine.jpg",
+  "audio": {
+    "src": "audio.opus",
+    "fallback": "audio.m4a",
+    "durationSec": 135.3
+  },
+  "subtitles": "subtitles.vtt",
+  "alignment": "alignment.json",
   "targets": {
     "mind": "targets.mind",
     "main": {
@@ -34,7 +41,71 @@
       ],
       "targetIndex": 1,
       "image": "dettaglio-specchio.jpg",
-      "points": 2271
+      "points": 2271,
+      "thumb": "mini-specchio.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 57.98,
+          "to": 71.54
+        }
+      },
+      "text": "Lo specchio convesso riflette tutta la stanza, vista da dietro, e sulla porta due figure che entrano. Intorno allo specchio, in piccoli medaglioni, sono dipinte scene della Passione di Cristo: minuscole, eppure riconoscibili.",
+      "source": "testo.txt: \"Lo specchio convesso riflette tutta la stanza, vista da dietro, e sulla porta due figure c…\""
+    },
+    {
+      "id": "firma",
+      "label": "La firma del pittore",
+      "crop": {
+        "x": 0.425,
+        "y": 0.188,
+        "w": 0.165,
+        "h": 0.05
+      },
+      "trigger": [
+        "target",
+        "reticle"
+      ],
+      "targetIndex": 2,
+      "image": "dettaglio-firma.jpg",
+      "points": 1019,
+      "thumb": "mini-firma.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 72.44,
+          "to": 80.58
+        }
+      },
+      "text": "Sopra lo specchio c'è una scritta elegante, in latino: \"Johannes de eyck fuit hic 1434\", cioè \"Jan van Eyck è stato qui.",
+      "source": "testo.txt: \"Sopra lo specchio c'è una scritta elegante, in latino: \"Johannes de eyck fuit hic 1434\", c…\""
+    },
+    {
+      "id": "lampadario",
+      "label": "Il lampadario",
+      "crop": {
+        "x": 0.364,
+        "y": 0.021,
+        "w": 0.293,
+        "h": 0.177
+      },
+      "trigger": [
+        "target",
+        "reticle"
+      ],
+      "targetIndex": 3,
+      "image": "dettaglio-lampadario.jpg",
+      "points": 1919,
+      "thumb": "mini-lampadario.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 89.17,
+          "to": 95.36
+        }
+      },
+      "text": "In alto pende un lampadario di ottone. Guardalo bene: c'è una sola candela accesa, in pieno giorno.",
+      "source": "testo.txt: \"In alto pende un lampadario di ottone. Guardalo bene: c'è una sola candela accesa, in pien…\""
     },
     {
       "id": "cane",
@@ -49,13 +120,77 @@
         "target",
         "reticle"
       ],
-      "targetIndex": 2,
+      "targetIndex": 4,
       "image": "dettaglio-cane.jpg",
-      "points": 1571
+      "points": 1571,
+      "thumb": "mini-cane.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 98.9,
+          "to": 107.3
+        }
+      },
+      "text": "In basso, tra i due personaggi, c'è un cagnolino dal pelo arruffato, dipinto pelo per pelo. Il cane è spesso letto come simbolo di fedeltà.",
+      "source": "testo.txt: \"In basso, tra i due personaggi, c'è un cagnolino dal pelo arruffato, dipinto pelo per pelo…\""
+    },
+    {
+      "id": "zoccoli",
+      "label": "Gli zoccoli",
+      "crop": {
+        "x": 0,
+        "y": 0.85,
+        "w": 0.16,
+        "h": 0.135
+      },
+      "trigger": [
+        "target",
+        "reticle"
+      ],
+      "targetIndex": 5,
+      "image": "dettaglio-zoccoli.jpg",
+      "points": 1573,
+      "thumb": "mini-zoccoli.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 108.2,
+          "to": 114.38
+        }
+      },
+      "text": "In basso a sinistra vedi gli zoccoli di legno dell'uomo, tolti e lasciati sul pavimento, ancora sporchi di fango.",
+      "source": "testo.txt: \"In basso a sinistra vedi gli zoccoli di legno dell'uomo, tolti e lasciati sul pavimento, a…\""
+    },
+    {
+      "id": "arance",
+      "label": "Le arance",
+      "crop": {
+        "x": 0.055,
+        "y": 0.495,
+        "w": 0.105,
+        "h": 0.07
+      },
+      "trigger": [
+        "target",
+        "reticle"
+      ],
+      "targetIndex": 6,
+      "image": "dettaglio-arance.jpg",
+      "points": 1537,
+      "thumb": "mini-arance.jpg",
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 115.28,
+          "to": 123.62
+        }
+      },
+      "text": "Vicino alla finestra ci sono alcune arance. Oggi ci sembrano un dettaglio qualunque, ma allora erano un frutto costoso: un segno di ricchezza.",
+      "source": "testo.txt: \"Vicino alla finestra ci sono alcune arance. Oggi ci sembrano un dettaglio qualunque, ma al…\""
     }
   ],
   "budget": {
-    "bytes": 2063544,
+    "bytes": 5146740,
     "limit": 6291456
   }
 }

@@ -37,3 +37,62 @@ Fonti:
 - Delacroix che posa per la figura a faccia in giù in primo piano;
 - la frase attribuita a Luigi XVIII;
 - il numero esatto di giorni dei tre uomini rimasti sulla Méduse (le fonti divergono: 42 contro 54).
+
+## 03 – La ronda di notte (Rembrandt)
+
+Fonti:
+1. Rijksmuseum, scheda dell'opera SK-C-5: https://www.rijksmuseum.nl/en/collection/SK-C-5
+2. Wikipedia (inglese), "The Night Watch": https://en.wikipedia.org/wiki/The_Night_Watch
+3. Hyperallergic, "See Rembrandt's The Night Watch in its entirety, thanks to AI restoration" (2021): https://hyperallergic.com/artificial-intelligence-helps-reconstruct-the-night-watch-rembrandt
+4. NL Times, "Night Watch displayed for the first time in 300 years 'as Rembrandt intended it'" (2021): https://nltimes.nl/node/53069
+
+| Fatto nel testo | Fonti |
+|---|---|
+| Firmato e datato 1642 da Rembrandt | 1, 2 |
+| Misure: quasi 4 × più di 4 m (379,5 × 453,5 cm secondo il museo; 363 × 437 cm secondo Wikipedia) | 1, 2 |
+| Il nome "Ronda di notte" usato dalla fine del Settecento | 1 ⚠️ (Wikipedia conferma solo che il titolo è successivo e improprio) |
+| Compagnia della milizia civica, che difendeva la città e manteneva l'ordine | 1, 2 |
+| Dipinto per il grande salone del Kloveniersdoelen, sede degli archibugieri | 1, 2 |
+| Il capitano Frans Banninck Cocq in nero con fascia rossa dà l'ordine di marcia; il luogotenente Willem van Ruytenburch in chiaro | 1, 2 |
+| La luce sulla mano del capitano | 1 |
+| Figure in movimento, non in posa (novità rispetto ai ritratti di gruppo) | 1 ⚠️ |
+| La bambina illuminata con un pollo morto alla cintura | 1, 2 |
+| Il tamburino a destra e il cane che abbaia | 1, 2 |
+| Lo scudo con i nomi accanto all'arco | 1, 2 |
+| Nel 1715 trasferito nel municipio e tagliato su tutti i lati; perse alcune figure a sinistra | 1 (trasferimento), 2, 3, 4 (taglio) |
+| Composizione originale nota da una copia di Gerrit Lundens, del Seicento | 2, 3 |
+
+**Omessi perché verificati su una sola fonte o incerti:**
+- il significato simbolico del pollo (artigli, emblema degli archibugieri);
+- la vernice scurita come origine del soprannome;
+- gli attacchi del 1911, del 1975 e del 1990;
+- la data in cui furono dipinti i nomi sullo scudo.
+
+## 04 – Ritratto dei coniugi Arnolfini (Jan van Eyck)
+
+Fonti:
+1. National Gallery, Londra, scheda dell'opera NG186: https://www.nationalgallery.org.uk/paintings/jan-van-eyck-the-arnolfini-portrait
+2. Wikipedia (inglese), "Arnolfini Portrait": https://en.wikipedia.org/wiki/Arnolfini_Portrait
+
+| Fatto nel testo | Fonti |
+|---|---|
+| 1434, olio su tavola di quercia ("probabilmente quercia" per il museo), 82,2 × 60 cm | 1, 2 |
+| Uomo tradizionalmente identificato come Giovanni Arnolfini; quale dei due cugini non è certo; della donna non si conosce il nome | 1, 2 |
+| La lettura come matrimonio è considerata superata dal museo | 1 (2 elenca interpretazioni contrastanti) |
+| La donna non è incinta: veste sollevata, secondo la moda | 1, 2 |
+| Lo specchio convesso riflette la stanza e due figure sulla porta | 1, 2 |
+| Medaglioni con scene della Passione intorno allo specchio | 1, 2 |
+| Scritta "Johannes de eyck fuit hic 1434" sopra lo specchio | 1, 2 |
+| Lampadario d'ottone con una sola candela accesa; significato discusso | 1, 2 |
+| Cagnolino, spesso letto come simbolo di fedeltà (interpretazione) | 1, 2 |
+| Zoccoli tolti, sporchi di fango | 1 (fango), 2 |
+| Arance: segno di ricchezza | 1, 2 |
+| Acquistato dalla National Gallery nel 1842 | 1, 2 |
+
+**Parti descrittive** (luce dalla finestra, colori dell'abito e del letto): descrivono l'immagine, non fanno affermazioni storiche.
+
+**Omessi:**
+- "mercante italiano a Bruges" (e "di Lucca"): non presente nelle fonti consultate;
+- il numero dei medaglioni (dieci secondo il museo, non indicato da Wikipedia);
+- la provenienza (Margherita d'Austria, collezione reale spagnola), su una sola fonte;
+- l'impronta del pollice del pittore, su una sola fonte.

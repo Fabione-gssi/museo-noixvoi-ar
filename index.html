@@ -33,14 +33,16 @@
   <section id="ar-screen" class="screen" hidden>
     <div id="ar"><video id="camera" muted playsinline autoplay></video></div>
     <div id="status" class="pill" role="status" aria-live="polite"></div>
-    <div id="progress" class="pill pill-bottom" hidden></div>
     <div id="reticle" aria-hidden="true" hidden></div>
     <button id="lock" class="lock" aria-pressed="false">Blocca</button>
     <button id="fallback-btn" class="ghost">Non funziona? Guarda senza fotocamera</button>
-    <div id="card" class="card" hidden role="dialog" aria-live="assertive">
-      <h2></h2><p></p>
-      <button id="card-close" class="big">Chiudi</button>
-    </div>
+    <aside id="find" class="find" hidden aria-label="Particolari da trovare">
+      <div class="find-head">
+        <button id="find-toggle" class="find-toggle" aria-label="Mostra o nascondi i particolari"><span class="find-title"></span> <span class="find-count"></span></button>
+        <button id="find-full" class="find-full">Ascolta tutto</button>
+      </div>
+      <div class="find-list"></div>
+    </aside>
   </section>
 
   <section id="story" class="screen" hidden>
@@ -67,9 +69,24 @@
     <p id="fallback-reason" class="note"></p>
     <h1 id="fallback-title"></h1>
     <img id="fallback-img" alt="Immagine del quadro" />
-    <h2>Particolari</h2>
-    <ul id="fallback-list"></ul>
+    <div id="fallback-find" class="find static">
+      <div class="find-head"><span class="find-title"></span> <span class="find-count"></span></div>
+      <div class="find-list"></div>
+      <button id="fallback-full" class="big">Ascolta il racconto completo</button>
+    </div>
   </section>
+
+  <div id="detail-card" class="card detail-card" hidden role="dialog" aria-live="polite">
+    <div class="detail-head"><h2></h2><span class="badge-demo" title="Voce sintetica dimostrativa">DEMO</span></div>
+    <div class="detail-body"></div>
+    <p class="detail-sub subtitles" aria-live="polite"></p>
+    <div class="detail-controls" hidden>
+      <button class="detail-play" aria-label="Pausa">❚❚</button>
+      <div class="detail-progress"><span></span></div>
+      <button class="detail-replay" aria-label="Ricomincia">↺</button>
+    </div>
+    <button id="detail-close" class="big">Chiudi</button>
+  </div>
 
   <pre id="debug" hidden></pre>
   <script type="module" src="/src/main.ts"></script>

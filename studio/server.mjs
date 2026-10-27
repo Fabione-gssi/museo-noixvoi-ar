@@ -227,7 +227,7 @@ function removeExisting(dir, base, exts) {
   for (const e of exts) for (const n of [base + e, base + e.toUpperCase()]) if (fs.existsSync(path.join(dir, n))) fs.rmSync(path.join(dir, n));
 }
 
-async function saveUpload(folder, kind, filename, body) {
+async function saveUpload(folder, kind, filename, body, detailId) {
   const dir = path.join(SRC, folder);
   const ext = path.extname(filename || '').toLowerCase();
   backups.snapshot(folder, `Caricato ${kind}`);
@@ -244,6 +244,17 @@ async function saveUpload(folder, kind, filename, body) {
     if (!VIDEO_EXT.includes(ext)) throw httpError(400, 'Formato video non supportato: usa MP4 o MOV.');
     removeExisting(dir, 'racconto', VIDEO_EXT);
     fs.writeFileSync(path.join(dir, `racconto${ext}`), body);
+  } else if (kind === 'detail') {
+    // File di un particolare: contenuti/<quadro>/dettagli/<id>.<ext>
+    const id = String(detailId ?? '');
+    if (!/^[a-z0-9-]{1,40}$/.test(id)) throw httpError(400, 'Particolare non valido');
+    const type = AUDIO_EXT.includes(ext) ? 'audio' : VIDEO_EXT.includes(ext) ? 'video' : null;
+    if (!type) throw httpError(400, 'Formato non supportato: usa MP3, WAV, M4A per l\'audio o MP4, MOV per il video.');
+    const ddir = path.join(dir, 'dettagli');
+    fs.mkdirSync(ddir, { recursive: true });
+    for (const f of fs.readdirSync(ddir)) if (path.parse(f).name === id) fs.rmSync(path.join(ddir, f));
+    fs.writeFileSync(path.join(ddir, `${id}${ext}`), body);
+    return { type, file: `dettagli/${id}${ext}` };
   } else if (kind === 'text') {
     fs.writeFileSync(path.join(dir, 'testo.txt'), body.toString('utf8').replace(/^﻿/, ''));
   } else throw httpError(400, 'Tipo di file sconosciuto');
@@ -387,13 +398,13 @@ async function api(req, res, url) {
       return json(res, 200, { ok: true });
     }
     if (sub === 'regions' && m === 'PUT') {
-      backups.snapshot(folder, 'Modificati i movimenti del racconto');
+      backups.snapshot(folder, 'Modificati particolari o movimenti');
       writeRegions(dir, JSON.parse((await readBody(req)).toString()).regions);
       return json(res, 200, { ok: true });
     }
     if (sub === 'upload' && m === 'POST') {
-      await saveUpload(folder, q.get('kind'), q.get('name') ?? '', await readBody(req));
-      return json(res, 200, summary(folder));
+      const saved = await saveUpload(folder, q.get('kind'), q.get('name') ?? '', await readBody(req), q.get('id'));
+      return json(res, 200, saved ?? summary(folder));
     }
     if (sub === 'media' && m === 'DELETE') {
       const kind = q.get('kind');
@@ -406,7 +417,8 @@ async function api(req, res, url) {
     if (sub === 'file' && m === 'GET') {
       // Solo file noti della cartella: niente percorsi arbitrari.
       const kind = q.get('kind');
-      const f = kind === 'image' ? findFile(dir, 'quadro', IMAGE_EXT) : kind === 'audio' ? findFile(dir, 'audio', AUDIO_EXT) : kind === 'video' ? findFile(dir, 'racconto', VIDEO_EXT) : null;
+      const detail = kind === 'detail' && /^[a-z0-9-]{1,40}$/.test(q.get('id') ?? '') ? findFile(path.join(dir, 'dettagli'), q.get('id'), [...AUDIO_EXT, ...VIDEO_EXT]) : null;
+      const f = kind === 'image' ? findFile(dir, 'quadro', IMAGE_EXT) : kind === 'audio' ? findFile(dir, 'audio', AUDIO_EXT) : kind === 'video' ? findFile(dir, 'racconto', VIDEO_EXT) : detail;
       if (!f) return json(res, 404, { error: 'File non trovato' });
       if (kind === 'image' && q.get('w')) {
         const buf = await sharp(f).resize({ width: Math.min(2400, Number(q.get('w'))), withoutEnlargement: true }).jpeg({ quality: 82 }).toBuffer();

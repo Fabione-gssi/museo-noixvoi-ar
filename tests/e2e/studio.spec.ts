@@ -16,6 +16,13 @@ const validate = new Ajv().compile(JSON.parse(fs.readFileSync(path.join(ROOT, 's
 const folderOf = () => fs.readdirSync(path.join(ROOT, 'contenuti')).find((f) => f.endsWith(`-${ID}`));
 
 function cleanup() {
+  // La cronologia di "Annulla" non deve poter riportare in vita il quadro di prova.
+  const storia = path.join(ROOT, '.studio/storia.json');
+  if (fs.existsSync(storia)) {
+    const list = JSON.parse(fs.readFileSync(storia, 'utf8')) as { folder?: string; label?: string; copy?: string }[];
+    for (const e of list) if (e.folder?.includes(ID) && e.copy) fs.rmSync(e.copy, { recursive: true, force: true });
+    fs.writeFileSync(storia, JSON.stringify(list.filter((e) => !e.folder?.includes(ID) && !e.label?.includes(TITLE))));
+  }
   const f = folderOf();
   if (f) fs.rmSync(path.join(ROOT, 'contenuti', f), { recursive: true, force: true });
   fs.rmSync(path.join(ROOT, 'public/data', ID), { recursive: true, force: true });
@@ -115,6 +122,42 @@ test.describe.serial('Studio', () => {
     const ok = app.locator('#tutorial-ok');
     await ok.waitFor({ timeout: 10_000 }).then(() => ok.click(), () => undefined);
     await expect(app.locator('#story')).toBeVisible({ timeout: 30_000 });
+  });
+
+  test('editor dei particolari: disegnare un particolare e dargli un testo', async ({ page }) => {
+    test.setTimeout(300_000);
+    await page.setViewportSize({ width: 1366, height: 900 });
+    const folder = folderOf()!;
+    await page.goto(`${STUDIO}#/q/${folder}/interazione`);
+    await page.getByRole('button', { name: /^Dettagli/ }).click();
+    await expect(page.locator('#toast')).toContainText('Interazione: Dettagli');
+    await page.getByRole('tab', { name: 'Dettagli' }).click();
+    await page.getByRole('button', { name: '+ Aggiungi particolare' }).click();
+    // Disegno del riquadro trascinando sull'immagine.
+    const stage = page.locator('.rect-stage');
+    // Si disegna solo a immagine caricata, quando il riquadro ha la sua altezza vera.
+    await expect.poll(() => stage.locator('img').evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0)).toBe(true);
+    const box = (await stage.boundingBox())!;
+    await page.mouse.move(box.x + box.width * 0.1, box.y + box.height * 0.6);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width * 0.4, box.y + box.height * 0.9, { steps: 6 });
+    await page.mouse.up();
+    await page.getByLabel('Nome del particolare').fill('Il corpo in primo piano');
+    await page.getByLabel('Solo testo').check();
+    await page.getByLabel('Testo della scheda').fill('Un corpo abbandonato sulle assi.');
+    await page.getByRole('button', { name: 'Salva i particolari' }).click();
+    await expect(page.locator('#toast')).toContainText('Particolari salvati');
+    await page.getByRole('button', { name: 'Prepara', exact: true }).first().click();
+    await waitJob(page);
+
+    const regions = JSON.parse(fs.readFileSync(path.join(ROOT, 'contenuti', folder, 'regioni.json'), 'utf8'));
+    const crop = regions.dettagli[0].crop;
+    expect(crop.x).toBeCloseTo(0.1, 1);
+    expect(crop.w).toBeCloseTo(0.3, 1);
+    const meta = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data', ID, 'meta.json'), 'utf8'));
+    expect(validate(meta), JSON.stringify(validate.errors)).toBe(true);
+    expect(meta.experience).toBe('dettagli');
+    expect(meta.dettagli[0]).toMatchObject({ label: 'Il corpo in primo piano', media: { type: 'text' }, text: 'Un corpo abbandonato sulle assi.' });
   });
 
   test('eliminare con conferma e recuperare con Annulla', async ({ page }) => {

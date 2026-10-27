@@ -3,64 +3,179 @@
   "$id": "meta.schema.json",
   "title": "Quadro (meta.json generato dalla pipeline)",
   "type": "object",
-  "required": ["schemaVersion", "id", "order", "title", "experience", "aspect", "image", "targets", "dettagli", "demo"],
+  "required": [
+    "schemaVersion",
+    "id",
+    "order",
+    "title",
+    "experience",
+    "aspect",
+    "image",
+    "targets",
+    "dettagli",
+    "demo"
+  ],
   "additionalProperties": false,
   "definitions": {
     "rect": {
       "type": "object",
-      "required": ["x", "y", "w", "h"],
+      "required": [
+        "x",
+        "y",
+        "w",
+        "h"
+      ],
       "additionalProperties": false,
       "properties": {
-        "x": { "type": "number", "minimum": 0, "maximum": 1 },
-        "y": { "type": "number", "minimum": 0, "maximum": 1 },
-        "w": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
-        "h": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 }
+        "x": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "y": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "w": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "h": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        }
       }
     },
     "segment": {
       "type": "object",
-      "required": ["from", "to"],
-      "additionalProperties": false,
-      "properties": { "from": { "type": "number", "minimum": 0 }, "to": { "type": "number", "minimum": 0 } }
-    },
-    "file": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" }
-  },
-  "properties": {
-    "schemaVersion": { "const": 1 },
-    "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
-    "order": { "type": "integer", "minimum": 1 },
-    "title": { "type": "string", "minLength": 1 },
-    "artist": { "type": "string" },
-    "year": { "type": "string" },
-    "room": { "type": "string" },
-    "experience": { "enum": ["dettagli", "caccia", "personaggio", "racconto"] },
-    "demo": { "type": "boolean", "description": "true se l'audio è la voce sintetica DEMO" },
-    "aspect": { "type": "number", "exclusiveMinimum": 0 },
-    "image": { "$ref": "#/definitions/file" },
-    "depth": { "$ref": "#/definitions/file" },
-    "audio": {
-      "type": "object",
-      "required": ["src", "fallback", "durationSec"],
+      "required": [
+        "from",
+        "to"
+      ],
       "additionalProperties": false,
       "properties": {
-        "src": { "$ref": "#/definitions/file" },
-        "fallback": { "$ref": "#/definitions/file" },
-        "durationSec": { "type": "number", "exclusiveMinimum": 0 }
+        "from": {
+          "type": "number",
+          "minimum": 0
+        },
+        "to": {
+          "type": "number",
+          "minimum": 0
+        }
       }
     },
-    "subtitles": { "$ref": "#/definitions/file" },
-    "alignment": { "$ref": "#/definitions/file" },
-    "targets": {
+    "file": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]+$"
+    }
+  },
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "order": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artist": {
+      "type": "string"
+    },
+    "year": {
+      "type": "string"
+    },
+    "room": {
+      "type": "string"
+    },
+    "experience": {
+      "enum": [
+        "dettagli",
+        "caccia",
+        "personaggio",
+        "racconto"
+      ]
+    },
+    "demo": {
+      "type": "boolean",
+      "description": "true se l'audio è la voce sintetica DEMO"
+    },
+    "aspect": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "image": {
+      "$ref": "#/definitions/file"
+    },
+    "depth": {
+      "$ref": "#/definitions/file"
+    },
+    "audio": {
       "type": "object",
-      "required": ["mind", "main"],
+      "required": [
+        "src",
+        "fallback",
+        "durationSec"
+      ],
       "additionalProperties": false,
       "properties": {
-        "mind": { "$ref": "#/definitions/file" },
+        "src": {
+          "$ref": "#/definitions/file"
+        },
+        "fallback": {
+          "$ref": "#/definitions/file"
+        },
+        "durationSec": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "subtitles": {
+      "$ref": "#/definitions/file"
+    },
+    "alignment": {
+      "$ref": "#/definitions/file"
+    },
+    "targets": {
+      "type": "object",
+      "required": [
+        "mind",
+        "main"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "mind": {
+          "$ref": "#/definitions/file"
+        },
         "main": {
           "type": "object",
-          "required": ["targetIndex", "image", "points"],
+          "required": [
+            "targetIndex",
+            "image",
+            "points"
+          ],
           "additionalProperties": false,
-          "properties": { "targetIndex": { "const": 0 }, "image": { "$ref": "#/definitions/file" }, "points": { "type": "integer" } }
+          "properties": {
+            "targetIndex": {
+              "const": 0
+            },
+            "image": {
+              "$ref": "#/definitions/file"
+            },
+            "points": {
+              "type": "integer"
+            }
+          }
         }
       }
     },
@@ -68,48 +183,146 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "label", "crop", "trigger"],
+        "required": [
+          "id",
+          "label",
+          "crop",
+          "trigger"
+        ],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
-          "label": { "type": "string", "minLength": 1 },
-          "crop": { "$ref": "#/definitions/rect" },
-          "targetIndex": { "type": "integer", "minimum": 1 },
-          "image": { "$ref": "#/definitions/file" },
-          "points": { "type": "integer" },
-          "trigger": { "type": "array", "items": { "enum": ["target", "reticle"] } },
-          "audioSegment": { "$ref": "#/definitions/segment" },
-          "source": { "type": "string" }
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "crop": {
+            "$ref": "#/definitions/rect"
+          },
+          "targetIndex": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "image": {
+            "$ref": "#/definitions/file"
+          },
+          "points": {
+            "type": "integer"
+          },
+          "trigger": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "target",
+                "reticle"
+              ]
+            }
+          },
+          "source": {
+            "type": "string"
+          },
+          "thumb": {
+            "$ref": "#/definitions/file"
+          },
+          "text": {
+            "type": "string"
+          },
+          "media": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "enum": [
+                  "audio",
+                  "video",
+                  "text"
+                ]
+              },
+              "src": {
+                "$ref": "#/definitions/file"
+              },
+              "fallback": {
+                "$ref": "#/definitions/file"
+              },
+              "audioSegment": {
+                "$ref": "#/definitions/segment"
+              }
+            }
+          }
         }
       }
     },
     "racconto": {
       "type": "object",
-      "required": ["auto", "timeline"],
+      "required": [
+        "auto",
+        "timeline"
+      ],
       "additionalProperties": false,
       "properties": {
-        "auto": { "type": "boolean" },
+        "auto": {
+          "type": "boolean"
+        },
         "video": {
           "type": "object",
-          "required": ["src"],
+          "required": [
+            "src"
+          ],
           "additionalProperties": false,
-          "properties": { "src": { "$ref": "#/definitions/file" }, "fallback": { "$ref": "#/definitions/file" } }
+          "properties": {
+            "src": {
+              "$ref": "#/definitions/file"
+            },
+            "fallback": {
+              "$ref": "#/definitions/file"
+            }
+          }
         },
         "timeline": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["t", "action", "args"],
+            "required": [
+              "t",
+              "action",
+              "args"
+            ],
             "additionalProperties": false,
             "properties": {
-              "t": { "type": "number", "minimum": 0 },
-              "action": { "enum": ["cameraTo", "highlight"] },
+              "t": {
+                "type": "number",
+                "minimum": 0
+              },
+              "action": {
+                "enum": [
+                  "cameraTo",
+                  "highlight"
+                ]
+              },
               "args": {
                 "type": "object",
                 "additionalProperties": false,
-                "properties": { "rect": { "$ref": "#/definitions/rect" }, "label": { "type": "string" }, "id": { "type": "string" } }
+                "properties": {
+                  "rect": {
+                    "$ref": "#/definitions/rect"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "string"
+                  }
+                }
               },
-              "source": { "type": "string" }
+              "source": {
+                "type": "string"
+              }
             }
           }
         }
@@ -117,7 +330,14 @@
     },
     "budget": {
       "type": "object",
-      "properties": { "bytes": { "type": "integer" }, "limit": { "type": "integer" } }
+      "properties": {
+        "bytes": {
+          "type": "integer"
+        },
+        "limit": {
+          "type": "integer"
+        }
+      }
     }
   }
 }

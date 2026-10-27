@@ -11,7 +11,10 @@ export interface DettaglioMeta {
   image?: string;
   points?: number;
   trigger: ('target' | 'reticle')[];
-  audioSegment?: { from: number; to: number };
+  thumb?: string;
+  /** Contenuto (esperienza dettagli): pezzo dell'audio principale, file proprio o solo testo. */
+  media: { type: 'audio' | 'video' | 'text'; src?: string; fallback?: string; audioSegment?: { from: number; to: number } };
+  text: string;
   source?: string;
 }
 

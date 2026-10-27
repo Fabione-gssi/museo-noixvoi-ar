@@ -111,7 +111,8 @@ export class ArSession {
         this.view.setPose(i, null);
         this.lostAt.delete(i);
         // Quadro perso da troppo: si passa da soli alla modalità bloccata sull'ultima inquadratura buona.
-        if (i === 0 && this.lastSnapshot) this.lock(true);
+        // Non se da vicino è agganciato il ritaglio di un particolare.
+        if (i === 0 && this.lastSnapshot && !this.tracker.stats().tracking.length) this.lock(true);
       }
     }
   }

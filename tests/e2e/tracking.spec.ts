@@ -39,8 +39,8 @@ test.describe('scenari principali', () => {
     const r = await runScenario('avvicinamento-specchio', discovered('Lo specchio convesso'), 40_000);
     expect(r.passed, JSON.stringify(r.events)).toBe(true);
   });
-  test('avvicinamento al cagnolino: particolare trovato', async () => {
-    const r = await runScenario('avvicinamento-cane', discovered('Il cagnolino'), 40_000);
+  test('avvicinamento alla firma (particolare piccolo): trovato', async () => {
+    const r = await runScenario('avvicinamento-firma', discovered('La firma del pittore'), 40_000);
     expect(r.passed, JSON.stringify(r.events)).toBe(true);
   });
   test('nessun quadro: nessun falso riconoscimento', async () => {
@@ -65,7 +65,7 @@ test('fotocamera negata: si apre la modalità senza fotocamera @principale', asy
     await page.goto('/?p=arnolfini&notutorial');
     await page.click('#start');
     await expect(page.locator('#fallback')).toBeVisible({ timeout: 20_000 });
-    await expect(page.locator('#fallback-list li')).toHaveCount(2);
+    await expect(page.locator('#fallback .find-item')).toHaveCount(6);
   } finally {
     await browser.close();
   }

@@ -3,7 +3,7 @@ import { ArSession } from './ar/ArSession';
 import { makeFrame } from './ar/ArView';
 import { unlockAll } from './media';
 import { loadIndex, loadMeta, dataUrl, type PaintingMeta } from './data';
-import { setupDettagli } from './experiences/dettagli';
+import { setupDettagli, dettagliWithoutCamera } from './experiences/dettagli';
 import { startRacconto, type StoryHandle } from './experiences/racconto';
 import { probe, log } from './probe';
 import { getPref, setPref } from './prefs';
@@ -89,7 +89,7 @@ function showTutorial(meta: PaintingMeta) {
 async function runAr(meta: PaintingMeta) {
   show('loading');
   const kind = experienceOf(meta);
-  let exp: { onFound(i: number): void; onFrame(): void } | null = null;
+  let exp: { onFound(i: number): void; onFrame(): void; stop(): void } | null = null;
   let leaving = false;
   const labels = new Map<number, string>([[0, meta.title], ...meta.dettagli.filter((d) => d.targetIndex).map((d) => [d.targetIndex!, d.label] as [number, string])]);
   session = new ArSession({
@@ -101,7 +101,7 @@ async function runAr(meta: PaintingMeta) {
     onFound: (i) => {
       log('found', labels.get(i));
       probe.firstFoundMs ??= Math.round(performance.now() - probe.startedAt);
-      if (i === 0) setStatus(kind === 'racconto' ? 'Riconosciuto! Parte il racconto…' : `Quadro riconosciuto: ${meta.title}`);
+      if (i === 0) setStatus(kind === 'racconto' ? 'Riconosciuto! Parte il racconto…' : 'Quadro riconosciuto');
       exp?.onFound(i);
       if (kind === 'racconto' && i === 0 && !leaving) {
         leaving = true;
@@ -126,14 +126,14 @@ async function runAr(meta: PaintingMeta) {
   });
   setStatus('Preparo il riconoscimento…');
   await session.start();
-  $('#progress').hidden = true;
+  $('#find').hidden = true;
   $('#reticle').hidden = true;
-  $('#card').hidden = true;
   if (kind === 'dettagli') exp = setupDettagli(meta, session);
   else session.view.anchor(0).add(makeFrame(1, 1 / session.aspects[0], 0xffd166));
 
   $('#lock').onclick = () => (session!.locked ? session!.unlock() : session!.lock());
   $('#fallback-btn').onclick = () => {
+    exp?.stop();
     session?.stop();
     session = null;
     withoutCamera(meta);
@@ -169,7 +169,7 @@ function withoutCamera(meta: PaintingMeta, reason?: string) {
   $('#fallback-reason').textContent = reason ?? '';
   $<HTMLImageElement>('#fallback-img').src = dataUrl(meta.id, meta.image);
   $('#fallback-title').textContent = meta.title;
-  $('#fallback-list').replaceChildren(...meta.dettagli.map((d) => Object.assign(document.createElement('li'), { textContent: d.label })));
+  dettagliWithoutCamera(meta);
 }
 
 function setStatus(text: string) {

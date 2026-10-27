@@ -116,7 +116,8 @@ export class ArView {
 export function makeFrame(w: number, h: number, color = 0xffd166) {
   const shape = new THREE.Shape();
   shape.moveTo(-w / 2, -h / 2).lineTo(w / 2, -h / 2).lineTo(w / 2, h / 2).lineTo(-w / 2, h / 2).lineTo(-w / 2, -h / 2);
-  const t = Math.min(w, h) * 0.04;
+  // Spessore proporzionato ma limitato: sui riquadri grandi una cornice spessa copre il quadro.
+  const t = Math.min(Math.min(w, h) * 0.04, 0.007);
   const hole = new THREE.Path();
   hole.moveTo(-w / 2 + t, -h / 2 + t).lineTo(-w / 2 + t, h / 2 - t).lineTo(w / 2 - t, h / 2 - t).lineTo(w / 2 - t, -h / 2 + t).lineTo(-w / 2 + t, -h / 2 + t);
   shape.holes.push(hole);

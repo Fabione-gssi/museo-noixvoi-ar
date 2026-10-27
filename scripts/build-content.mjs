@@ -15,7 +15,7 @@ import sharp from 'sharp';
 import Ajv from 'ajv';
 import { compileMind, inspectMind } from './lib/mind-compiler.mjs';
 import { ffmpegPath } from './lib/ffmpeg.mjs';
-import { buildTimeline, toVtt } from './lib/timeline.mjs';
+import { buildTimeline, toVtt, segmentFor } from './lib/timeline.mjs';
 import { readInfo, readRegions, findFile, AUDIO_EXT, folderId } from './lib/contenuti.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -119,7 +119,9 @@ async function buildPainting(folder, order, force) {
   const experience = info.experience ?? 'racconto';
 
   const outDir = path.join(OUT, id);
-  const allInputs = [image, path.join(dir, 'info.txt'), path.join(dir, 'regioni.json'), textFile, pronFile, audioSrc, videoSrc, order];
+  const detailDir = path.join(dir, 'dettagli');
+  const detailFiles = fs.existsSync(detailDir) ? fs.readdirSync(detailDir).sort().map((f) => path.join(detailDir, f)) : [];
+  const allInputs = [image, path.join(dir, 'info.txt'), path.join(dir, 'regioni.json'), path.join(dir, 'dettagli.txt'), textFile, pronFile, audioSrc, videoSrc, order, ...detailFiles];
   const fullKey = hash(...allInputs);
   const stamp = path.join(CACHE, id, 'ultimo.json');
   if (!force && fs.existsSync(stamp) && JSON.parse(fs.readFileSync(stamp, 'utf8')).key === fullKey && fs.existsSync(path.join(outDir, 'meta.json'))) {
@@ -148,6 +150,18 @@ async function buildPainting(folder, order, force) {
       .jpeg({ quality: 88 })
       .toFile(f);
     targetFiles.push(f);
+  }
+
+  // Miniature per la schermata "Trova i particolari".
+  if (experience === 'dettagli') {
+    for (const d of regions.dettagli) {
+      const c = d.crop;
+      await sharp(image)
+        .extract({ left: Math.round(c.x * W), top: Math.round(c.y * H), width: Math.max(1, Math.round(c.w * W)), height: Math.max(1, Math.round(c.h * H)) })
+        .resize(240, 240, { fit: 'cover' })
+        .jpeg({ quality: 78 })
+        .toFile(path.join(outDir, `mini-${d.id}.jpg`));
+    }
   }
 
   // Tracking (.mind): la compilazione è lenta, quindi in cache.
@@ -232,15 +246,21 @@ async function buildPainting(folder, order, force) {
     racconto = { auto: !video, ...(video ? { video } : {}), timeline };
   }
 
-  const dettagli = regions.dettagli.map((d) => {
+  const dettagli = [];
+  for (const d of regions.dettagli) {
     const ci = crops.indexOf(d);
     const s = ci >= 0 ? stats[ci + 1] : null;
     const out = { id: d.id, label: d.label, crop: d.crop, trigger: s && s.matchingPoints >= WEAK_POINTS ? ['target', 'reticle'] : ['reticle'] };
     if (s) Object.assign(out, { targetIndex: ci + 1, image: `dettaglio-${d.id}.jpg`, points: s.matchingPoints });
-    if (s && s.matchingPoints < WEAK_POINTS) problems.push(`particolare "${d.label}": pochi punti (${s.matchingPoints}), userà il mirino`);
+    if (experience === 'dettagli') out.thumb = `mini-${d.id}.jpg`;
+    if (s && s.matchingPoints < WEAK_POINTS) problems.push(`particolare "${d.label}": pochi punti (${s.matchingPoints}), si attiverà solo col mirino`);
+    if (experience === 'dettagli') {
+      Object.assign(out, await detailContent(d, { id, dir, outDir, image, W, H, alignment, audioMeta, problems }));
+    }
     if (d.source) out.source = d.source;
-    return out;
-  });
+    dettagli.push(out);
+  }
+  if (experience === 'dettagli') problems.push(...dettagliTxtProblems(dir, regions));
 
   const meta = {
     schemaVersion: 1,
@@ -265,7 +285,7 @@ async function buildPainting(folder, order, force) {
   // Budget di peso: le alternative (fallback) non si scaricano entrambe, quindi conta la più grande.
   const size = (f) => (fs.existsSync(path.join(outDir, f)) ? fs.statSync(path.join(outDir, f)).size : 0);
   const all = fs.readdirSync(outDir);
-  const alt = [['audio.opus', 'audio.m4a'], ['racconto.mp4', 'racconto.webm']];
+  const alt = [['audio.opus', 'audio.m4a'], ['racconto.mp4', 'racconto.webm'], ...all.filter((f) => /^audio-.+\.opus$/.test(f)).map((f) => [f, f.replace(/\.opus$/, '.m4a')])];
   let bytes = all.filter((f) => !alt.flat().includes(f)).reduce((n, f) => n + size(f), 0);
   for (const pair of alt) bytes += Math.max(...pair.map(size));
   if (bytes > BUDGET_PAINTING) {
@@ -288,6 +308,65 @@ async function buildPainting(folder, order, force) {
   fs.writeFileSync(stamp, JSON.stringify({ key: fullKey, problems }));
   emit('done', { id, bytes });
   return { id, ok: true, problems };
+}
+
+/**
+ * Contenuto di un particolare (esperienza "dettagli"), in ordine di priorità:
+ * 1. video o audio caricato (contenuti/<quadro>/dettagli/<file>);
+ * 2. pezzo dell'audio principale scelto nello Studio (media.type = "segmento");
+ * 3. pezzo dell'audio principale ricavato dalla frase "ancora" del testo;
+ * 4. solo testo (scritto nello Studio, o la frase del testo).
+ * Non si inventa nulla: senza testo né audio il particolare ha solo il nome e viene segnalato.
+ */
+async function detailContent(d, { id, dir, outDir, alignment, audioMeta, problems }) {
+  const m = d.media ?? {};
+  const auto = alignment && d.ancora ? segmentFor(alignment, d.ancora) : null;
+  if (d.ancora && alignment && !auto) problems.push(`particolare "${d.label}": la frase "${d.ancora}" non è nel testo o nell'audio`);
+  const text = d.text ?? auto?.text ?? '';
+  const source = auto ? `testo.txt: "${auto.text.slice(0, 90)}${auto.text.length > 90 ? '…' : ''}"` : undefined;
+  const file = m.file ? path.join(dir, m.file) : null;
+  if (file && !fs.existsSync(file)) problems.push(`particolare "${d.label}": manca il file ${m.file}`);
+  if (file && fs.existsSync(file) && m.type === 'video') {
+    const [mp4] = await cached(id, `video-${d.id}`, hash(file), ['dettaglio.mp4'], (out) =>
+      ffmpeg(['-i', file, '-vf', "scale='min(960,iw)':-2", '-c:v', 'libx264', '-profile:v', 'main', '-crf', '28', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', out], { id, step: 'video' }));
+    fs.copyFileSync(mp4, path.join(outDir, `video-${d.id}.mp4`));
+    return { media: { type: 'video', src: `video-${d.id}.mp4` }, text, ...(source ? { source } : {}) };
+  }
+  if (file && fs.existsSync(file) && m.type === 'audio') {
+    const [opus, m4a] = await cached(id, `audio-${d.id}`, hash(file), ['a.opus', 'a.m4a'], async (o, a) => {
+      await ffmpeg(['-i', file, '-ac', '1', '-c:a', 'libopus', '-b:a', '48k', '-f', 'ogg', o], { id, step: 'audio' });
+      await ffmpeg(['-i', file, '-ac', '1', '-c:a', 'aac', '-b:a', '64k', '-movflags', '+faststart', '-f', 'mp4', a], { id, step: 'audio' });
+    });
+    fs.copyFileSync(opus, path.join(outDir, `audio-${d.id}.opus`));
+    fs.copyFileSync(m4a, path.join(outDir, `audio-${d.id}.m4a`));
+    return { media: { type: 'audio', src: `audio-${d.id}.opus`, fallback: `audio-${d.id}.m4a` }, text, ...(source ? { source } : {}) };
+  }
+  if (m.type === 'segmento' && audioMeta && m.to > m.from) {
+    return { media: { type: 'audio', audioSegment: { from: m.from, to: Math.min(m.to, audioMeta.durationSec) } }, text: d.text ?? segmentText(alignment, m.from, m.to), ...(source ? { source } : {}) };
+  }
+  if (m.type !== 'testo' && auto && audioMeta) {
+    return { media: { type: 'audio', audioSegment: { from: auto.from, to: auto.to } }, text, source };
+  }
+  if (!text) problems.push(`particolare "${d.label}": nessun contenuto (né audio, né video, né testo)`);
+  return { media: { type: 'text' }, text, ...(source ? { source } : {}) };
+}
+
+/** Testo delle frasi comprese (anche in parte) nell'intervallo from-to. */
+function segmentText(alignment, from, to) {
+  return (alignment?.sentences ?? []).filter((s) => s.end > from + 0.2 && s.start < to - 0.2).map((s) => s.text).join(' ');
+}
+
+/**
+ * dettagli.txt (formato a mano: "descrizione | file"): le righe senza un
+ * riquadro corrispondente in regioni.json vanno posizionate nello Studio.
+ */
+function dettagliTxtProblems(dir, regions) {
+  const f = path.join(dir, 'dettagli.txt');
+  if (!fs.existsSync(f)) return [];
+  const labels = regions.dettagli.map((d) => d.label.toLowerCase());
+  return fs.readFileSync(f, 'utf8').split(/\r?\n/).map((l) => l.split('|')[0].trim()).filter(Boolean)
+    .filter((desc) => !labels.some((l) => desc.toLowerCase().includes(l.replace(/^(il|lo|la|l'|i|gli|le)\s*/i, ''))))
+    .map((desc) => `dettagli.txt: "${desc}" va disegnato sull'immagine nello Studio (scheda Dettagli)`);
 }
 
 function probeDuration(file) {
