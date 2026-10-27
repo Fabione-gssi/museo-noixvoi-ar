@@ -1,0 +1,11 @@
+# Come la voce demo deve leggere le parole difficili (parola = lettura).
+# Cambia solo l'audio sintetico: i sottotitoli mostrano sempre il testo originale.
+Théodore Géricault = Teodòr Gericò
+Géricault = Gericò
+Hugues Duroy de Chaumareys = Ug Durruà de Sciomarè
+Méduse = Medùs
+Savigny = Savignì
+Corréard = Correàr
+Beaujon = Bojiòn
+Salon = Salòn
+Louvre = Lùvr

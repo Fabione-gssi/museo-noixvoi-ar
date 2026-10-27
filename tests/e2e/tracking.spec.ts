@@ -7,10 +7,10 @@ import { launchWithCamera, newPage, probe, saveResult, type Probe } from './help
 const WATCH_MS = 25_000;
 
 async function runScenario(video: string, until: (p: Probe) => boolean, watchMs = WATCH_MS) {
-  const browser = await launchWithCamera(video);
+  const browser = await launchWithCamera(`arnolfini/${video}`);
   try {
     const page = await newPage(browser);
-    await page.goto('/?p=arnolfini&debug=1');
+    await page.goto('/?p=arnolfini&debug=1&notutorial');
     await page.click('#start');
     await expect(page.locator('#ar-screen')).toBeVisible({ timeout: 60_000 });
     const t0 = Date.now();
@@ -20,7 +20,7 @@ async function runScenario(video: string, until: (p: Probe) => boolean, watchMs 
       p = await probe(page);
     }
     const result = { video, ...p, passed: until(p) };
-    saveResult(`tracking-${video}`, result);
+    saveResult(`tracking-arnolfini-${video}`, result);
     return result;
   } finally {
     await browser.close();
@@ -62,7 +62,7 @@ test('fotocamera negata: si apre la modalità senza fotocamera', async () => {
   const browser = await launchWithCamera(null);
   try {
     const page = await newPage(browser, { camera: false });
-    await page.goto('/?p=arnolfini');
+    await page.goto('/?p=arnolfini&notutorial');
     await page.click('#start');
     await expect(page.locator('#fallback')).toBeVisible({ timeout: 20_000 });
     await expect(page.locator('#fallback-list li')).toHaveCount(2);
@@ -72,7 +72,7 @@ test('fotocamera negata: si apre la modalità senza fotocamera', async () => {
 });
 
 test('senza ?p si apre la scelta del quadro', async () => {
-  const browser = await launchWithCamera('fermo');
+  const browser = await launchWithCamera('arnolfini/fermo');
   try {
     const page = await newPage(browser);
     await page.goto('/');

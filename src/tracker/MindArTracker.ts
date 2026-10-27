@@ -10,6 +10,7 @@ export class MindArTracker implements Tracker {
   private controller?: Controller;
   private video?: HTMLVideoElement;
   private tracking = new Set<number>();
+  private stopped = true;
   private postMatrices: number[][] = [];
   private frames = 0;
   private fpsWindowStart = performance.now();
@@ -24,6 +25,8 @@ export class MindArTracker implements Tracker {
       inputHeight: video.videoHeight,
       maxTrack: this.opts.maxTrack ?? 1,
       onUpdate: (d) => {
+        // Il ciclo di MindAR può consegnare un ultimo fotogramma dopo lo stop: si ignora.
+        if (this.stopped) return;
         if (d.type === 'processDone') return this.countFrame();
         const i = d.targetIndex!;
         if (!d.worldMatrix) {
@@ -46,10 +49,12 @@ export class MindArTracker implements Tracker {
   }
 
   start() {
+    this.stopped = false;
     this.controller?.processVideo(this.video!);
   }
 
   stop() {
+    this.stopped = true;
     this.controller?.stopProcessVideo();
     for (const i of this.tracking) this.opts.onLost?.(i);
     this.tracking.clear();

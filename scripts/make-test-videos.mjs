@@ -3,7 +3,7 @@
 // Il quadro è appeso su una parete grigia; ogni fotogramma è un'inquadratura
 // diversa. Riflesso, poca luce, sfocatura e inclinazione si aggiungono con ffmpeg.
 //
-// Uso: node scripts/make-test-videos.mjs [id-quadro]   (default: arnolfini)
+// Uso: node scripts/make-test-videos.mjs [id-quadro ...]   (default: tutti i quadri in public/data)
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
@@ -11,9 +11,16 @@ import sharp from 'sharp';
 import { ffmpegPath } from './lib/ffmpeg.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const id = process.argv[2] ?? 'arnolfini';
+if (!process.argv[2]) {
+  // Nessun quadro indicato: uno alla volta, tutti quelli già generati.
+  const { spawnSync } = await import('node:child_process');
+  for (const d of fs.readdirSync(path.join(ROOT, 'public/data'), { withFileTypes: true }).filter((x) => x.isDirectory()))
+    spawnSync(process.execPath, [import.meta.filename, d.name], { stdio: 'inherit' });
+  process.exit(0);
+}
+const id = process.argv[2];
 const meta = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data', id, 'meta.json'), 'utf8'));
-const OUT = path.join(ROOT, 'tests/video');
+const OUT = path.join(ROOT, 'tests/video', id);
 const FW = 960, FH = 540, FPS = 20;
 const WALL_W = 6000, WALL_H = 3200, PAINT_H = 2400;
 
@@ -52,7 +59,7 @@ function path_(keys, seconds) {
 function shots() {
   const full = { ...toWall(0.5, 0.5), h: PAINT_H * 1.15 };
   const out = { fermo: path_([full, full], 8) };
-  for (const d of meta.dettagli) {
+  for (const d of meta.dettagli.filter((x) => x.targetIndex)) {
     const c = toWall(d.crop.x + d.crop.w / 2, d.crop.y + d.crop.h / 2);
     const close = { ...c, h: d.crop.h * PAINT_H * 1.7 };
     const mid = { ...c, h: d.crop.h * PAINT_H * 4 };

@@ -8,17 +8,21 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host",
     "build:content": "node scripts/build-content.mjs",
-    "test": "playwright test",
-    "bench": "node scripts/bench.mjs"
+    "test": "vitest run tests/unit && playwright test",
+    "bench": "node scripts/bench.mjs",
+    "test:unit": "vitest run tests/unit",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
     "@types/three": "^0.186.0",
     "@vitejs/plugin-basic-ssl": "^2.3.0",
+    "ajv": "^8.20.0",
     "qrcode": "^1.5.4",
     "sharp": "^0.35.5",
     "typescript": "^7.0.2",
-    "vite": "^8.3.5"
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
   },
   "overrides": {
     "canvas": "file:./stubs/canvas"

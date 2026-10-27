@@ -1,11 +1,13 @@
 {
+  "schemaVersion": 1,
   "id": "arnolfini",
   "order": 1,
   "title": "Ritratto dei coniugi Arnolfini",
   "artist": "Jan van Eyck",
   "year": "1434",
-  "room": "[DA COMPLETARE: sala]",
+  "room": "",
   "experience": "dettagli",
+  "demo": false,
   "aspect": 0.731,
   "image": "immagine.jpg",
   "targets": {
@@ -26,13 +28,13 @@
         "w": 0.178,
         "h": 0.13
       },
-      "targetIndex": 1,
-      "image": "dettaglio-specchio.jpg",
-      "points": 2271,
       "trigger": [
         "target",
         "reticle"
-      ]
+      ],
+      "targetIndex": 1,
+      "image": "dettaglio-specchio.jpg",
+      "points": 2271
     },
     {
       "id": "cane",
@@ -43,13 +45,17 @@
         "w": 0.225,
         "h": 0.175
       },
-      "targetIndex": 2,
-      "image": "dettaglio-cane.jpg",
-      "points": 1571,
       "trigger": [
         "target",
         "reticle"
-      ]
+      ],
+      "targetIndex": 2,
+      "image": "dettaglio-cane.jpg",
+      "points": 1571
     }
-  ]
+  ],
+  "budget": {
+    "bytes": 2063544,
+    "limit": 6291456
+  }
 }

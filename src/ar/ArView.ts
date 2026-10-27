@@ -19,13 +19,15 @@ export class ArView {
   /** Scala della risoluzione di rendering; scende se gli fps non reggono. */
   private pixelRatio = Math.min(window.devicePixelRatio, 2);
 
+  private onResize = () => this.layout();
+
   constructor(private container: HTMLElement, private video: HTMLVideoElement) {
     this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     this.renderer.setPixelRatio(this.pixelRatio);
     Object.assign(this.renderer.domElement.style, { position: 'absolute', pointerEvents: 'none' });
     container.append(this.renderer.domElement);
     this.camera.matrixAutoUpdate = false;
-    window.addEventListener('resize', () => this.layout());
+    window.addEventListener('resize', this.onResize);
   }
 
   setProjection(proj: number[]) {
@@ -88,6 +90,17 @@ export class ArView {
       this.fpsStart = now;
       this.adaptResolution();
     }
+  }
+
+  dispose() {
+    window.removeEventListener('resize', this.onResize);
+    this.scene.traverse((o) => {
+      const m = o as THREE.Mesh;
+      m.geometry?.dispose();
+      (m.material as THREE.Material | undefined)?.dispose?.();
+    });
+    this.renderer.dispose();
+    this.renderer.domElement.remove();
   }
 
   private adaptResolution() {

@@ -5,8 +5,21 @@
       "title": "Ritratto dei coniugi Arnolfini",
       "artist": "Jan van Eyck",
       "year": "1434",
-      "room": "[DA COMPLETARE: sala]",
-      "experience": "dettagli"
+      "room": "",
+      "experience": "dettagli",
+      "demo": false,
+      "bytes": 2063544
+    },
+    {
+      "id": "zattera-medusa",
+      "title": "La zattera della Medusa",
+      "artist": "Théodore Géricault",
+      "year": "1818-1819",
+      "room": "",
+      "experience": "racconto",
+      "demo": true,
+      "bytes": 2949869
     }
-  ]
+  ],
+  "totalBytes": 5013413
 }

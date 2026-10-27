@@ -5,3 +5,5 @@ playwright-report/
 .cache/
 tests/video/
 *.log
+.venv/
+.models/

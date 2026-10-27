@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "id": "zattera-medusa",
+  "order": 2,
+  "title": "La zattera della Medusa",
+  "artist": "Théodore Géricault",
+  "year": "1818-1819",
+  "room": "",
+  "experience": "racconto",
+  "demo": true,
+  "aspect": 1.4650698602794412,
+  "image": "immagine.jpg",
+  "depth": "depth.jpg",
+  "audio": {
+    "src": "audio.opus",
+    "fallback": "audio.m4a",
+    "durationSec": 154.1
+  },
+  "subtitles": "subtitles.vtt",
+  "alignment": "alignment.json",
+  "targets": {
+    "mind": "targets.mind",
+    "main": {
+      "targetIndex": 0,
+      "image": "target.jpg",
+      "points": 3725
+    }
+  },
+  "dettagli": [
+    {
+      "id": "corpi",
+      "label": "I corpi in primo piano",
+      "crop": {
+        "x": 0.06,
+        "y": 0.62,
+        "w": 0.58,
+        "h": 0.36
+      },
+      "trigger": [
+        "reticle"
+      ]
+    },
+    {
+      "id": "zattera",
+      "label": "La zattera",
+      "crop": {
+        "x": 0,
+        "y": 0.42,
+        "w": 1,
+        "h": 0.58
+      },
+      "trigger": [
+        "reticle"
+      ]
+    },
+    {
+      "id": "vela",
+      "label": "L'albero e la vela",
+      "crop": {
+        "x": 0.12,
+        "y": 0.02,
+        "w": 0.36,
+        "h": 0.55
+      },
+      "trigger": [
+        "reticle"
+      ]
+    },
+    {
+      "id": "anziano",
+      "label": "L'uomo anziano",
+      "crop": {
+        "x": 0.12,
+        "y": 0.5,
+        "w": 0.3,
+        "h": 0.38
+      },
+      "trigger": [
+        "reticle"
+      ]
+    },
+    {
+      "id": "barile",
+      "label": "L'uomo sul barile",
+      "crop": {
+        "x": 0.6,
+        "y": 0.06,
+        "w": 0.2,
+        "h": 0.52
+      },
+      "trigger": [
+        "reticle"
+      ]
+    },
+    {
+      "id": "argus",
+      "label": "La nave Argus",
+      "crop": {
+        "x": 0.775,
+        "y": 0.355,
+        "w": 0.08,
+        "h": 0.09
+      },
+      "trigger": [
+        "reticle"
+      ]
+    }
+  ],
+  "racconto": {
+    "auto": true,
+    "timeline": [
+      {
+        "t": 0,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "label": ""
+        },
+        "source": "inizio"
+      },
+      {
+        "t": 2.37,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0.06,
+            "y": 0.62,
+            "w": 0.58,
+            "h": 0.36
+          },
+          "label": "I corpi in primo piano",
+          "id": "corpi"
+        },
+        "source": "ancora: \"In primo piano ci sono dei corpi\""
+      },
+      {
+        "t": 16.08,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "label": ""
+        },
+        "source": "ancora: \"Il 2 luglio 1816\""
+      },
+      {
+        "t": 33.67,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0,
+            "y": 0.42,
+            "w": 1,
+            "h": 0.58
+          },
+          "label": "La zattera",
+          "id": "zattera"
+        },
+        "source": "ancora: \"fu costruita in fretta una zattera\""
+      },
+      {
+        "t": 85.02,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "label": ""
+        },
+        "source": "ancora: \"Ora segui con lo sguardo la composizione\""
+      },
+      {
+        "t": 89.53,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0.12,
+            "y": 0.02,
+            "w": 0.36,
+            "h": 0.86
+          },
+          "label": "L'albero e la vela · L'uomo anziano",
+          "id": "vela+anziano"
+        },
+        "source": "ancora: \"Accanto all'albero e alla vela gonfia\" + ancora: \"un uomo anziano tiene sulle ginocchia\""
+      },
+      {
+        "t": 101.62,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0.6,
+            "y": 0.06,
+            "w": 0.2,
+            "h": 0.52
+          },
+          "label": "L'uomo sul barile",
+          "id": "barile"
+        },
+        "source": "ancora: \"In cima, sopra un barile\""
+      },
+      {
+        "t": 106.84,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0.775,
+            "y": 0.355,
+            "w": 0.08,
+            "h": 0.09
+          },
+          "label": "La nave Argus",
+          "id": "argus"
+        },
+        "source": "ancora: \"laggiù, minuscola\""
+      },
+      {
+        "t": 118.34,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "label": ""
+        },
+        "source": "ancora: \"La tela è enorme\""
+      }
+    ]
+  },
+  "budget": {
+    "bytes": 2949869,
+    "limit": 6291456
+  }
+}

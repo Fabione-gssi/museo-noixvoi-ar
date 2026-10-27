@@ -6,7 +6,7 @@ import { launchWithCamera, newPage, saveResult } from './helpers';
 type W = { __diag: { done: boolean; results: { name: string; status: string }[] }; __bench: { done: boolean; results: unknown[] } };
 
 test('diagnostica: completa e fotocamera ok', async () => {
-  const browser = await launchWithCamera('fermo');
+  const browser = await launchWithCamera('arnolfini/fermo');
   try {
     const page = await newPage(browser);
     await page.goto('/diagnostica.html');
@@ -23,7 +23,7 @@ test('diagnostica: completa e fotocamera ok', async () => {
 for (const cpuThrottle of [1, 4]) {
   test(`benchmark target multipli (CPU x${cpuThrottle})`, async () => {
     test.setTimeout(300_000);
-    const browser = await launchWithCamera('fermo');
+    const browser = await launchWithCamera('arnolfini/fermo');
     try {
       const page = await newPage(browser, { cpuThrottle });
       await page.goto('/benchmark.html');
