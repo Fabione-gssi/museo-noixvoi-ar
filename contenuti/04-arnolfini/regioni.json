@@ -1,0 +1,7 @@
+{
+  "_nota": "Coordinate normalizzate (0-1) ricavate dalle descrizioni in dettagli.txt. Generato, da confermare con anteprima.jpg.",
+  "dettagli": [
+    { "id": "specchio", "label": "Lo specchio convesso", "crop": { "x": 0.415, "y": 0.233, "w": 0.178, "h": 0.130 } },
+    { "id": "cane", "label": "Il cagnolino", "crop": { "x": 0.36, "y": 0.815, "w": 0.225, "h": 0.175 } }
+  ]
+}

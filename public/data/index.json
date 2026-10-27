@@ -1,0 +1,12 @@
+{
+  "paintings": [
+    {
+      "id": "arnolfini",
+      "title": "Ritratto dei coniugi Arnolfini",
+      "artist": "Jan van Eyck",
+      "year": "1434",
+      "room": "[DA COMPLETARE: sala]",
+      "experience": "dettagli"
+    }
+  ]
+}
