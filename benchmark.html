@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Benchmark riconoscimento</title>
+  <style>
+    .bench { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 16px; }
+    .bench video { width: 100%; max-height: 40vh; object-fit: cover; border-radius: 8px; background: #000; }
+    .bench table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .bench td, .bench th { border-bottom: 1px solid #333; padding: 6px 4px; text-align: left; }
+  </style>
+</head>
+<body>
+  <main class="bench">
+    <h1>Benchmark riconoscimento</h1>
+    <p class="note">Tieni il telefono puntato sul quadro (stampato o a schermo) per circa 1 minuto, finché compare "Finito".</p>
+    <button id="run" class="big">Avvia</button>
+    <video id="bench-camera" muted playsinline autoplay></video>
+    <p id="log" role="status"></p>
+    <table>
+      <thead><tr><th>Prova</th><th>Caricam. ms</th><th>Riconosc. ms</th><th>Tracker fps</th><th>Agganciato</th></tr></thead>
+      <tbody id="results"></tbody>
+    </table>
+    <button id="copy" class="big" hidden>Copia risultati</button>
+  </main>
+  <script type="module" src="/src/benchmark.ts"></script>
+</body>
+</html>

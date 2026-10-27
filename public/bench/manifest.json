@@ -1,0 +1,128 @@
+{
+  "note": "Solo per il benchmark della Fase 0. Indici 0-2 = Arnolfini (quadro, specchio, cane).",
+  "targets": 45,
+  "compileMs": 169248,
+  "sizes": {
+    "global": 24417640,
+    "arnolfini": 1385437
+  },
+  "sources": [
+    {
+      "title": "File:Albrecht Dürer - Selbstbildnis im Pelzrock - Alte Pinakothek.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Albrecht_D%C3%BCrer_-_Selbstbildnis_im_Pelzrock_-_Alte_Pinakothek.jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:Caspar David Friedrich - Wanderer above the sea of fog.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:Pieter Brueghel the Elder - The Dutch Proverbs - Google Art Project.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Pieter_Brueghel_the_Elder_-_The_Dutch_Proverbs_-_Google_Art_Project.jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:Mona Lisa, by Leonardo da Vinci, from C2RMF retouched.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:JEAN LOUIS THÉODORE GÉRICAULT - La Balsa de la Medusa (Museo del Louvre, 1818-19).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:JEAN_LOUIS_TH%C3%89ODORE_G%C3%89RICAULT_-_La_Balsa_de_la_Medusa_(Museo_del_Louvre,_1818-19).jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:Leonardo da Vinci - Ginevra de' Benci - Google Art Project.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Leonardo_da_Vinci_-_Ginevra_de%27_Benci_-_Google_Art_Project.jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:Pieter Bruegel the Elder - Hunters in the Snow (Winter) - Google Art Project.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Pieter_Bruegel_the_Elder_-_Hunters_in_the_Snow_(Winter)_-_Google_Art_Project.jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:Sandro Botticelli - La nascita di Venere - Google Art Project - edited.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:Las Meninas, by Diego Velázquez, from Prado in Google Earth.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Las_Meninas,_by_Diego_Vel%C3%A1zquez,_from_Prado_in_Google_Earth.jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:Van Gogh - Starry Night - Google Art Project.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:Eugène Delacroix - Le 28 Juillet. La Liberté guidant le peuple.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Eug%C3%A8ne_Delacroix_-_Le_28_Juillet._La_Libert%C3%A9_guidant_le_peuple.jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:John Constable - The Hay Wain (1821).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:John_Constable_-_The_Hay_Wain_(1821).jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:1665 Girl with a Pearl Earring.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:1665_Girl_with_a_Pearl_Earring.jpg",
+      "license": "Public domain"
+    },
+    {
+      "title": "File:The Night Watch - HD.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:The_Night_Watch_-_HD.jpg",
+      "license": "Public domain"
+    }
+  ],
+  "points": [
+    2180,
+    2271,
+    1571,
+    2046,
+    1117,
+    1753,
+    1831,
+    408,
+    94,
+    3965,
+    3131,
+    3156,
+    2562,
+    2196,
+    1793,
+    3748,
+    2503,
+    2195,
+    3154,
+    3641,
+    3437,
+    3828,
+    3298,
+    3522,
+    3388,
+    2359,
+    2330,
+    2194,
+    431,
+    613,
+    3745,
+    3392,
+    3312,
+    3547,
+    1630,
+    2018,
+    3750,
+    2418,
+    2029,
+    2438,
+    1639,
+    1880,
+    2844,
+    764,
+    279
+  ]
+}

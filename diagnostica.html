@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Diagnostica telefono</title>
+  <style>
+    .diag { display: flex; flex-direction: column; gap: 12px; padding: 16px; }
+    .diag ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; font-size: 0.95rem; overflow-wrap: anywhere; }
+    .diag video { width: 120px; height: 90px; object-fit: cover; background: #000; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <main class="diag">
+    <h1>Diagnostica telefono</h1>
+    <p class="note">Premi il pulsante e consenti fotocamera e movimento se richiesto. Sentirai due "bip" e un breve suono.</p>
+    <button id="run" class="big">Avvia la prova</button>
+    <div style="display:flex;gap:8px"><video id="cam" muted playsinline autoplay></video><div id="vid"></div></div>
+    <ul id="list"></ul>
+    <button id="copy" class="big" hidden>Copia risultati</button>
+  </main>
+  <script type="module" src="/src/diagnostica.ts"></script>
+</body>
+</html>
