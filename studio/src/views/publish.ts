@@ -1,9 +1,12 @@
 import QRCode from 'qrcode';
 import { api, onServerEvent, type PaintingSummary } from '../api';
-import { h, attempt } from '../ui';
+import { h, attempt, confirmDialog, toast, refreshUndo } from '../ui';
 
 // Verifica e pubblicazione: rapporto in italiano, lista delle cose da fare,
 // pubblicazione con URL e QR stampabili, cartella per Cloudflare.
+
+interface Version { sha: string; at: string; message: string; paintings: string[] }
+interface Versions { available: boolean; versions: Version[]; changed: boolean }
 
 interface Report { at: string; ok: boolean; steps: { label: string; ok: boolean; detail?: string }[]; problems: { id: string; message: string }[] }
 
@@ -61,6 +64,7 @@ export async function publishView(root: HTMLElement) {
     }
     if (e.event === 'job' && e.name === 'verifica' && e.state === 'done') showReport(e.result as Report);
     if (e.event === 'job' && e.name === 'verifica' && e.state === 'start') steps.replaceChildren();
+    if (e.event === 'job' && e.name === 'pubblica' && e.state === 'done') void history.refresh();
     if (e.event === 'publish') {
       const ev = e as unknown as { step: string; message: string; url?: string; file?: string; detail?: string };
       pubLog.append(h('p', {}, ev.message));
@@ -70,8 +74,54 @@ export async function publishView(root: HTMLElement) {
     }
   });
 
-  root.replaceChildren(h('h1', {}, 'Verifica e pubblica'), h('div.split', {}, h('div', {}, verifyBox, pubBox), todoBox));
+  const history = historyPanel();
+  root.replaceChildren(h('h1', {}, 'Verifica e pubblica'), h('div.split', {}, h('div', {}, verifyBox, pubBox, history.el), todoBox));
+  void history.refresh();
   return off;
+}
+
+/** Cronologia delle pubblicazioni con "Ripristina questa versione". */
+function historyPanel() {
+  const list = h('ol.versions', {});
+  const el = h('div.panel', {}, h('h2', {}, '3. Cronologia delle pubblicazioni'),
+    h('p.muted', {}, 'Ogni pubblicazione è una versione del sito. Puoi riportare i contenuti com’erano in una versione precedente: le modifiche attuali restano tra le copie di sicurezza (↶ Annulla).'),
+    list);
+  const fmt = (at: string) => new Date(at).toLocaleString('it-IT', { dateStyle: 'medium', timeStyle: 'short' });
+
+  const restore = async (v: Version, online: boolean) => {
+    const text = online
+      ? `Togliere le modifiche non ancora pubblicate e tornare ai contenuti che sono online (${fmt(v.at)})?`
+      : `Riportare i contenuti com'erano il ${fmt(v.at)}? Per rimettere online questa versione dovrai poi premere "Pubblica".`;
+    if (!(await confirmDialog(text, 'Ripristina'))) return;
+    const r = await attempt(() => api<{ when: string }>('versions/restore', { method: 'POST', body: { sha: v.sha } }));
+    if (!r) return;
+    toast(`Ripristinata la versione del ${r.when}. Controlla l'anteprima, poi premi "Pubblica".`);
+    void refreshUndo();
+    await refresh();
+  };
+
+  const refresh = async () => {
+    const data = await api<Versions>('versions').catch(() => null);
+    list.replaceChildren();
+    if (!data?.available) {
+      list.append(h('li.muted', {}, 'La cronologia compare dopo la prima pubblicazione su GitHub.'));
+      return;
+    }
+    data.versions.forEach((v, i) => {
+      const online = i === 0;
+      const button = online
+        ? (data.changed ? h('button.btn', { onclick: () => restore(v, true) }, 'Torna a questa versione') : null)
+        : h('button.btn', { onclick: () => restore(v, false) }, 'Ripristina questa versione');
+      list.append(h('li.version', {},
+        h('div', {},
+          h('strong', {}, fmt(v.at)), online ? h('span.badge.online', {}, 'online') : null,
+          h('br', {}), h('span', {}, v.message),
+          h('br', {}), h('small.muted', {}, `${v.paintings.length} quadri: ${v.paintings.map((p) => p.replace(/^\d+-/, '')).join(', ')}`)),
+        button));
+    });
+    if (data.changed) list.prepend(h('li.version.pending', {}, h('div', {}, h('strong', {}, 'Modifiche non ancora pubblicate'), h('br', {}), h('small.muted', {}, 'Premi "Pubblica" per metterle online.'))));
+  };
+  return { el, refresh };
 }
 
 function loginHelp() {

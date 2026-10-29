@@ -2,7 +2,7 @@
 
 App per il telefono dei visitatori del museo: si inquadra un quadro e prende vita (particolari da scoprire, caccia con la lente, personaggio che parla, racconto animato). Funziona nel browser, senza installare nulla, a costo zero.
 
-**Stato: Fase 3** (motore generico, esperienze "racconto", "dettagli" e "caccia", Studio con i loro editor). Quadri di prova:
+**Stato: Fase 5** (motore generico, esperienze "racconto", "dettagli" e "caccia", Studio con i loro editor, uso senza internet e cronologia delle pubblicazioni). La Fase 4 (personaggio che parla) è rimandata. Quadri di prova:
 
 - *La zattera della Medusa*: racconto;
 - *La ronda di notte*: 7 particolari;
@@ -45,4 +45,6 @@ Tutti hanno la voce DEMO.
 - `studio/`: Studio locale (`npm run studio`, solo 127.0.0.1 con token). Non viene pubblicato.
 - `npm run setup`: installa strumenti e modelli mancanti.
 - Test: `npm run test:unit` (Vitest) e `npm run test:e2e` (Playwright con fotocamera simulata; prima `node scripts/make-test-videos.mjs`).
+- Uso senza internet: service worker `sw/sw.js`, completato da `vite.config.ts` con l'elenco dei file dell'app (solo nel sito costruito). I file dei quadri vanno in una cache per quadro, gestita da `src/offline.ts`. L'impronta (`version`) e l'elenco dei file (`files`) di ogni quadro stanno in `public/data/index.json`.
+- Icone e manifest: `node scripts/make-icons.mjs`.
 - Pubblicazione: GitHub Actions a ogni push su `main`.

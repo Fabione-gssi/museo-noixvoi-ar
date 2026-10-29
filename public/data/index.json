@@ -8,7 +8,98 @@
       "room": "",
       "experience": "dettagli",
       "demo": true,
-      "bytes": 5521898
+      "bytes": 5521898,
+      "version": "2adeb71b4496",
+      "files": [
+        [
+          "alignment.json",
+          18226
+        ],
+        [
+          "audio.m4a",
+          1076295
+        ],
+        [
+          "audio.opus",
+          719383
+        ],
+        [
+          "dettaglio-bambina.jpg",
+          82641
+        ],
+        [
+          "dettaglio-cane.jpg",
+          56477
+        ],
+        [
+          "dettaglio-capitano.jpg",
+          55131
+        ],
+        [
+          "dettaglio-luogotenente.jpg",
+          56499
+        ],
+        [
+          "dettaglio-moschettiere.jpg",
+          40892
+        ],
+        [
+          "dettaglio-scudo.jpg",
+          70287
+        ],
+        [
+          "dettaglio-tamburino.jpg",
+          78797
+        ],
+        [
+          "immagine.jpg",
+          386599
+        ],
+        [
+          "meta.json",
+          5852
+        ],
+        [
+          "mini-bambina.jpg",
+          10939
+        ],
+        [
+          "mini-cane.jpg",
+          5444
+        ],
+        [
+          "mini-capitano.jpg",
+          6958
+        ],
+        [
+          "mini-luogotenente.jpg",
+          12394
+        ],
+        [
+          "mini-moschettiere.jpg",
+          6772
+        ],
+        [
+          "mini-scudo.jpg",
+          5000
+        ],
+        [
+          "mini-tamburino.jpg",
+          8925
+        ],
+        [
+          "subtitles.vtt",
+          3271
+        ],
+        [
+          "target.jpg",
+          142359
+        ],
+        [
+          "targets.mind",
+          3397992
+        ]
+      ]
     },
     {
       "id": "arnolfini",
@@ -18,7 +109,90 @@
       "room": "",
       "experience": "dettagli",
       "demo": true,
-      "bytes": 5146740
+      "bytes": 5146740,
+      "version": "38b81639d09b",
+      "files": [
+        [
+          "alignment.json",
+          18511
+        ],
+        [
+          "audio.m4a",
+          1137271
+        ],
+        [
+          "audio.opus",
+          763888
+        ],
+        [
+          "dettaglio-arance.jpg",
+          65550
+        ],
+        [
+          "dettaglio-cane.jpg",
+          101841
+        ],
+        [
+          "dettaglio-firma.jpg",
+          39340
+        ],
+        [
+          "dettaglio-lampadario.jpg",
+          86594
+        ],
+        [
+          "dettaglio-specchio.jpg",
+          108482
+        ],
+        [
+          "dettaglio-zoccoli.jpg",
+          96870
+        ],
+        [
+          "immagine.jpg",
+          347468
+        ],
+        [
+          "meta.json",
+          5302
+        ],
+        [
+          "mini-arance.jpg",
+          6362
+        ],
+        [
+          "mini-cane.jpg",
+          6078
+        ],
+        [
+          "mini-firma.jpg",
+          7562
+        ],
+        [
+          "mini-lampadario.jpg",
+          7415
+        ],
+        [
+          "mini-specchio.jpg",
+          8363
+        ],
+        [
+          "mini-zoccoli.jpg",
+          8530
+        ],
+        [
+          "subtitles.vtt",
+          3362
+        ],
+        [
+          "target.jpg",
+          120316
+        ],
+        [
+          "targets.mind",
+          2976825
+        ]
+      ]
     },
     {
       "id": "proverbi-fiamminghi",
@@ -28,7 +202,42 @@
       "room": "",
       "experience": "caccia",
       "demo": true,
-      "bytes": 3178645
+      "bytes": 3178645,
+      "version": "6eb45dc553d2",
+      "files": [
+        [
+          "alignment.json",
+          18888
+        ],
+        [
+          "audio.m4a",
+          1077821
+        ],
+        [
+          "audio.opus",
+          723296
+        ],
+        [
+          "immagine.jpg",
+          960881
+        ],
+        [
+          "meta.json",
+          4879
+        ],
+        [
+          "subtitles.vtt",
+          3375
+        ],
+        [
+          "target.jpg",
+          273012
+        ],
+        [
+          "targets.mind",
+          844668
+        ]
+      ]
     },
     {
       "id": "zattera-medusa",
@@ -38,7 +247,46 @@
       "room": "",
       "experience": "racconto",
       "demo": true,
-      "bytes": 2949869
+      "bytes": 2949869,
+      "version": "f09382dc5942",
+      "files": [
+        [
+          "alignment.json",
+          21339
+        ],
+        [
+          "audio.m4a",
+          1312055
+        ],
+        [
+          "audio.opus",
+          879089
+        ],
+        [
+          "depth.jpg",
+          10199
+        ],
+        [
+          "immagine.jpg",
+          602547
+        ],
+        [
+          "meta.json",
+          4944
+        ],
+        [
+          "subtitles.vtt",
+          3884
+        ],
+        [
+          "target.jpg",
+          193843
+        ],
+        [
+          "targets.mind",
+          806002
+        ]
+      ]
     }
   ],
   "totalBytes": 16797152

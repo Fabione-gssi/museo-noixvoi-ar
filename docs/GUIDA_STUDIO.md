@@ -97,6 +97,14 @@ Pagina **Verifica e pubblica**:
    - **"Stampa i codici QR"** apre la pagina pronta per la stampa.
 3. Se GitHub non è configurato, compaiono le istruzioni per l'accesso (una sola volta). In alternativa, **"Crea la cartella per Cloudflare Pages"** prepara un file da caricare sul sito di Cloudflare: le istruzioni compaiono sullo schermo.
 
+### Cronologia delle pubblicazioni
+
+In fondo alla pagina c'è l'elenco delle versioni pubblicate, dalla più recente. Quella con l'etichetta verde **online** è quella che vedono i visitatori.
+
+- **Ripristina questa versione** riporta i contenuti (testi, immagini, audio, particolari) com'erano in quella data. Il sito non cambia finché non premi **Pubblica**: prima puoi controllare con l'anteprima.
+- Se hai modifiche non ancora pubblicate, in cima compare "Modifiche non ancora pubblicate". **Torna a questa versione**, sulla versione online, le toglie tutte.
+- Hai cambiato idea? **↶ Annulla** rimette i contenuti com'erano prima del ripristino.
+
 A destra, **Cose da fare** elenca gli avvisi dei contenuti (es. "sala da completare") e le azioni manuali, con caselle da spuntare.
 
 ## Se sbagli
@@ -104,6 +112,7 @@ A destra, **Cose da fare** elenca gli avvisi dei contenuti (es. "sala da complet
 - **↶ Annulla** (in alto) annulla l'ultima azione: modifica, eliminazione, caricamento, cambio d'ordine.
 - Prima di ogni modifica lo Studio fa una copia di sicurezza del quadro (cartella `.studio/backup`).
 - Eliminare un quadro chiede sempre conferma.
+- Per tornare a una versione già pubblicata, usa la **Cronologia** nella pagina Verifica e pubblica.
 
 ## Alternativa senza Studio
 

@@ -2,7 +2,8 @@ import './style.css';
 import { ArSession } from './ar/ArSession';
 import { makeFrame } from './ar/ArView';
 import { unlockAll } from './media';
-import { loadIndex, loadMeta, dataUrl, type PaintingMeta } from './data';
+import { loadIndex, loadMeta, dataUrl, type PaintingMeta, type PaintingIndex } from './data';
+import { registerServiceWorker, reconcile, bindOfflinePanel, markPicker, downloadInBackground } from './offline';
 import { setupDettagli, dettagliWithoutCamera } from './experiences/dettagli';
 import { setupCaccia, cacciaWithoutCamera } from './experiences/caccia';
 import { startRacconto, type StoryHandle } from './experiences/racconto';
@@ -25,6 +26,7 @@ const TUTORIAL: Record<string, string> = {
 let stream: MediaStream | null = null;
 let session: ArSession | null = null;
 let story: StoryHandle | null = null;
+let index: PaintingIndex = { paintings: [], totalBytes: 0 };
 
 /** Esperienze non ancora realizzate usano il racconto, ripiego universale. */
 const experienceOf = (m: PaintingMeta) => (m.experience === 'dettagli' ? 'dettagli' : m.experience === 'caccia' && m.caccia ? 'caccia' : 'racconto');
@@ -32,12 +34,18 @@ const experienceOf = (m: PaintingMeta) => (m.experience === 'dettagli' ? 'dettag
 async function init() {
   if (DEBUG) $('#debug').hidden = false;
   $('#start').addEventListener('click', onStart);
-  const index = await loadIndex();
+  // Versione nuova dell'app: si ricarica solo se il visitatore non sta usando un quadro.
+  void registerServiceWorker(() => {
+    if (!$('#welcome').hidden || !$('#picker').hidden) location.reload();
+  });
+  index = await loadIndex();
+  await reconcile(index).catch(() => undefined);
   const list = $('#painting-list');
   for (const p of index.paintings) {
     const a = document.createElement('a');
     a.href = `?p=${encodeURIComponent(p.id)}${DEBUG ? '&debug=1' : ''}`;
     a.className = 'painting-item';
+    a.dataset.id = p.id;
     a.innerHTML = '<strong></strong><span></span>';
     a.querySelector('strong')!.textContent = p.title;
     a.querySelector('span')!.textContent = [p.artist, p.year].filter(Boolean).join(', ');
@@ -45,6 +53,8 @@ async function init() {
   }
   const id = params.get('p');
   if (id && !index.paintings.some((p) => p.id === id)) $('#welcome-note').textContent = 'Quadro non trovato: scegline uno dall\'elenco.';
+  void markPicker(index);
+  void bindOfflinePanel(index, $('#offline'));
   // Segnale per i test e per l'anteprima dello Studio: l'app è pronta a ricevere il tap.
   document.body.dataset.ready = '1';
 }
@@ -59,7 +69,13 @@ async function onStart() {
     return;
   }
   show('loading');
-  const [unlock, meta] = await Promise.all([unlockP, loadMeta(id)]);
+  const [unlock, meta] = await Promise.all([unlockP, loadMeta(id).catch(() => null)]);
+  if (!meta) {
+    show('welcome');
+    $('#welcome-note').textContent = navigator.onLine ? 'Non riesco a caricare il quadro: riprova tra poco.' : 'Senza internet questo quadro non è disponibile: non è stato scaricato sul telefono.';
+    return;
+  }
+  downloadInBackground(index.paintings.find((p) => p.id === id));
   if (!unlock.camera) {
     probe.error = unlock.cameraError ?? 'camera';
     return withoutCamera(meta, unlock.cameraError);

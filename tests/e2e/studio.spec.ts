@@ -205,4 +205,23 @@ test.describe.serial('Studio', () => {
     await expect(page.locator('.card', { hasText: TITLE })).toBeVisible();
     expect(folderOf()).toBeTruthy();
   });
+
+  test('cronologia: tornare alla versione online e recuperare con Annulla', async ({ page }) => {
+    test.setTimeout(300_000);
+    await page.setViewportSize({ width: 1366, height: 900 });
+    await page.goto(`${STUDIO}#/pubblica`);
+    await expect(page.getByRole('heading', { name: '3. Cronologia delle pubblicazioni' })).toBeVisible();
+    // Il quadro di prova non è pubblicato: la cronologia lo segnala.
+    await expect(page.getByText('Modifiche non ancora pubblicate')).toBeVisible();
+    await expect(page.locator('.version .badge.online')).toHaveCount(1);
+    await page.getByRole('button', { name: 'Torna a questa versione' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Ripristina' }).click();
+    await expect(page.locator('#toast')).toContainText('Ripristinata la versione');
+    expect(folderOf()).toBeUndefined();
+    await waitJob(page);
+    await page.locator('#undo').click();
+    await expect.poll(() => folderOf()).toBeTruthy();
+    // Dopo l'annullamento i dati dell'app si rigenerano.
+    await waitJob(page);
+  });
 });

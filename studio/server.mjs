@@ -15,7 +15,7 @@ import { createServer as createVite } from 'vite';
 import sharp from 'sharp';
 import { readInfo, writeInfo, readRegions, writeRegions, findFile, folderId, AUDIO_EXT, EXPERIENCES } from '../scripts/lib/contenuti.mjs';
 import { Backups } from './backups.mjs';
-import { publish, buildZip } from './publish.mjs';
+import { publish, buildZip, versions, restoreVersion } from './publish.mjs';
 import { startPreviewTunnel, stopPreviewTunnel } from './tunnel.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -359,8 +359,27 @@ async function api(req, res, url) {
     }
   }
   if (parts[0] === 'reorder' && m === 'POST') return json(res, 200, { folders: reorder(JSON.parse((await readBody(req)).toString()).folders) });
-  if (parts[0] === 'undo' && m === 'POST') return json(res, 200, { undone: backups.undo() });
+  if (parts[0] === 'undo' && m === 'POST') {
+    // Annullare un ripristino della cronologia cambia tutti i quadri: si rigenerano i dati dell'app.
+    const all = backups.load().at(-1)?.type === 'all';
+    if (all && job) throw httpError(409, `È già in corso: ${job}. Attendi che finisca.`);
+    const undone = backups.undo();
+    if (all) runJob('prepara', () => buildContent().then(({ last }) => last));
+    return json(res, 200, { undone });
+  }
   if (parts[0] === 'history' && m === 'GET') return json(res, 200, { last: backups.lastLabel() });
+  if (parts[0] === 'versions' && m === 'GET') return json(res, 200, await versions(ROOT));
+  if (parts[0] === 'versions' && parts[1] === 'restore' && m === 'POST') {
+    const { sha } = JSON.parse((await readBody(req)).toString() || '{}');
+    if (job) throw httpError(409, `È già in corso: ${job}. Attendi che finisca.`);
+    const v = (await versions(ROOT)).versions.find((x) => x.sha === sha);
+    if (!v) throw httpError(400, 'Versione sconosciuta');
+    const when = new Date(v.at).toLocaleString('it-IT', { dateStyle: 'short', timeStyle: 'short' });
+    backups.snapshotAll(`Ripristinata la versione del ${when}`);
+    await restoreVersion(ROOT, sha);
+    runJob('prepara', () => buildContent().then(({ last }) => last));
+    return json(res, 200, { ok: true, when });
+  }
 
   if (parts[0] === 'paintings' && parts[1]) {
     const folder = safeFolder(decodeURIComponent(parts[1]));

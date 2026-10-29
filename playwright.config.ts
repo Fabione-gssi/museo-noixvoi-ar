@@ -15,6 +15,13 @@ export default defineConfig({
       reuseExistingServer: true,
     },
     {
+      // Sito costruito, con service worker: prove senza internet (tests/e2e/offline.spec.ts).
+      command: 'npx vite build --logLevel error && npx vite preview --port 5181 --strictPort',
+      url: 'http://localhost:5181',
+      reuseExistingServer: true,
+      timeout: 240_000,
+    },
+    {
       // Studio con token fisso, solo per i test (tests/e2e/studio.spec.ts).
       command: 'node studio/server.mjs --port 5310',
       url: 'http://127.0.0.1:5310/studio/',

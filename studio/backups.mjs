@@ -44,6 +44,13 @@ export class Backups {
     this.record({ type: 'snapshot', folder, copy: this.copyOf(folder), label });
   }
 
+  /** Copia di tutta la cartella contenuti/ (prima di ripristinare una versione pubblicata). */
+  snapshotAll(label) {
+    const copy = path.join(this.dir, `${Date.now()}-tutto`);
+    fs.cpSync(this.src, copy, { recursive: true });
+    this.record({ type: 'all', copy, label });
+  }
+
   /** Eliminazione: la cartella viene spostata nelle copie, non cancellata. */
   remove(folder) {
     const copy = path.join(this.dir, `${Date.now()}-${folder}`);
@@ -60,7 +67,11 @@ export class Backups {
     const e = list.pop();
     if (!e) return null;
     const target = path.join(this.src, e.folder ?? '');
-    if (e.type === 'snapshot') {
+    if (e.type === 'all') {
+      fs.rmSync(this.src, { recursive: true, force: true });
+      fs.cpSync(e.copy, this.src, { recursive: true });
+      fs.rmSync(e.copy, { recursive: true, force: true });
+    } else if (e.type === 'snapshot') {
       fs.rmSync(target, { recursive: true, force: true });
       fs.cpSync(e.copy, target, { recursive: true });
       fs.rmSync(e.copy, { recursive: true, force: true });

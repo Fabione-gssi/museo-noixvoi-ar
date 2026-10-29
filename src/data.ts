@@ -53,8 +53,11 @@ export interface PaintingMeta {
   racconto?: { auto: boolean; video?: { src: string; fallback?: string }; timeline: Keyframe[] };
 }
 
+/** Voce dell'elenco dei quadri; files e version servono all'uso senza internet. */
+export type PaintingEntry = Pick<PaintingMeta, 'id' | 'title' | 'artist' | 'year' | 'room' | 'experience' | 'demo'> & { bytes: number; version?: string; files?: [string, number][] };
+
 export interface PaintingIndex {
-  paintings: (Pick<PaintingMeta, 'id' | 'title' | 'artist' | 'year' | 'room' | 'experience' | 'demo'> & { bytes: number })[];
+  paintings: PaintingEntry[];
   totalBytes: number;
 }
 

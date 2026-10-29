@@ -434,9 +434,18 @@ async function main() {
     .filter((d) => d.isDirectory() && fs.existsSync(path.join(OUT, d.name, 'meta.json')))
     .map((d) => JSON.parse(fs.readFileSync(path.join(OUT, d.name, 'meta.json'), 'utf8')))
     .sort((a, b) => a.order - b.order);
+  // Elenco dei file e impronta del contenuto: l'app li usa per scaricare il quadro
+  // per l'uso senza internet e per capire quando la copia sul telefono è vecchia.
+  const offlineFiles = (id) => {
+    const dir = path.join(OUT, id);
+    const files = fs.readdirSync(dir).filter((f) => fs.statSync(path.join(dir, f)).isFile()).sort().map((f) => [f, fs.statSync(path.join(dir, f)).size]);
+    const hash = crypto.createHash('sha1');
+    for (const [f] of files) hash.update(f).update(fs.readFileSync(path.join(dir, f)));
+    return { version: hash.digest('hex').slice(0, 12), files };
+  };
   const total = metas.reduce((n, m) => n + (m.budget?.bytes ?? 0), 0);
   const index = {
-    paintings: metas.map(({ id, title, artist, year, room, experience, demo, budget }) => ({ id, title, artist, year, room, experience, demo, bytes: budget?.bytes ?? 0 })),
+    paintings: metas.map(({ id, title, artist, year, room, experience, demo, budget }) => ({ id, title, artist, year, room, experience, demo, bytes: budget?.bytes ?? 0, ...offlineFiles(id) })),
     totalBytes: total,
   };
   fs.writeFileSync(path.join(OUT, 'index.json'), JSON.stringify(index, null, 2));

@@ -2,6 +2,34 @@
 
 > **Avviso importante.** Questi test girano su un computer Windows, con Chromium headless e una fotocamera *simulata* (video sintetici generati dall'immagine del quadro). **Non sostituiscono la prova su telefoni reali**: non riproducono autofocus, esposizione automatica, mosso vero, riflessi e moiré reali, né la potenza di calcolo di un telefono. I numeri veri arriveranno dalle prove in `DA_FARE_UTENTE.md`.
 
+## Fase 5 (29/10/2026)
+
+Esito: **17 test unitari e 46 test E2E superati su 46**. La Fase 4 (personaggio) è rimandata.
+
+### Uso senza internet (sito costruito con service worker, rete disattivata dal test)
+
+| Prova | Esito |
+|---|---|
+| "Scarica tutti i quadri" mostra lo spazio necessario e finisce con "✓ Tutti i quadri sono sul telefono" | ✅ |
+| Senza rete: l'elenco segna tutti i quadri "✓ anche senza internet" | ✅ |
+| Senza rete: la *Zattera* viene riconosciuta (0,2 s) e il racconto parte con l'audio, servito dalla copia sul telefono anche a pezzi (richieste parziali, come fa Safari) | ✅ |
+| Un quadro aperto si salva da solo e poi funziona senza rete | ✅ |
+| Un quadro mai aperto, senza rete, mostra "Senza internet questo quadro non è disponibile". Conferma anche che la rete era davvero spenta | ✅ |
+| Una copia di una versione vecchia viene buttata e riscaricata nella versione attuale | ✅ |
+
+Peso dell'app da scaricare al primo avvio: 1,6 MB (limite 3 MB), più i quadri a richiesta.
+
+**Studio**: nuovo test della cronologia. Il quadro di prova risulta "non ancora pubblicato". "Torna a questa versione" lo toglie, "↶ Annulla" lo rimette e i dati dell'app si rigenerano. Tutti e 7 i test dello Studio sono superati.
+
+**Corretto durante lo sviluppo**:
+- Senza rete i file dell'app non venivano trovati nella copia (intestazione `Vary` del server).
+- Alla prima visita mancava l'elenco dei quadri.
+
+**Non verificato**:
+- Uso senza internet su telefono vero (vedi DA_FARE_UTENTE.md, Fase 5).
+- Installazione sulla schermata Home.
+- Comportamento di Safari su iPhone.
+
 ## Fase 3 (29/10/2026)
 
 Esito: **17 test unitari e 42 test E2E superati su 42**.

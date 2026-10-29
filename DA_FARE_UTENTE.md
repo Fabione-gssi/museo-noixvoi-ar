@@ -5,27 +5,53 @@ Per rispondere basta scrivermi in chat, per esempio: "1 iPhone: sì sì no".
 
 ---
 
-## Fase 3: prova della caccia
+## Fase 5: uso senza internet e cronologia
 
-### 1. Prova sul telefono (Galaxy A56), circa 10 minuti
+### 1. Senza internet sul telefono (Galaxy A56), circa 10 minuti
 
-1. Sul computer apri a schermo intero https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/proverbi-fiamminghi-A3.pdf, oppure stampalo: è meglio.
-2. Da https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/prova.pdf inquadra il QR dei **Proverbi fiamminghi**.
-3. Tocca **Inizia** e inquadra il quadro a distanza normale (circa 1 metro). Al centro dello schermo c'è una lente: muovi il telefono e cerca le cose nascoste. Quando ne vedi una, tienila nella lente finché il bordo giallo si riempie.
+Prepara il quadro *Arnolfini* a schermo o stampato, come nelle prove precedenti: https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/arnolfini-A3.pdf
+
+1. **Con internet**, apri sul telefono https://fabione-gssi.github.io/museo-noixvoi-ar/
+   - Se compare la pagina vecchia, chiudi la scheda e riaprila: la versione nuova arriva alla seconda apertura.
+2. In basso tocca **"Scarica tutti i quadri per usarli senza internet (… MB)"** e aspetta il messaggio con il segno ✓.
+3. Attiva la **modalità aereo** (Wi-Fi spento compreso).
+4. Da https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/prova.pdf (sul computer) inquadra il QR dell'**Arnolfini**, tocca **Inizia** e avvicinati allo specchio.
+5. Sempre in modalità aereo, torna all'elenco dei quadri e prova anche la **Zattera della Medusa** o i **Proverbi**.
+6. Facoltativo: nel menu di Chrome (⋮) tocca **"Aggiungi a schermata Home"** (o "Installa app"), poi apri l'app dall'icona nuova.
 
 | Domanda | Risposta |
 |---|---|
-| a. La lente mostra il quadro ingrandito e nitido proprio nel punto che stai guardando? | |
-| b. Quando un elemento entra nella lente lo vedi (bagliore, contorno o ingrandimento)? | |
-| c. Dopo la scoperta senti la storia di quel proverbio, e il contatore in basso sale (es. 2/6)? | |
-| d. Quanti ne hai trovati da solo? Ce n'è uno troppo difficile? | |
-| e. Se resti fermo per 20 secondi senza trovare nulla, compare un luccichio che indica dove cercare? | |
-| f. Trovati tutti, compare "Hai trovato tutto! Ascolta il finale"? | |
-| g. È divertente? Che cosa cambieresti? | |
+| a. Il pulsante mostra quanti MB servono e alla fine compare "✓ Tutti i quadri sono sul telefono"? | |
+| b. In modalità aereo, l'Arnolfini viene riconosciuto e lo specchio fa partire l'audio? | |
+| c. Nell'elenco dei quadri c'è la scritta "✓ anche senza internet"? E gli altri quadri funzionano? | |
+| d. (Facoltativo) L'icona sulla schermata Home si vede bene e l'app si apre a schermo intero? | |
 
-### 2. Prova l'editor nello Studio, circa 5 minuti
+Alla fine ricordati di **togliere la modalità aereo**.
 
-Doppio clic su **"Avvia Studio"** → **Proverbi fiamminghi** → scheda **Caccia**. Sposta un cerchio, cambia l'effetto di un elemento, poi premi **↶ Annulla**. Dimmi se è chiaro.
+### 2. Cronologia nello Studio, circa 3 minuti
+
+Doppio clic su **"Avvia Studio"** → **Verifica e pubblica** → in fondo **"3. Cronologia delle pubblicazioni"**.
+
+1. Guarda l'elenco: la prima versione ha l'etichetta verde **online**.
+2. Su una versione più vecchia premi **"Ripristina questa versione"** e conferma. Nell'elenco dei quadri controlla che i contenuti siano quelli di allora (per esempio, prima della Fase 3 non c'erano i *Proverbi*).
+3. Premi **↶ Annulla** (in alto): tutto torna come prima.
+4. **Non premere "Pubblica"** durante questa prova.
+
+Dimmi se è chiaro.
+
+---
+
+## Fase 4: personaggio (Dürer e Ginevra de' Benci)
+
+⏸️ **Rimandata** su tua richiesta: ho fatto prima la Fase 5. Dimmi quando vuoi farla.
+
+---
+
+## Fase 3: prova della caccia
+
+### 1. Caccia sul telefono: ✅ fatto (tutto ok)
+
+### 2. Editor nello Studio: ✅ fatto
 
 ### 3. Revisione dei contenuti (quando hai tempo)
 

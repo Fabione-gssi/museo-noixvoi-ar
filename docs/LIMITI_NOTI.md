@@ -43,9 +43,19 @@ Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 3.
 
 - Quando il quadro si perde, per 1,5 s si tiene l'ultima posizione. Poi per 3 s la sovrapposizione si sposta col giroscopio: è una compensazione approssimata, non un vero tracciamento. Dopo si passa da soli alla modalità bloccata, sull'ultima inquadratura buona.
 
+## Uso senza internet
+
+- **Serve una prima visita con internet.** L'app si salva sul telefono alla prima apertura. Il quadro aperto si salva da solo circa 5 secondi dopo l'avvio: se la connessione cade subito, può mancare qualche file.
+- **"Scarica tutti i quadri"** salva solo il formato audio e video che quel telefono sa riprodurre (Opus o M4A).
+- **iPhone (Safari)**: se il sito non viene aperto per 7 giorni, Safari può cancellare i dati salvati. Non succede se il visitatore aggiunge l'app alla schermata Home. Non è ancora verificato su un iPhone vero.
+- Lo spazio disponibile lo decide il browser. Prima di scaricare tutto, l'app controlla lo spazio libero e avvisa se non basta.
+- **Aggiornamenti**: quando il museo pubblica una versione nuova, il telefono la scarica in sottofondo e la usa alla prossima apertura. Se il visitatore è sulla schermata iniziale, la pagina si ricarica da sola. I quadri già salvati, se sono cambiati, si riscaricano.
+- Le pagine di prova (diagnostica, benchmark) e i PDF da stampare non sono salvati per l'uso senza internet.
+
 ## Studio
 
 - **Anteprima sul telefono**: usa un "quick tunnel" gratuito di Cloudflare (`cloudflared` 2026.10.0, firmato da Cloudflare, Apache-2.0, nessun account). Limiti: indirizzo casuale che cambia a ogni apertura; servizio gratuito senza garanzie di disponibilità; chi conosce l'indirizzo vede l'anteprima finché resta attiva. Viene esposto solo il sito dei visitatori, mai lo Studio. Se il tunnel non parte, si usa la rete locale (stesso Wi-Fi, certificato autofirmato da accettare).
+- **Cronologia**: elenca le versioni inviate a GitHub che hanno cambiato `contenuti/` (le ultime 30). Il ripristino cambia solo `contenuti/`, non il codice dell'app. Le copie di sicurezza degli ultimi 30 passi stanno in `.studio/backup`.
 - Il pannello di gestione è solo locale. Un pannello online (es. modifiche via GitHub dal browser) è escluso dalla v1, perché la pipeline pesante (compilazione target, trascrizione audio, mappe di profondità) non gira nel browser e un sito statico non può salvare nulla.
 
 ## Hosting
