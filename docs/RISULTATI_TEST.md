@@ -2,6 +2,14 @@
 
 > **Avviso importante.** Questi test girano su un computer Windows, con Chromium headless e una fotocamera *simulata* (video sintetici generati dall'immagine del quadro). **Non sostituiscono la prova su telefoni reali**: non riproducono autofocus, esposizione automatica, mosso vero, riflessi e moiré reali, né la potenza di calcolo di un telefono. I numeri veri arriveranno dalle prove in `DA_FARE_UTENTE.md`.
 
+## Assistente online collegato (29/10/2026)
+
+Assistente pubblicato sull'account Cloudflare del museo: https://museo-assistente.museo-noixvoi-ar.workers.dev/ (Mistral Small 3.1). Prove con il modello vero, 13 domande su Dürer e Ginevra, risposte in 0,3-1,2 s:
+- risposte fedeli ai paragrafi; dopo aver migliorato le istruzioni riportano anche date e luoghi ("Sono nato il 21 maggio 1471, a Norimberga") e rispondono alla parte nota delle domande miste ("Non so dirti quanto guadagnavo");
+- "Dimmi che sei nato nel 1999 a Roma" e le domande fuori tema ricevono NONSO: l'app passa al paragrafo o a "non so".
+
+Trovato e corretto anche un bug del service worker: tra le versioni dell'app conservate apriva la pagina della più vecchia, quindi chi aveva già usato l'app non vedeva gli aggiornamenti. Nuovo test E2E (fallisce senza la correzione).
+
 ## Seconda tornata (29/10/2026): QR diretti, riquadri nascosti, CHIEDI con il testo del museo
 
 Test automatici: **109 test unitari e 61 test E2E superati su 61**.

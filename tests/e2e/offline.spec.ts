@@ -105,4 +105,28 @@ test.describe('offline', () => {
       await browser.close();
     }
   });
+
+  test('una versione vecchia dell’app conservata non prende il posto di quella attuale', async () => {
+    const browser = await launchWithCamera(null);
+    try {
+      const page = await newPage(browser, { camera: false });
+      await page.goto(`${SITE}/`);
+      await waitServiceWorker(page);
+      // Una versione vecchia conservata, creata prima di quella attuale (come dopo un aggiornamento).
+      await page.evaluate(async () => {
+        const cur = (await caches.keys()).find((k) => k.startsWith('app-'))!;
+        const c = await caches.open(cur);
+        const entries = await Promise.all((await c.keys()).map(async (r) => [r, (await c.match(r))!] as const));
+        await caches.delete(cur);
+        await (await caches.open('app-vecchia')).put('./index.html', new Response('<!doctype html><p id="vecchia">vecchia</p>', { headers: { 'Content-Type': 'text/html' } }));
+        const n = await caches.open(cur);
+        for (const [r, res] of entries) await n.put(r, res);
+      });
+      await page.goto(`${SITE}/?p=${other.id}`);
+      await expect(page.locator('#start')).toBeVisible();
+      await expect(page.locator('#vecchia')).toHaveCount(0);
+    } finally {
+      await browser.close();
+    }
+  });
 });

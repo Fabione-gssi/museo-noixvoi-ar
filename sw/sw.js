@@ -61,8 +61,11 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(fromShell(req, req));
 });
 
+// Prima la versione attuale dell'app: caches.match da solo cercherebbe in tutte le
+// versioni conservate e restituirebbe la pagina della più vecchia.
 async function fromShell(key, req) {
-  return (await caches.match(key, { ignoreSearch: true, ignoreVary: true })) ?? fetch(req);
+  const opts = { ignoreSearch: true, ignoreVary: true };
+  return (await (await caches.open(SHELL)).match(key, opts)) ?? (await caches.match(key, opts)) ?? fetch(req);
 }
 
 async function networkFirst(req, cacheName) {
