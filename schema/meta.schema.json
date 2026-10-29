@@ -474,6 +474,150 @@
           }
         }
       }
+    },
+    "personaggio": {
+      "type": "object",
+      "required": [
+        "modo",
+        "domande",
+        "suggerite",
+        "nonSo"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "modo": {
+          "enum": [
+            "completa",
+            "presenza"
+          ]
+        },
+        "volto": {
+          "type": "object",
+          "required": [
+            "punti",
+            "box"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "punti": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "box": {
+              "$ref": "#/definitions/rect"
+            }
+          }
+        },
+        "inviluppi": {
+          "$ref": "#/definitions/file"
+        },
+        "domande": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "domanda",
+              "varianti",
+              "risposta"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "domanda": {
+                "type": "string",
+                "minLength": 1
+              },
+              "varianti": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "risposta": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fonte": {
+                "type": "string"
+              },
+              "audio": {
+                "type": "object",
+                "required": [
+                  "src",
+                  "fallback",
+                  "durationSec"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "src": {
+                    "$ref": "#/definitions/file"
+                  },
+                  "fallback": {
+                    "$ref": "#/definitions/file"
+                  },
+                  "durationSec": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "suggerite": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4
+        },
+        "nonSo": {
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "audio": {
+              "type": "object",
+              "required": [
+                "src",
+                "fallback",
+                "durationSec"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "src": {
+                  "$ref": "#/definitions/file"
+                },
+                "fallback": {
+                  "$ref": "#/definitions/file"
+                },
+                "durationSec": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

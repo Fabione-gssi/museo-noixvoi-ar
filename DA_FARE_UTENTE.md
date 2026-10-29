@@ -43,7 +43,46 @@ Dimmi se è chiaro.
 
 ## Fase 4: personaggio (Dürer e Ginevra de' Benci)
 
-⏸️ **Rimandata** su tua richiesta: ho fatto prima la Fase 5. Dimmi quando vuoi farla.
+### 1. Giudica l'animazione del volto, circa 3 minuti (la decisione più importante)
+
+Nella cartella `revisione` del progetto ci sono 4 video di 5 secondi. Aprili con un doppio clic, con l'audio acceso:
+
+- `volto-autoritratto-durer-completa.mp4` e `volto-autoritratto-durer-presenza.mp4`;
+- `volto-ginevra-de-benci-completa.mp4` e `volto-ginevra-de-benci-presenza.mp4`.
+
+"Completa" vuol dire con la bocca che si muove e il battito di ciglia. "Presenza" vuol dire solo sguardo, respiro e un leggero movimento.
+
+Per ciascuno scrivi **naturale**, **accettabile** o **inquietante**:
+
+| Video | Giudizio |
+|---|---|
+| Dürer, completa | |
+| Dürer, presenza | |
+| Ginevra, completa | |
+| Ginevra, presenza | |
+
+Regola: se la versione "completa" di un quadro è **inquietante**, per quel quadro passo alla "presenza" (basta un clic nello Studio) e lo scrivo nel rapporto.
+
+### 2. Prova sul telefono (Galaxy A56), circa 10 minuti
+
+1. Sul computer apri a schermo intero (o stampa) https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/autoritratto-durer-A3.pdf
+2. Da https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/prova.pdf inquadra il QR di **Dürer**, tocca **Inizia** e inquadra il quadro.
+3. Quando si presenta, abbassa pure il telefono. Prova due domande suggerite, poi scrivine una a modo tuo (es. "quanti anni avevi?") e una fuori tema (es. "qual è il tuo cibo preferito?").
+4. Ripeti con **Ginevra de' Benci** (`ginevra-de-benci-A3.pdf`).
+
+| Domanda | Risposta |
+|---|---|
+| a. Dopo il riconoscimento il personaggio si presenta, con voce e sottotitoli? | |
+| b. Inclinando il telefono, gli occhi ti seguono? | |
+| c. Le domande scritte a modo tuo trovano la risposta giusta? | |
+| d. A quella fuori tema risponde "Non so rispondere…"? | |
+| e. Il telefono resta fluido? | |
+
+### 3. Revisione dei testi e delle risposte (obbligatoria prima del rilascio)
+
+- **Testi in prima persona**: `contenuti/01-autoritratto-durer/testo.txt` e `contenuti/02-ginevra-de-benci/testo.txt`. Le fonti di ogni fatto sono in `fonti.md`.
+- **Domande e risposte**: nello Studio, scheda **Personaggio**, 11 per quadro. Ognuna indica la frase del testo da cui viene. Correggi, aggiungi o togli quello che vuoi, poi premi **Salva il personaggio** e **Prepara**.
+- **Punti del volto**: `revisione/autoritratto-durer.jpg` e `revisione/ginevra-de-benci.jpg` (puntini gialli su occhi, bocca e mento).
 
 ---
 

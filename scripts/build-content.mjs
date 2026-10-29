@@ -17,6 +17,7 @@ import { compileMind, inspectMind } from './lib/mind-compiler.mjs';
 import { ffmpegPath } from './lib/ffmpeg.mjs';
 import { buildTimeline, toVtt, segmentFor } from './lib/timeline.mjs';
 import { readInfo, readRegions, findFile, AUDIO_EXT, folderId } from './lib/contenuti.mjs';
+import { detectFace, LANDMARKS } from './lib/face-landmarks.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const SRC = path.join(ROOT, 'contenuti');
@@ -84,7 +85,7 @@ const python = (script, args, ctx) => {
 };
 const ffmpeg = (args, ctx) => run(ffmpegPath(), ['-v', 'error', '-y', ...args], ctx);
 
-async function reviewImage(srcImg, regions, timeline, outFile, points = []) {
+async function reviewImage(srcImg, regions, timeline, outFile, points = [], face = null) {
   const meta = await sharp(srcImg).metadata();
   const w = 1400;
   const h = Math.round((meta.height / meta.width) * w);
@@ -105,6 +106,8 @@ async function reviewImage(srcImg, regions, timeline, outFile, points = []) {
       <rect x="${p.x * w + 8}" y="${p.y * h - 34}" width="${label.length * 11 + 16}" height="30" fill="#00838f"/>
       <text x="${p.x * w + 16}" y="${p.y * h - 13}" font-family="Arial" font-size="19" fill="#fff">${esc(label)}</text>`);
   }
+  // Punti del volto del personaggio (occhi, iridi, bocca, mento).
+  for (const [x, y] of Object.values(face ?? {})) items.push(`<circle cx="${x * w}" cy="${y * h}" r="4" fill="#ffd166" stroke="#000" stroke-width="1"/>`);
   const svg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">${items.join('')}</svg>`);
   await sharp(srcImg).resize(w, h).composite([{ input: svg }]).jpeg({ quality: 82 }).toFile(outFile);
 }
@@ -129,7 +132,9 @@ async function buildPainting(folder, order, force) {
   const outDir = path.join(OUT, id);
   const detailDir = path.join(dir, 'dettagli');
   const detailFiles = fs.existsSync(detailDir) ? fs.readdirSync(detailDir).sort().map((f) => path.join(detailDir, f)) : [];
-  const allInputs = [image, path.join(dir, 'info.txt'), path.join(dir, 'regioni.json'), path.join(dir, 'dettagli.txt'), textFile, pronFile, audioSrc, videoSrc, order, ...detailFiles];
+  const answerDir = path.join(dir, 'risposte');
+  const answerFiles = fs.existsSync(answerDir) ? fs.readdirSync(answerDir).sort().map((f) => path.join(answerDir, f)) : [];
+  const allInputs = [image, path.join(dir, 'info.txt'), path.join(dir, 'regioni.json'), path.join(dir, 'dettagli.txt'), textFile, pronFile, audioSrc, videoSrc, order, ...detailFiles, ...answerFiles];
   const fullKey = hash(...allInputs);
   const stamp = path.join(CACHE, id, 'ultimo.json');
   if (!force && fs.existsSync(stamp) && JSON.parse(fs.readFileSync(stamp, 'utf8')).key === fullKey && fs.existsSync(path.join(outDir, 'meta.json'))) {
@@ -222,7 +227,7 @@ async function buildPainting(folder, order, force) {
 
   // Profondità per la parallasse del racconto.
   let depth;
-  if (experience === 'racconto') {
+  if (experience === 'racconto' || experience === 'personaggio') {
     try {
       const [d] = await cached(id, 'profondita', hash(image), ['depth.jpg'], (out) =>
         python('depth.py', [image, out, path.join(MODELS, 'depth/depth-anything-v2-small.onnx')], { id, step: 'profondita' }));
@@ -287,6 +292,8 @@ async function buildPainting(folder, order, force) {
     if (fs.existsSync(path.join(dir, 'caccia.txt'))) problems.push('caccia.txt presente: gli elementi descritti vanno posizionati nello Studio (scheda Caccia)');
   }
 
+  const personaggio = experience === 'personaggio' ? await characterContent({ id, dir, outDir, image, regions, pronFile, audioFile, demoVoice, problems }) : null;
+
   const meta = {
     schemaVersion: 1,
     id,
@@ -306,12 +313,13 @@ async function buildPainting(folder, order, force) {
     dettagli,
     ...(racconto ? { racconto } : {}),
     ...(caccia ? { caccia } : {}),
+    ...(personaggio ? { personaggio } : {}),
   };
 
   // Budget di peso: le alternative (fallback) non si scaricano entrambe, quindi conta la più grande.
   const size = (f) => (fs.existsSync(path.join(outDir, f)) ? fs.statSync(path.join(outDir, f)).size : 0);
   const all = fs.readdirSync(outDir);
-  const alt = [['audio.opus', 'audio.m4a'], ['racconto.mp4', 'racconto.webm'], ...all.filter((f) => /^audio-.+\.opus$/.test(f)).map((f) => [f, f.replace(/\.opus$/, '.m4a')])];
+  const alt = [['racconto.mp4', 'racconto.webm'], ...all.filter((f) => f.endsWith('.opus')).map((f) => [f, f.replace(/\.opus$/, '.m4a')])];
   let bytes = all.filter((f) => !alt.flat().includes(f)).reduce((n, f) => n + size(f), 0);
   for (const pair of alt) bytes += Math.max(...pair.map(size));
   if (bytes > BUDGET_PAINTING) {
@@ -329,7 +337,7 @@ async function buildPainting(folder, order, force) {
 
   emit('step', { id, step: 'anteprima' });
   fs.mkdirSync(REVIEW, { recursive: true });
-  await reviewImage(image, regions, racconto?.timeline, path.join(REVIEW, `${id}.jpg`), experience === 'caccia' ? regions.caccia?.items : []);
+  await reviewImage(image, regions, racconto?.timeline, path.join(REVIEW, `${id}.jpg`), experience === 'caccia' ? regions.caccia?.items : [], personaggio?.volto?.punti);
 
   fs.writeFileSync(stamp, JSON.stringify({ key: fullKey, problems }));
   emit('done', { id, bytes });
@@ -393,6 +401,117 @@ function dettagliTxtProblems(dir, regions) {
   return fs.readFileSync(f, 'utf8').split(/\r?\n/).map((l) => l.split('|')[0].trim()).filter(Boolean)
     .filter((desc) => !labels.some((l) => desc.toLowerCase().includes(l.replace(/^(il|lo|la|l'|i|gli|le)\s*/i, ''))))
     .map((desc) => `dettagli.txt: "${desc}" va disegnato sull'immagine nello Studio (scheda Dettagli)`);
+}
+
+const NON_SO = 'Non so rispondere a questa domanda. Posso raccontarti solo quello che sappiamo di questo quadro: prova con una delle domande suggerite.';
+const ENVELOPE_HZ = 25;
+
+/**
+ * Personaggio: punti del volto (MediaPipe, corretti a mano nello Studio),
+ * domande e risposte con la loro fonte, audio di ogni risposta e "inviluppo"
+ * (volume nel tempo) che muove la bocca.
+ */
+async function characterContent({ id, dir, outDir, image, regions, pronFile, audioFile, demoVoice, problems }) {
+  const p = regions.personaggio ?? {};
+  let auto = null;
+  try {
+    const [f] = await cached(id, 'volto', hash(image), ['volto.json'], async (out) =>
+      fs.writeFileSync(out, JSON.stringify(await detectFace(image, path.join(MODELS, 'face/face_landmarker.task')))));
+    auto = JSON.parse(fs.readFileSync(f, 'utf8'));
+  } catch (e) {
+    problems.push(`punti del volto non calcolati: ${e.message.slice(0, 120)}`);
+  }
+  const punti = { ...(auto?.punti ?? {}), ...(p.punti ?? {}) };
+  const complete = Object.keys(LANDMARKS).every((k) => punti[k]);
+  if (!complete) problems.push('personaggio: volto non trovato automaticamente, segna i punti nello Studio (scheda Personaggio). Intanto si usa la "presenza" senza bocca');
+  const modo = complete && p.modo !== 'presenza' ? 'completa' : 'presenza';
+
+  const envelopes = {};
+  if (audioFile) envelopes.audio = await envelope(audioFile);
+
+  // Audio di una risposta: registrazione in risposte/<id>.*, altrimenti voce DEMO.
+  const speak = async (key, text) => {
+    const recorded = findFile(path.join(dir, 'risposte'), key, AUDIO_EXT);
+    let src = recorded;
+    if (!src && demoVoice) {
+      [src] = await cached(id, 'risposta', hash(text, pronFile, 'serena-medium'), ['risposta.wav'], async (wav) => {
+        const txt = `${wav}.txt`;
+        fs.writeFileSync(txt, text);
+        await python('tts.py', [txt, wav, `${wav}.json`, path.join(MODELS, 'piper/it_IT-serena-medium.onnx'), ...(fs.existsSync(pronFile) ? [pronFile] : [])], { id, step: 'risposte' });
+      });
+    }
+    if (!src) return null;
+    const name = `risposta-${key}`;
+    const [opus, m4a] = await cached(id, 'audio', hash(src), ['r.opus', 'r.m4a'], async (o, m) => {
+      await ffmpeg(['-i', src, '-ac', '1', '-c:a', 'libopus', '-b:a', '32k', '-f', 'ogg', o], { id, step: 'risposte' });
+      await ffmpeg(['-i', src, '-ac', '1', '-c:a', 'aac', '-b:a', '48k', '-movflags', '+faststart', '-f', 'mp4', m], { id, step: 'risposte' });
+    });
+    fs.copyFileSync(opus, path.join(outDir, `${name}.opus`));
+    fs.copyFileSync(m4a, path.join(outDir, `${name}.m4a`));
+    envelopes[name] = await envelope(src);
+    return { src: `${name}.opus`, fallback: `${name}.m4a`, durationSec: Math.round((envelopes[name].length / ENVELOPE_HZ) * 10) / 10 };
+  };
+
+  const domande = [];
+  for (const q of p.domande ?? []) {
+    if (!q.id || !q.domanda?.trim() || !q.risposta?.trim()) continue;
+    const audio = await speak(q.id, q.risposta.trim());
+    if (!audio) problems.push(`personaggio: manca l'audio della risposta "${q.domanda}" (risposte/${q.id}.mp3)`);
+    if (!q.fonte?.trim()) problems.push(`personaggio: la risposta a "${q.domanda}" non indica la fonte nel testo`);
+    domande.push({ id: q.id, domanda: q.domanda.trim(), varianti: (q.varianti ?? []).map((v) => v.trim()).filter(Boolean), risposta: q.risposta.trim(), ...(q.fonte ? { fonte: q.fonte.trim() } : {}), ...(audio ? { audio } : {}) });
+  }
+  if (domande.length < 8 || domande.length > 15) problems.push(`personaggio: ${domande.length} domande (ne servono da 8 a 15)`);
+  const ids = new Set(domande.map((q) => q.id));
+  const suggerite = (p.suggerite ?? []).filter((s) => ids.has(s)).slice(0, 4);
+  for (const q of domande) if (suggerite.length < 4 && !suggerite.includes(q.id)) suggerite.push(q.id);
+  const nonSoText = p.nonSo?.trim() || NON_SO;
+  const nonSoAudio = await speak('nonso', nonSoText);
+
+  fs.writeFileSync(path.join(outDir, 'inviluppi.json'), JSON.stringify({ hz: ENVELOPE_HZ, ...envelopes }));
+  return {
+    modo,
+    ...(complete ? { volto: { punti: Object.fromEntries(Object.keys(LANDMARKS).map((k) => [k, punti[k]])), box: auto?.volto ?? faceBox(punti) } } : {}),
+    inviluppi: 'inviluppi.json',
+    domande,
+    suggerite,
+    nonSo: { text: nonSoText, ...(nonSoAudio ? { audio: nonSoAudio } : {}) },
+  };
+}
+
+/** Riquadro del volto ricavato dai punti (quando sono stati messi a mano). */
+function faceBox(punti) {
+  const xs = Object.values(punti).map((q) => q[0]);
+  const ys = Object.values(punti).map((q) => q[1]);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  const padX = (x1 - x0) * 0.35, padY = (y1 - y0) * 0.6;
+  const x = Math.max(0, x0 - padX), y = Math.max(0, y0 - padY);
+  return { x, y, w: Math.min(1 - x, x1 - x0 + 2 * padX), h: Math.min(1 - y, y1 - y0 + 1.6 * padY) };
+}
+
+/** Volume della voce nel tempo (0-100, ENVELOPE_HZ valori al secondo), normalizzato sul 95° percentile. */
+function envelope(file) {
+  return new Promise((resolve, reject) => {
+    const rate = 8000;
+    const p = spawn(ffmpegPath(), ['-v', 'error', '-i', file, '-ac', '1', '-ar', String(rate), '-f', 's16le', '-']);
+    const chunks = [];
+    p.stdout.on('data', (d) => chunks.push(d));
+    p.on('error', reject);
+    p.on('close', (code) => {
+      if (code !== 0) return reject(new Error(`inviluppo: ffmpeg ${code}`));
+      const buf = Buffer.concat(chunks);
+      const samples = new Int16Array(buf.buffer, buf.byteOffset, Math.floor(buf.length / 2));
+      const win = rate / ENVELOPE_HZ;
+      const rms = [];
+      for (let i = 0; i < samples.length; i += win) {
+        let s = 0;
+        const end = Math.min(samples.length, i + win);
+        for (let j = i; j < end; j++) s += samples[j] * samples[j];
+        rms.push(Math.sqrt(s / Math.max(1, end - i)));
+      }
+      const ref = [...rms].sort((a, b) => a - b)[Math.floor(rms.length * 0.95)] || 1;
+      resolve(rms.map((v) => Math.min(100, Math.round((v / ref) * 100))));
+    });
+  });
 }
 
 function probeDuration(file) {

@@ -8,6 +8,8 @@ Tutte le immagini sono state scaricate da Wikimedia Commons il 27/10/2026 e sono
 |---|---|---|---|
 | Jan van Eyck, *Ritratto dei coniugi Arnolfini* (1434), National Gallery, Londra | quadro 04-arnolfini (originale 4386×6000 px) | https://commons.wikimedia.org/wiki/File:Van_Eyck_-_Arnolfini_Portrait.jpg | Public domain (credito su Commons: sito della National Gallery, Londra) |
 
+| Albrecht Dürer, *Autoritratto con pelliccia* (1500), Alte Pinakothek, Monaco | quadro 01-autoritratto-durer (miniatura Commons a 3840 px, scaricata il 29/10/2026) | https://commons.wikimedia.org/wiki/File:Albrecht_D%C3%BCrer_-_1500_self-portrait_(High_resolution_and_detail).jpg | Public domain |
+| Leonardo da Vinci, *Ritratto di Ginevra de' Benci* (1474-1478 circa), National Gallery of Art, Washington | quadro 02-ginevra-de-benci (miniatura Commons a 3840 px, scaricata il 29/10/2026) | https://commons.wikimedia.org/wiki/File:Leonardo_da_Vinci_-_Ginevra_de%27_Benci_-_Google_Art_Project.jpg | Public domain |
 | Rembrandt, *La ronda di notte* (1642), Rijksmuseum | quadro 03-ronda-di-notte (miniatura Commons a 3840 px, cornice ritagliata) | https://commons.wikimedia.org/wiki/File:The_Night_Watch_-_HD.jpg | Public domain |
 | Pieter Bruegel il Vecchio, *Proverbi fiamminghi* (1559), Gemäldegalerie, Berlino | quadro 05-proverbi-fiamminghi (miniatura Commons a 3840 px) | https://commons.wikimedia.org/wiki/File:Pieter_Brueghel_the_Elder_-_The_Dutch_Proverbs_-_Google_Art_Project.jpg | Public domain |
 | Théodore Géricault, *La zattera della Medusa* (1818-1819), Louvre | quadro 06-zattera-medusa (originale 5872×4008 px) | https://commons.wikimedia.org/wiki/File:JEAN_LOUIS_TH%C3%89ODORE_G%C3%89RICAULT_-_La_Balsa_de_la_Medusa_(Museo_del_Louvre,_1818-19).jpg | Public domain (riproduzione fedele di opera bidimensionale in pubblico dominio; fonte indicata su Commons: sconosciuta) |
@@ -20,9 +22,18 @@ Tutte le immagini sono state scaricate da Wikimedia Commons il 27/10/2026 e sono
 | Piper (motore di sintesi vocale, piper-tts 1.8) | Genera l'audio DEMO in locale | GPL-3.0: strumento usato solo offline, non distribuito con l'app; l'audio prodotto non è soggetto alla GPL |
 | faster-whisper + modello Whisper "small" | Allinea le registrazioni vere al testo (sottotitoli) | MIT |
 | cloudflared 2026.10.0 (Cloudflare, firmato) | Link di anteprima sul telefono dallo Studio (quick tunnel gratuito) | Apache-2.0 |
-| Depth Anything V2 Small (ONNX) | Mappa di profondità per la parallasse del racconto | Apache-2.0 (https://huggingface.co/depth-anything/Depth-Anything-V2-Small) |
+| MediaPipe Face Landmarker (modello `face_landmarker.task` e libreria @mediapipe/tasks-vision 1.1.0) | Trova occhi, bocca e mento dei personaggi (Fase 4) | Apache-2.0 (https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker) |
+| Depth Anything V2 Small (ONNX) | Mappa di profondità per la parallasse del racconto e del personaggio | Apache-2.0 (https://huggingface.co/depth-anything/Depth-Anything-V2-Small) |
 
 Quando nell'app si sente la voce DEMO, compare il badge "DEMO". Credito: "Voce sintetica: Piper, voce serena (dataset CC-BY-4.0 di committa)".
+
+## Librerie dentro l'app
+
+| Libreria | Uso | Licenza |
+|---|---|---|
+| three.js 0.186.1 | Grafica 3D, racconto, volto animato | MIT |
+| MindAR 1.2.5 | Riconoscimento delle immagini | MIT |
+| Fuse.js 7.5.0 | Domande scritte con errori di battitura (personaggio) | Apache-2.0 |
 
 ## Solo per il benchmark della Fase 0 (`public/bench/`, non sono contenuti dell'app)
 

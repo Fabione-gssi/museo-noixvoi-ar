@@ -75,6 +75,33 @@
     </div>
   </section>
 
+  <section id="character" class="screen" hidden>
+    <div class="char-stage"></div>
+    <header class="story-head">
+      <button class="story-back" aria-label="Torna alla fotocamera">‹</button>
+      <div>
+        <h1 class="story-title"></h1>
+        <p class="story-artist"></p>
+      </div>
+      <span class="badge-demo" title="Voce sintetica dimostrativa">DEMO</span>
+    </header>
+    <p id="character-note" class="note story-note"></p>
+    <div class="char-bottom">
+      <p class="char-question" hidden></p>
+      <p class="subtitles char-subs" aria-live="polite"></p>
+      <div class="char-controls">
+        <button class="char-play" aria-label="Pausa">❚❚</button>
+        <button class="char-intro">↺ Ascolta la presentazione</button>
+      </div>
+      <div class="char-suggest" aria-label="Domande suggerite"></div>
+      <form class="char-form" autocomplete="off">
+        <input type="text" maxlength="120" placeholder="Oppure scrivi una domanda…" aria-label="Scrivi una domanda" enterkeyhint="send" />
+        <button type="submit">Chiedi</button>
+      </form>
+      <p class="note reconstruction"></p>
+    </div>
+  </section>
+
   <section id="fallback" class="screen scroll" hidden>
     <p id="fallback-reason" class="note"></p>
     <h1 id="fallback-title"></h1>

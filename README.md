@@ -2,8 +2,9 @@
 
 App per il telefono dei visitatori del museo: si inquadra un quadro e prende vita (particolari da scoprire, caccia con la lente, personaggio che parla, racconto animato). Funziona nel browser, senza installare nulla, a costo zero.
 
-**Stato: Fase 5** (motore generico, esperienze "racconto", "dettagli" e "caccia", Studio con i loro editor, uso senza internet e cronologia delle pubblicazioni). La Fase 4 (personaggio che parla) è rimandata. Quadri di prova:
+**Stato: Fasi 0-5 completate**: motore generico; tutte e quattro le esperienze (racconto, dettagli, caccia, personaggio) con i loro editor nello Studio; uso senza internet; cronologia delle pubblicazioni. Manca la Fase 6 (rilascio). Quadri di prova:
 
+- *Autoritratto con pelliccia* di Dürer e *Ginevra de' Benci*: personaggi che si presentano e rispondono a 11 domande;
 - *La zattera della Medusa*: racconto;
 - *La ronda di notte*: 7 particolari;
 - *Arnolfini*: 6 particolari;
@@ -42,6 +43,7 @@ Tutti hanno la voce DEMO.
 - `src/`: app dei visitatori (Vite + TypeScript + three.js).
   - Esperienze in `src/experiences/`.
   - Il riconoscimento passa dall'interfaccia `src/tracker/Tracker.ts`.
+- Personaggio: punti del volto con MediaPipe (`scripts/lib/face-landmarks.mjs`), volto animato in `src/character/FaceRenderer.ts`, dialogo locale in `src/character/dialog.ts` (interfaccia `DialogEngine`). Anteprime di 5 s per il quality gate: `node scripts/make-face-previews.mjs`, con l'app su http://localhost:5179.
 - `studio/`: Studio locale (`npm run studio`, solo 127.0.0.1 con token). Non viene pubblicato.
 - `npm run setup`: installa strumenti e modelli mancanti.
 - Test: `npm run test:unit` (Vitest) e `npm run test:e2e` (Playwright con fotocamera simulata; prima `node scripts/make-test-videos.mjs`).

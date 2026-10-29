@@ -171,7 +171,17 @@ function triage(meta, regions) {
     racconto: { score: 100, note: 'Sempre possibile: è il ripiego per ogni quadro.' },
     dettagli: { score: Math.min(100, strong * 30 + (regions.dettagli?.length ?? 0) * 10), note: regions.dettagli?.length ? `${regions.dettagli.length} particolari segnati, ${strong} ben riconoscibili da vicino.` : 'Nessun particolare segnato.' },
     caccia: { score: Math.min(100, (regions.caccia?.items?.length ?? 0) * 18), note: regions.caccia?.items?.length ? `${regions.caccia.items.length} elementi nascosti segnati (ne servono almeno 3).` : 'Nessun elemento nascosto segnato: servono particolari descritti nel testo.' },
-    personaggio: { score: null, note: 'Disponibile dalla Fase 4.' },
+    personaggio: personaggioTriage(meta, regions),
+  };
+}
+
+function personaggioTriage(meta, regions) {
+  const n = regions.personaggio?.domande?.length ?? 0;
+  if (!meta?.personaggio) return { score: null, note: `Serve un volto grande e ben visibile. Scegli Personaggio e premi "Prepara" per sapere se il volto viene trovato. ${n} domande scritte.` };
+  const face = !!meta.personaggio.volto;
+  return {
+    score: (face ? 60 : 20) + Math.min(40, n * 4),
+    note: `${face ? 'Volto trovato' : 'Volto non trovato: segna i punti a mano'}; ${n} domande (ne servono da 8 a 15).`,
   };
 }
 

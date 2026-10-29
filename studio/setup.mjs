@@ -18,6 +18,8 @@ const DOWNLOADS = [
   // Voce DEMO: Piper "serena" (dataset sintetico, CC-BY-4.0).
   ['piper/it_IT-serena-medium.onnx', 'https://huggingface.co/rhasspy/piper-voices/resolve/main/it/it_IT/serena/medium/it_IT-serena-medium.onnx'],
   ['piper/it_IT-serena-medium.onnx.json', 'https://huggingface.co/rhasspy/piper-voices/resolve/main/it/it_IT/serena/medium/it_IT-serena-medium.onnx.json'],
+  // Punti del volto per il personaggio: MediaPipe Face Landmarker (Apache-2.0).
+  ['face/face_landmarker.task', 'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task'],
   // Profondità: Depth Anything V2 Small (Apache-2.0).
   ['depth/depth-anything-v2-small.onnx', 'https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/main/onnx/model.onnx'],
   // Anteprima sul telefono via internet: cloudflared ufficiale (Apache-2.0), versione fissata.

@@ -3,6 +3,59 @@
 Regola: ogni fatto nei `testo.txt` è verificato su **almeno due fonti affidabili**. I fatti che non sono riuscito a verificare sono omessi ed elencati qui sotto.
 Consultazione: 27/10/2026.
 
+## 01 – Autoritratto con pelliccia (Albrecht Dürer)
+
+Consultazione: 29/10/2026. Il testo è in prima persona: parla Dürer, ma dice solo fatti documentati. La frase in latino è un'iscrizione vera del quadro, tradotta, e il testo lo dice ("Te la traduco").
+
+Fonti:
+1. Wikipedia (inglese), "Self-Portrait (Dürer, Munich)": https://en.wikipedia.org/wiki/Self-Portrait_(D%C3%BCrer,_Munich)
+2. Wikipedia (italiano), "Autoritratto con pelliccia": https://it.wikipedia.org/wiki/Autoritratto_con_pelliccia
+3. Scheda dell'opera del Cabinet (Università di Oxford), "Albrecht Dürer, Self-portrait in fur coat, 1500", con il testo dell'iscrizione: https://www.cabinet.ox.ac.uk/node/4188 (letta tramite i risultati di ricerca; la pagina non era raggiungibile)
+
+| Fatto nel testo | Fonti |
+|---|---|
+| Dürer di Norimberga; dipinto nel 1500, olio su tavola | 1, 2 |
+| Posa frontale e rigida, usata per le immagini sacre e soprattutto per Cristo | 1, 2 |
+| La mano ricorda il gesto di chi benedice | 1, 2 |
+| Mantello bordato di pelliccia | 2 (testo), 1 (titolo tedesco "Selbstbildnis im Pelzrock") |
+| A sinistra la data 1500 sopra le iniziali A e D | 1; 3 e immagine del quadro |
+| Iscrizione latina a destra e sua traduzione; età 28 anni | 2 (testo latino e traduzione), 1 (traduzione), 3 (testo latino) |
+| La parola usata vuol dire "creare/dare forma", non "dipingere" | 2; la stessa osservazione compare in una fonte italiana tra i risultati di ricerca ⚠️ |
+| Dopo la morte rimase a Norimberga, nel palazzo del Comune | 1 (consiglio comunale di Norimberga), 2 (municipio) |
+| Nei primi anni dell'Ottocento alle collezioni reali di Baviera; oggi Alte Pinakothek, Monaco | 1 (1805), 2 |
+
+**Omessi**: il legame con le lettere del monogramma (A = posa frontale, D = mano), perché è un'interpretazione di un solo studioso. La differenza tra i 28 anni dell'iscrizione e l'età reale (29), perché le fonti la spiegano in modi diversi.
+
+## 02 – Ritratto di Ginevra de' Benci (Leonardo da Vinci)
+
+Consultazione: 29/10/2026. Il testo è in prima persona: parla Ginevra, ma dice solo fatti documentati. Il motto latino del retro è tradotto, e il testo lo dice.
+
+Fonti:
+1. Wikipedia (inglese), "Ginevra de' Benci": https://en.wikipedia.org/wiki/Ginevra_de%27_Benci
+2. Wikipedia (italiano), "Ritratto di Ginevra de' Benci": https://it.wikipedia.org/wiki/Ritratto_di_Ginevra_de%27_Benci
+3. Discovering da Vinci, "Ginevra de' Benci" (letta tramite i risultati di ricerca): https://discoveringdavinci.com/works/paintings/ginevra-de-benci.html
+4. Art & Object, "Theories behind da Vinci's Ginevra de' Benci" (8/9/2025, letta tramite i risultati di ricerca): https://cdn.artandobject.com/news/theories-behind-da-vincis-ginevra-de-benci
+
+La scheda della National Gallery of Art (nga.gov) ha rifiutato la lettura automatica.
+
+| Fatto nel testo | Fonti |
+|---|---|
+| Ginevra de' Benci, di Firenze; ritratta da Leonardo tra il 1474 e il 1478 | 1, 2 |
+| Il padre Amerigo de' Benci, ricco banchiere | 2, 3 |
+| Nel 1474 sposò Luigi Niccolini (in 2: "Nicolini") | 1, 2 |
+| Forse il ritratto ricorda il matrimonio, o il fidanzamento | 1, 4 |
+| Il ginepro: gioco di parole con il nome; simbolo di virtù | 1 (entrambi), 2 (gioco di parole) |
+| Sul retro: rametto di ginepro, corona di alloro e palma, motto "Virtutem forma decorat" ("la bellezza adorna la virtù") | 1, 4 |
+| Alloro e palma ricordano l'emblema di Bernardo Bembo, ambasciatore veneziano, che le scriveva | 1 (emblema, ambasciatore, poesie scambiate), 2 (emblema, lettere scambiate) |
+| La parte bassa è stata tagliata e probabilmente mostrava le mani | 1, 2 |
+| Washington, National Gallery of Art; acquistato nel 1967 dal principe del Liechtenstein | 1, 2 |
+
+**Omessi**: il prezzo d'acquisto; l'iscrizione nascosta di Bembo vista con l'infrarosso (citata da più fonti, ma l'ho tenuta fuori per non appesantire); le poesie scritte su Ginevra; l'anagramma proposto da una sola ricercatrice; le ipotesi sulla posizione delle mani.
+
+## Domande e risposte dei personaggi
+
+Le risposte stanno in `contenuti/01-autoritratto-durer/regioni.json` e `contenuti/02-ginevra-de-benci/regioni.json`, 11 per quadro. Si modificano dallo Studio, scheda **Personaggio**. Ogni risposta riformula solo frasi del `testo.txt` dello stesso quadro, e il campo "fonte" riporta la frase usata. Lo Studio controlla che ogni frase della fonte si trovi davvero nel testo. **Da rivedere da te** prima della pubblicazione definitiva.
+
 ## 06 – La zattera della Medusa (Géricault)
 
 Fonti:

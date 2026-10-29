@@ -4,6 +4,7 @@ import { raccontoEditor } from './racconto-editor';
 import { previewPanel } from './preview';
 import { dettagliEditor } from './dettagli-editor';
 import { cacciaEditor } from './caccia-editor';
+import { personaggioEditor } from './personaggio-editor';
 
 const TABS: [string, string][] = [
   ['info', 'Informazioni'],
@@ -13,6 +14,7 @@ const TABS: [string, string][] = [
   ['racconto', 'Racconto'],
   ['dettagli', 'Dettagli'],
   ['caccia', 'Caccia'],
+  ['personaggio', 'Personaggio'],
   ['anteprima', 'Anteprima'],
 ];
 
@@ -20,7 +22,7 @@ const EXPERIENCES = [
   { id: 'racconto', name: 'Racconto', line: 'Dopo aver inquadrato il quadro parte una storia animata (o un video) con voce e sottotitoli.', ready: true },
   { id: 'dettagli', name: 'Dettagli', line: 'Il visitatore inquadra un particolare (o lo tiene nel mirino) e parte un audio, un video o un testo.', ready: true },
   { id: 'caccia', name: 'Caccia', line: 'Una lente al centro dello schermo rivela elementi nascosti; ogni scoperta racconta una storia.', ready: true },
-  { id: 'personaggio', name: 'Personaggio', line: 'Il personaggio si anima e risponde alle domande. In arrivo nella Fase 4.', ready: false },
+  { id: 'personaggio', name: 'Personaggio', line: 'Il personaggio del quadro si anima, si presenta e risponde alle domande dei visitatori (risposte preparate da te).', ready: true },
 ];
 
 const enc = encodeURIComponent;
@@ -30,7 +32,7 @@ export async function paintingView(root: HTMLElement, folder: string, tab = 'inf
   const d = await api<PaintingDetails>(`paintings/${enc(folder)}`);
   const reload = () => paintingView(root, folder, tab).then((c) => cleanups.push(c));
   // Le schede degli editor compaiono solo per l'interazione scelta.
-  const visibleTabs = TABS.filter(([id]) => (id !== 'racconto' || d.experience === 'racconto') && (id !== 'dettagli' || d.experience === 'dettagli') && (id !== 'caccia' || d.experience === 'caccia'));
+  const visibleTabs = TABS.filter(([id]) => (id !== 'racconto' || d.experience === 'racconto') && (id !== 'dettagli' || d.experience === 'dettagli') && (id !== 'caccia' || d.experience === 'caccia') && (id !== 'personaggio' || d.experience === 'personaggio'));
   if (!visibleTabs.some(([id]) => id === tab)) tab = 'info';
 
   const prepare = () =>
@@ -71,6 +73,11 @@ export async function paintingView(root: HTMLElement, folder: string, tab = 'inf
   }
   if (tab === 'caccia') {
     const ed = cacciaEditor(d, folder, prepare);
+    body.append(ed.el);
+    cleanups.push(ed.destroy);
+  }
+  if (tab === 'personaggio') {
+    const ed = personaggioEditor(d, folder, prepare);
     body.append(ed.el);
     cleanups.push(ed.destroy);
   }

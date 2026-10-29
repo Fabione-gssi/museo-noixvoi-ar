@@ -1,0 +1,6 @@
+# Come la voce demo deve leggere le parole difficili (parola = lettura).
+Virtutem forma decorat = Virtùtem fòrma decòrat
+Washington = Uòscinton
+National Gallery of Art = Nèscional Gàleri of Art
+Liechtenstein = Lìhtenstain
+Benci = Bènci

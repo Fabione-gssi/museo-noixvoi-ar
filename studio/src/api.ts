@@ -88,14 +88,25 @@ export interface RegionHunt {
   finale?: { ancora?: string; text?: string; media?: RegionDetail['media'] };
 }
 
+export type FacePoint = [number, number];
+export interface RegionQuestion { id: string; domanda: string; varianti?: string[]; risposta: string; fonte?: string }
+export interface RegionCharacter {
+  modo?: 'completa' | 'presenza';
+  punti?: Record<string, FacePoint>;
+  suggerite?: string[];
+  domande?: RegionQuestion[];
+  nonSo?: string;
+}
+
 export interface PaintingDetails extends PaintingSummary {
   text: string;
   pronuncia: string;
-  regions: { dettagli: RegionDetail[]; caccia?: RegionHunt; racconto?: { inquadraturaIntera?: string[]; timeline?: Keyframe[] } };
+  regions: { dettagli: RegionDetail[]; caccia?: RegionHunt; personaggio?: RegionCharacter; racconto?: { inquadraturaIntera?: string[]; timeline?: Keyframe[] } };
   meta: null | {
     aspect: number; demo: boolean; audio?: { durationSec: number }; racconto?: { timeline: Keyframe[]; video?: unknown };
     budget?: { bytes: number; limit: number }; targets: { main: { points: number } };
     dettagli: { id: string; points?: number; trigger: string[]; text?: string; media?: { type: string; audioSegment?: { from: number; to: number } } }[];
+    personaggio?: { modo: 'completa' | 'presenza'; volto?: { punti: Record<string, FacePoint>; box: Rect }; domande: { id: string }[] };
     caccia?: { items: { id: string; text: string; media: { type: string; audioSegment?: { from: number; to: number } } }[]; finale?: { text: string; media: { type: string; audioSegment?: { from: number; to: number } } } };
   };
   alignment: Alignment | null;

@@ -7,6 +7,7 @@ import { registerServiceWorker, reconcile, bindOfflinePanel, markPicker, downloa
 import { setupDettagli, dettagliWithoutCamera } from './experiences/dettagli';
 import { setupCaccia, cacciaWithoutCamera } from './experiences/caccia';
 import { startRacconto, type StoryHandle } from './experiences/racconto';
+import { startPersonaggio } from './experiences/personaggio';
 import { probe, log } from './probe';
 import { getPref, setPref } from './prefs';
 
@@ -20,6 +21,7 @@ const show = (id: string) => document.querySelectorAll<HTMLElement>('.screen').f
 const TUTORIAL: Record<string, string> = {
   racconto: 'Inquadra il quadro intero. Quando lo riconosco parte il racconto: puoi abbassare il telefono e ascoltare.',
   dettagli: 'Inquadra il quadro, poi avvicinati ai particolari tenendoli nel cerchio al centro.',
+  personaggio: 'Inquadra il quadro intero. Quando lo riconosco il personaggio si presenta: poi puoi abbassare il telefono e fargli delle domande.',
   caccia: 'Muovi il telefono sul quadro: la lente al centro rivela cose nascoste. Quando ne vedi una, tienila nella lente per un secondo.',
 };
 
@@ -29,7 +31,8 @@ let story: StoryHandle | null = null;
 let index: PaintingIndex = { paintings: [], totalBytes: 0 };
 
 /** Esperienze non ancora realizzate usano il racconto, ripiego universale. */
-const experienceOf = (m: PaintingMeta) => (m.experience === 'dettagli' ? 'dettagli' : m.experience === 'caccia' && m.caccia ? 'caccia' : 'racconto');
+const experienceOf = (m: PaintingMeta) =>
+  m.experience === 'dettagli' ? 'dettagli' : m.experience === 'caccia' && m.caccia ? 'caccia' : m.experience === 'personaggio' && m.personaggio ? 'personaggio' : 'racconto';
 
 async function init() {
   if (DEBUG) $('#debug').hidden = false;
@@ -119,9 +122,9 @@ async function runAr(meta: PaintingMeta) {
     onFound: (i) => {
       log('found', labels.get(i));
       probe.firstFoundMs ??= Math.round(performance.now() - probe.startedAt);
-      if (i === 0) setStatus(kind === 'racconto' ? 'Riconosciuto! Parte il racconto…' : 'Quadro riconosciuto');
+      if (i === 0) setStatus(kind === 'racconto' ? 'Riconosciuto! Parte il racconto…' : kind === 'personaggio' ? 'Riconosciuto!' : 'Quadro riconosciuto');
       exp?.onFound(i);
-      if (kind === 'racconto' && i === 0 && !leaving) {
+      if ((kind === 'racconto' || kind === 'personaggio') && i === 0 && !leaving) {
         leaving = true;
         setTimeout(() => toStory(meta), 900);
       }
@@ -168,8 +171,9 @@ async function runAr(meta: PaintingMeta) {
 async function toStory(meta: PaintingMeta) {
   session?.stop();
   session = null;
-  show('story');
-  story = await startRacconto(meta, $('#story'), () => {
+  const kind = experienceOf(meta);
+  show(kind === 'personaggio' ? 'character' : 'story');
+  story = await (kind === 'personaggio' ? startPersonaggio : startRacconto)(meta, $(kind === 'personaggio' ? '#character' : '#story'), () => {
     story = null;
     if (stream) void runAr(meta);
     else show('welcome');
@@ -179,8 +183,8 @@ async function toStory(meta: PaintingMeta) {
 /** Senza fotocamera: il racconto parte comunque; le altre esperienze mostrano la scheda del quadro. */
 function withoutCamera(meta: PaintingMeta, reason?: string) {
   log('fallback', reason);
-  if (experienceOf(meta) === 'racconto') {
-    $('#story-note').textContent = reason ?? '';
+  if (experienceOf(meta) === 'racconto' || experienceOf(meta) === 'personaggio') {
+    $(experienceOf(meta) === 'personaggio' ? '#character-note' : '#story-note').textContent = reason ?? '';
     void toStory(meta);
     return;
   }

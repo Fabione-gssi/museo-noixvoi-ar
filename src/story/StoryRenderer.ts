@@ -30,6 +30,8 @@ void main() {
   // Vignettatura leggera.
   float v = smoothstep(1.15, 0.35, length(vUv - 0.5) * 1.4);
   gl_FragColor = vec4(c * mix(0.78, 1.0, v) * uFade, 1.0);
+  // Texture in sRGB: lo shader lavora in lineare, qui si torna allo spazio dello schermo.
+  #include <colorspace_fragment>
 }
 `;
 

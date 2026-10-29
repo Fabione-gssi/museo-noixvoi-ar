@@ -1,0 +1,6 @@
+Autoritratto con pelliccia
+Albrecht Dürer
+1500
+[DA COMPLETARE: sala]
+esperienza: personaggio
+voce: demo

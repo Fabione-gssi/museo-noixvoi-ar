@@ -2,6 +2,37 @@
 
 > **Avviso importante.** Questi test girano su un computer Windows, con Chromium headless e una fotocamera *simulata* (video sintetici generati dall'immagine del quadro). **Non sostituiscono la prova su telefoni reali**: non riproducono autofocus, esposizione automatica, mosso vero, riflessi e moiré reali, né la potenza di calcolo di un telefono. I numeri veri arriveranno dalle prove in `DA_FARE_UTENTE.md`.
 
+## Fase 4 (29/10/2026, fatta dopo la Fase 5)
+
+Esito: **52 test unitari e 51 test E2E superati su 51**.
+
+### Personaggio: Dürer e Ginevra, fotocamera simulata
+
+| Prova | Dürer | Ginevra |
+|---|---|---|
+| Volto trovato da solo (MediaPipe) | ✅ 15 punti, controllati sull'immagine di revisione | ✅ 15 punti |
+| Riconoscimento del quadro | 0,22 s | 0,21 s |
+| Presentazione: la bocca si apre con la voce (apertura massima misurata, 0-1) | 0,44 | 0,96 |
+| Domanda suggerita: risposta giusta con il suo audio | ✅ | ✅ |
+| Domanda scritta con un errore di battitura | ✅ | ✅ |
+| Domanda fuori tema: "Non so rispondere…" con il suo audio | ✅ | ✅ |
+| Modalità "presenza": voce sì, bocca ferma | ✅ | ✅ |
+
+**Dialogo (test unitari)**: per i due quadri, 20 domande scritte in modi diversi, anche con errori, trovano la risposta giusta. 10 domande fuori tema ricevono il "non so". Ogni domanda prevista trova sé stessa e ha la sua fonte.
+
+**Studio**: nuovo test dell'editor del personaggio.
+- Si sposta un punto del volto con un clic.
+- Si sceglie "Solo presenza" e si aggiunge una domanda con la sua fonte, che lo Studio verifica nel testo.
+- Dopo "Prepara" il `meta.json` è valido e la risposta ha il suo audio.
+
+Tutti e 8 i test dello Studio sono superati.
+
+**Corretto durante lo sviluppo**: i colori del racconto e del volto erano più scuri dell'originale. Mancava la conversione dei colori per lo schermo; ora il racconto della *Zattera* è più luminoso, come il quadro vero.
+
+**Quality gate**: le anteprime di 5 s sono in `revisione/volto-*.mp4`. Il giudizio (naturale, accettabile o inquietante) spetta a te: vedi DA_FARE_UTENTE.md, Fase 4.
+
+**Non verificato**: il personaggio su telefono vero.
+
 ## Fase 5 (29/10/2026)
 
 Esito: **17 test unitari e 46 test E2E superati su 46**. La Fase 4 (personaggio) è rimandata.

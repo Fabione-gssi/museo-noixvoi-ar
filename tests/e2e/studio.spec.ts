@@ -81,7 +81,7 @@ test.describe.serial('Studio', () => {
     await expect(page.locator('#toast')).toContainText('Interazione: Dettagli');
     await page.getByRole('button', { name: /^Racconto/ }).click();
     await expect(page.locator('#toast')).toContainText('Interazione: Racconto');
-    await expect(page.getByRole('button', { name: /^Personaggio/ })).toBeDisabled();
+    await expect(page.getByRole('button', { name: /^Personaggio/ })).toBeEnabled();
 
     // Racconto: caricamento di un video
     await page.getByRole('tab', { name: 'Racconto' }).click();
@@ -191,6 +191,42 @@ test.describe.serial('Studio', () => {
     expect(it.x).toBeCloseTo(0.3, 1);
     expect(it.y).toBeCloseTo(0.7, 1);
     expect(meta.caccia.finale.text).toBe('Finale di prova.');
+  });
+
+  test('editor del personaggio: punti del volto, animazione e una domanda', async ({ page }) => {
+    test.setTimeout(300_000);
+    await page.setViewportSize({ width: 1366, height: 900 });
+    const folder = folderOf()!;
+    await page.goto(`${STUDIO}#/q/${folder}/interazione`);
+    await page.getByRole('button', { name: /^Personaggio/ }).click();
+    await expect(page.locator('#toast')).toContainText('Interazione: Personaggio');
+    await page.getByRole('tab', { name: 'Personaggio' }).click();
+    // Un punto del volto spostato con un clic.
+    const stage = page.locator('.face-stage');
+    await expect.poll(() => stage.locator('img').evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0)).toBe(true);
+    await page.getByRole('button', { name: 'Punta del mento' }).click();
+    const box = (await stage.boundingBox())!;
+    await page.mouse.click(box.x + box.width * 0.5, box.y + box.height * 0.8);
+    await page.getByLabel(/Solo presenza/).check();
+    await page.getByRole('button', { name: '+ Aggiungi domanda' }).click();
+    const row = page.locator('details.qa').last();
+    await row.getByLabel('Domanda (come appare sul pulsante)').fill('Che cosa c\'è in primo piano?');
+    await row.getByLabel('Altri modi di chiederlo (uno per riga)').fill('Cosa si vede davanti?');
+    await row.getByLabel('Risposta (in prima persona, solo fatti del testo storico)').fill('In primo piano si vede la zattera.');
+    await row.getByLabel('Fonte: la frase del testo storico da cui viene').fill('In primo piano si vede la zattera.');
+    await expect(row.locator('small.warn')).toBeEmpty();
+    await page.getByRole('button', { name: 'Salva il personaggio' }).click();
+    await expect(page.locator('#toast')).toContainText('Personaggio salvato');
+    const regions = JSON.parse(fs.readFileSync(path.join(ROOT, 'contenuti', folder, 'regioni.json'), 'utf8'));
+    expect(regions.personaggio.punti.mento[1]).toBeGreaterThan(0);
+    await page.getByRole('button', { name: 'Prepara', exact: true }).first().click();
+    await waitJob(page);
+
+    const meta = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data', ID, 'meta.json'), 'utf8'));
+    expect(validate(meta), JSON.stringify(validate.errors)).toBe(true);
+    expect(meta.experience).toBe('personaggio');
+    expect(meta.personaggio.modo).toBe('presenza');
+    expect(meta.personaggio.domande[0]).toMatchObject({ domanda: 'Che cosa c\'è in primo piano?', risposta: 'In primo piano si vede la zattera.', audio: { src: expect.stringMatching(/^risposta-/) } });
   });
 
   test('eliminare con conferma e recuperare con Annulla', async ({ page }) => {

@@ -51,6 +51,20 @@ export interface PaintingMeta {
   dettagli: DettaglioMeta[];
   caccia?: { lensRadius: number; items: CacciaItem[]; finale?: { media: DettaglioMeta['media']; text: string } };
   racconto?: { auto: boolean; video?: { src: string; fallback?: string }; timeline: Keyframe[] };
+  personaggio?: Personaggio;
+}
+
+export interface AudioRef { src: string; fallback: string; durationSec: number }
+export type Point = [number, number];
+
+/** Personaggio: punti del volto (nomi in scripts/lib/face-landmarks.mjs), domande e risposte. */
+export interface Personaggio {
+  modo: 'completa' | 'presenza';
+  volto?: { punti: Record<string, Point>; box: { x: number; y: number; w: number; h: number } };
+  inviluppi?: string;
+  domande: { id: string; domanda: string; varianti: string[]; risposta: string; fonte?: string; audio?: AudioRef }[];
+  suggerite: string[];
+  nonSo: { text: string; audio?: AudioRef };
 }
 
 /** Voce dell'elenco dei quadri; files e version servono all'uso senza internet. */

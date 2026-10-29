@@ -1,6 +1,304 @@
 {
   "paintings": [
     {
+      "id": "autoritratto-durer",
+      "title": "Autoritratto con pelliccia",
+      "artist": "Albrecht Dürer",
+      "year": "1500",
+      "room": "",
+      "experience": "personaggio",
+      "demo": true,
+      "bytes": 2006594,
+      "version": "39bdac5dee7a",
+      "files": [
+        [
+          "alignment.json",
+          8662
+        ],
+        [
+          "audio.m4a",
+          521842
+        ],
+        [
+          "audio.opus",
+          347739
+        ],
+        [
+          "depth.jpg",
+          8571
+        ],
+        [
+          "immagine.jpg",
+          412500
+        ],
+        [
+          "inviluppi.json",
+          10056
+        ],
+        [
+          "meta.json",
+          9635
+        ],
+        [
+          "risposta-chi-sei.m4a",
+          31954
+        ],
+        [
+          "risposta-chi-sei.opus",
+          20139
+        ],
+        [
+          "risposta-dove.m4a",
+          17381
+        ],
+        [
+          "risposta-dove.opus",
+          12135
+        ],
+        [
+          "risposta-eta.m4a",
+          33327
+        ],
+        [
+          "risposta-eta.opus",
+          21304
+        ],
+        [
+          "risposta-iniziali.m4a",
+          43897
+        ],
+        [
+          "risposta-iniziali.opus",
+          27689
+        ],
+        [
+          "risposta-mano.m4a",
+          28877
+        ],
+        [
+          "risposta-mano.opus",
+          19211
+        ],
+        [
+          "risposta-nonso.m4a",
+          48912
+        ],
+        [
+          "risposta-nonso.opus",
+          30002
+        ],
+        [
+          "risposta-posa.m4a",
+          54853
+        ],
+        [
+          "risposta-posa.opus",
+          35067
+        ],
+        [
+          "risposta-quando.m4a",
+          43413
+        ],
+        [
+          "risposta-quando.opus",
+          26887
+        ],
+        [
+          "risposta-scritta.m4a",
+          85721
+        ],
+        [
+          "risposta-scritta.opus",
+          53028
+        ],
+        [
+          "risposta-storia.m4a",
+          55228
+        ],
+        [
+          "risposta-storia.opus",
+          34923
+        ],
+        [
+          "risposta-tecnica.m4a",
+          11381
+        ],
+        [
+          "risposta-tecnica.opus",
+          8445
+        ],
+        [
+          "risposta-vestito.m4a",
+          25760
+        ],
+        [
+          "risposta-vestito.opus",
+          17255
+        ],
+        [
+          "subtitles.vtt",
+          1574
+        ],
+        [
+          "target.jpg",
+          125040
+        ],
+        [
+          "targets.mind",
+          437645
+        ]
+      ]
+    },
+    {
+      "id": "ginevra-de-benci",
+      "title": "Ritratto di Ginevra de' Benci",
+      "artist": "Leonardo da Vinci",
+      "year": "1474-1478",
+      "room": "",
+      "experience": "personaggio",
+      "demo": true,
+      "bytes": 2902032,
+      "version": "e4286fb96b5a",
+      "files": [
+        [
+          "alignment.json",
+          9495
+        ],
+        [
+          "audio.m4a",
+          601614
+        ],
+        [
+          "audio.opus",
+          403650
+        ],
+        [
+          "depth.jpg",
+          9518
+        ],
+        [
+          "immagine.jpg",
+          922798
+        ],
+        [
+          "inviluppi.json",
+          10242
+        ],
+        [
+          "meta.json",
+          9194
+        ],
+        [
+          "risposta-bembo.m4a",
+          39400
+        ],
+        [
+          "risposta-bembo.opus",
+          25336
+        ],
+        [
+          "risposta-chi-sei.m4a",
+          14219
+        ],
+        [
+          "risposta-chi-sei.opus",
+          10104
+        ],
+        [
+          "risposta-dove.m4a",
+          45303
+        ],
+        [
+          "risposta-dove.opus",
+          30617
+        ],
+        [
+          "risposta-famiglia.m4a",
+          23005
+        ],
+        [
+          "risposta-famiglia.opus",
+          15964
+        ],
+        [
+          "risposta-ginepro.m4a",
+          42392
+        ],
+        [
+          "risposta-ginepro.opus",
+          26564
+        ],
+        [
+          "risposta-mani.m4a",
+          45346
+        ],
+        [
+          "risposta-mani.opus",
+          27832
+        ],
+        [
+          "risposta-matrimonio.m4a",
+          54263
+        ],
+        [
+          "risposta-matrimonio.opus",
+          34584
+        ],
+        [
+          "risposta-motto.m4a",
+          32147
+        ],
+        [
+          "risposta-motto.opus",
+          21303
+        ],
+        [
+          "risposta-nonso.m4a",
+          48273
+        ],
+        [
+          "risposta-nonso.opus",
+          30098
+        ],
+        [
+          "risposta-pittore.m4a",
+          22376
+        ],
+        [
+          "risposta-pittore.opus",
+          14010
+        ],
+        [
+          "risposta-quando.m4a",
+          26825
+        ],
+        [
+          "risposta-quando.opus",
+          16749
+        ],
+        [
+          "risposta-retro.m4a",
+          30885
+        ],
+        [
+          "risposta-retro.opus",
+          20932
+        ],
+        [
+          "subtitles.vtt",
+          1698
+        ],
+        [
+          "target.jpg",
+          267234
+        ],
+        [
+          "targets.mind",
+          654999
+        ]
+      ]
+    },
+    {
       "id": "ronda-di-notte",
       "title": "La ronda di notte",
       "artist": "Rembrandt van Rijn",
@@ -9,7 +307,7 @@
       "experience": "dettagli",
       "demo": true,
       "bytes": 5521898,
-      "version": "2adeb71b4496",
+      "version": "9db7a302ff61",
       "files": [
         [
           "alignment.json",
@@ -110,7 +408,7 @@
       "experience": "dettagli",
       "demo": true,
       "bytes": 5146740,
-      "version": "38b81639d09b",
+      "version": "517ee9c5eb36",
       "files": [
         [
           "alignment.json",
@@ -203,7 +501,7 @@
       "experience": "caccia",
       "demo": true,
       "bytes": 3178645,
-      "version": "6eb45dc553d2",
+      "version": "a7cd98b7926d",
       "files": [
         [
           "alignment.json",
@@ -248,7 +546,7 @@
       "experience": "racconto",
       "demo": true,
       "bytes": 2949869,
-      "version": "f09382dc5942",
+      "version": "6a821505bd36",
       "files": [
         [
           "alignment.json",
@@ -289,5 +587,5 @@
       ]
     }
   ],
-  "totalBytes": 16797152
+  "totalBytes": 21705778
 }

@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "id": "ginevra-de-benci",
+  "order": 2,
+  "title": "Ritratto di Ginevra de' Benci",
+  "artist": "Leonardo da Vinci",
+  "year": "1474-1478",
+  "room": "",
+  "experience": "personaggio",
+  "demo": true,
+  "aspect": 0.9434889434889435,
+  "image": "immagine.jpg",
+  "depth": "depth.jpg",
+  "audio": {
+    "src": "audio.opus",
+    "fallback": "audio.m4a",
+    "durationSec": 72.5
+  },
+  "subtitles": "subtitles.vtt",
+  "alignment": "alignment.json",
+  "targets": {
+    "mind": "targets.mind",
+    "main": {
+      "targetIndex": 0,
+      "image": "target.jpg",
+      "points": 3102
+    }
+  },
+  "dettagli": [],
+  "personaggio": {
+    "modo": "completa",
+    "volto": {
+      "punti": {
+        "occhioSxEsterno": [
+          0.4683,
+          0.406
+        ],
+        "occhioSxInterno": [
+          0.5352,
+          0.4125
+        ],
+        "occhioSxSopra": [
+          0.5001,
+          0.3971
+        ],
+        "occhioSxSotto": [
+          0.5013,
+          0.4174
+        ],
+        "occhioSxIride": [
+          0.4976,
+          0.4059
+        ],
+        "occhioDxEsterno": [
+          0.6596,
+          0.4079
+        ],
+        "occhioDxInterno": [
+          0.6067,
+          0.4134
+        ],
+        "occhioDxSopra": [
+          0.6402,
+          0.3992
+        ],
+        "occhioDxSotto": [
+          0.6372,
+          0.419
+        ],
+        "occhioDxIride": [
+          0.6337,
+          0.4078
+        ],
+        "boccaSx": [
+          0.5195,
+          0.5546
+        ],
+        "boccaDx": [
+          0.6127,
+          0.5543
+        ],
+        "labbroSopra": [
+          0.5766,
+          0.5533
+        ],
+        "labbroSotto": [
+          0.5764,
+          0.5531
+        ],
+        "mento": [
+          0.5583,
+          0.6337
+        ]
+      },
+      "box": {
+        "x": 0.3685,
+        "y": 0.2913,
+        "w": 0.3186,
+        "h": 0.3424
+      }
+    },
+    "inviluppi": "inviluppi.json",
+    "domande": [
+      {
+        "id": "chi-sei",
+        "domanda": "Chi sei?",
+        "varianti": [
+          "Come ti chiami?",
+          "Presentati",
+          "Chi è questa donna?",
+          "Chi sei tu?"
+        ],
+        "risposta": "Sono Ginevra de' Benci, di Firenze.",
+        "fonte": "Sono Ginevra de' Benci, di Firenze.",
+        "audio": {
+          "src": "risposta-chi-sei.opus",
+          "fallback": "risposta-chi-sei.m4a",
+          "durationSec": 3
+        }
+      },
+      {
+        "id": "famiglia",
+        "domanda": "Chi era la tua famiglia?",
+        "varianti": [
+          "Chi era tuo padre?",
+          "La tua famiglia",
+          "Eri ricca?",
+          "Che lavoro faceva tuo padre?"
+        ],
+        "risposta": "Mio padre era Amerigo de' Benci, un ricco banchiere di Firenze.",
+        "fonte": "Mio padre era Amerigo de' Benci, un ricco banchiere.",
+        "audio": {
+          "src": "risposta-famiglia.opus",
+          "fallback": "risposta-famiglia.m4a",
+          "durationSec": 4.4
+        }
+      },
+      {
+        "id": "pittore",
+        "domanda": "Chi ti ha dipinta?",
+        "varianti": [
+          "Chi è il pittore?",
+          "Chi ha fatto il quadro?",
+          "Autore",
+          "È Leonardo?"
+        ],
+        "risposta": "Leonardo da Vinci. Mi ha ritratta quando ero giovane.",
+        "fonte": "Leonardo da Vinci mi ha ritratta quando ero giovane, tra il 1474 e il 1478.",
+        "audio": {
+          "src": "risposta-pittore.opus",
+          "fallback": "risposta-pittore.m4a",
+          "durationSec": 4.2
+        }
+      },
+      {
+        "id": "quando",
+        "domanda": "Quando è stato dipinto il ritratto?",
+        "varianti": [
+          "In che anno?",
+          "Quando ti ha dipinta?",
+          "Data del quadro",
+          "Quanto è antico?"
+        ],
+        "risposta": "Tra il 1474 e il 1478.",
+        "fonte": "Leonardo da Vinci mi ha ritratta quando ero giovane, tra il 1474 e il 1478.",
+        "audio": {
+          "src": "risposta-quando.opus",
+          "fallback": "risposta-quando.m4a",
+          "durationSec": 4.9
+        }
+      },
+      {
+        "id": "matrimonio",
+        "domanda": "Eri sposata?",
+        "varianti": [
+          "Chi era tuo marito?",
+          "Perché ti hanno ritratta?",
+          "Matrimonio",
+          "Eri fidanzata?"
+        ],
+        "risposta": "Sì: nel 1474 mi sposai con Luigi Niccolini. Forse questo ritratto ricorda quel momento, o forse il mio fidanzamento.",
+        "fonte": "Proprio nel 1474 mi sposai con Luigi Niccolini. Forse questo ritratto ricorda quel momento, o forse il mio fidanzamento.",
+        "audio": {
+          "src": "risposta-matrimonio.opus",
+          "fallback": "risposta-matrimonio.m4a",
+          "durationSec": 9.3
+        }
+      },
+      {
+        "id": "ginepro",
+        "domanda": "Che pianta c'è dietro di te?",
+        "varianti": [
+          "Che albero è?",
+          "Il cespuglio dietro",
+          "Cos'è il ginepro?",
+          "Lo sfondo",
+          "Perché c'è un ginepro?"
+        ],
+        "risposta": "È un ginepro. La parola ginepro somiglia al mio nome, Ginevra, e il ginepro era anche un simbolo di virtù.",
+        "fonte": "Dietro di me vedi un cespuglio di ginepro. Non è un caso: la parola ginepro somiglia al mio nome, Ginevra, e il ginepro era anche un simbolo di virtù.",
+        "audio": {
+          "src": "risposta-ginepro.opus",
+          "fallback": "risposta-ginepro.m4a",
+          "durationSec": 7.3
+        }
+      },
+      {
+        "id": "retro",
+        "domanda": "Che cosa c'è sul retro?",
+        "varianti": [
+          "Cosa c'è dietro la tavola?",
+          "Il rovescio del quadro",
+          "L'altro lato",
+          "Il retro"
+        ],
+        "risposta": "Un rametto di ginepro dentro una corona di alloro e di palma, con un motto in latino.",
+        "fonte": "Se giri la tavola, sul retro trovi un rametto di ginepro dentro una corona di alloro e di palma, con un motto in latino.",
+        "audio": {
+          "src": "risposta-retro.opus",
+          "fallback": "risposta-retro.m4a",
+          "durationSec": 5.6
+        }
+      },
+      {
+        "id": "motto",
+        "domanda": "Cosa vuol dire il motto?",
+        "varianti": [
+          "Cosa c'è scritto sul retro?",
+          "Che cosa significa la frase in latino?",
+          "Virtutem forma decorat",
+          "La scritta"
+        ],
+        "risposta": "Il motto è «Virtutem forma decorat». Tradotto vuol dire: «la bellezza adorna la virtù».",
+        "fonte": "«Virtutem forma decorat». Te lo traduco: «la bellezza adorna la virtù».",
+        "audio": {
+          "src": "risposta-motto.opus",
+          "fallback": "risposta-motto.m4a",
+          "durationSec": 6
+        }
+      },
+      {
+        "id": "bembo",
+        "domanda": "Chi era Bernardo Bembo?",
+        "varianti": [
+          "Bembo",
+          "Chi ti scriveva?",
+          "L'ambasciatore",
+          "Chi era l'ambasciatore veneziano?"
+        ],
+        "risposta": "Un ambasciatore veneziano che mi scriveva. L'alloro e la palma sul retro della tavola ricordano il suo emblema.",
+        "fonte": "L'alloro e la palma ricordano l'emblema di Bernardo Bembo, un ambasciatore veneziano che mi scriveva.",
+        "audio": {
+          "src": "risposta-bembo.opus",
+          "fallback": "risposta-bembo.m4a",
+          "durationSec": 7
+        }
+      },
+      {
+        "id": "mani",
+        "domanda": "Perché non si vedono le mani?",
+        "varianti": [
+          "Perché il quadro è tagliato?",
+          "Dove sono le mani?",
+          "Manca un pezzo?",
+          "Perché è quadrato?"
+        ],
+        "risposta": "Un tempo la tavola era più lunga e probabilmente mostrava anche le mie mani. Quella parte in basso è andata perduta.",
+        "fonte": "Un tempo la tavola era più lunga e probabilmente mostrava anche le mie mani, ma quella parte è andata perduta.",
+        "audio": {
+          "src": "risposta-mani.opus",
+          "fallback": "risposta-mani.m4a",
+          "durationSec": 7.8
+        }
+      },
+      {
+        "id": "dove",
+        "domanda": "Dove si trova oggi il quadro?",
+        "varianti": [
+          "In che museo sei?",
+          "Dove sei adesso?",
+          "Dove posso vedere l'originale?",
+          "Chi ti ha comprata?"
+        ],
+        "risposta": "A Washington, nella National Gallery of Art, che mi ha acquistata nel 1967 dal principe del Liechtenstein.",
+        "fonte": "Oggi sono a Washington, nella National Gallery of Art, che mi ha acquistata nel 1967 dal principe del Liechtenstein.",
+        "audio": {
+          "src": "risposta-dove.opus",
+          "fallback": "risposta-dove.m4a",
+          "durationSec": 8.1
+        }
+      }
+    ],
+    "suggerite": [
+      "chi-sei",
+      "ginepro",
+      "mani",
+      "motto"
+    ],
+    "nonSo": {
+      "text": "Non so rispondere a questa domanda. Posso raccontarti solo quello che sappiamo di questo quadro: prova con una delle domande suggerite.",
+      "audio": {
+        "src": "risposta-nonso.opus",
+        "fallback": "risposta-nonso.m4a",
+        "durationSec": 8.2
+      }
+    }
+  },
+  "budget": {
+    "bytes": 2902032,
+    "limit": 6291456
+  }
+}

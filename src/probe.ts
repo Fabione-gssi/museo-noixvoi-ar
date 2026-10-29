@@ -14,6 +14,9 @@ export const probe = {
   storyTime: 0,
   /** Caccia: punto del quadro sotto il centro della lente (u, v 0-1). */
   lens: null as null | { u: number; v: number; rW: number },
+  /** Personaggio: apertura attuale della bocca (0-1) e ultima risposta data. */
+  mouth: 0,
+  answer: '' as string,
 };
 (window as unknown as { __ar: typeof probe }).__ar = probe;
 

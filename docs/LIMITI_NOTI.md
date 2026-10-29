@@ -39,6 +39,17 @@ Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 3.
 - L'indizio (luccichio) compare dopo 20 secondi senza scoperte, sull'elemento non ancora trovato che viene per primo nell'elenco.
 - Il finale fa parte del testo del quadro, quindi si sente anche alla fine di "Ascolta tutto".
 
+## Personaggio
+
+- **Non è un'intelligenza artificiale.** Risponde solo con le risposte scritte nello Studio. A una domanda imprevista dice che non sa rispondere. La ricerca tollera errori di battitura e modi diversi di chiedere, ma può sbagliare: con domande molto lunghe o ambigue sceglie la risposta più vicina oppure il "non so".
+- **Volto animato**: è una deformazione dell'immagine attorno a occhi e bocca, non un modello 3D. La bocca si apre seguendo il volume della voce, non le singole sillabe, e l'interno della bocca è un'ombra scura (niente denti né lingua).
+  - Funziona bene con volti grandi, frontali o di tre quarti. Con volti piccoli, di profilo o coperti (barba folta, mani) va usata la "presenza".
+- **Punti del volto**: li trova MediaPipe sul computer. Con un dipinto può sbagliare: lo Studio permette di correggerli a mano.
+- **Dopo il riconoscimento** il personaggio si guarda a tutto schermo, non sovrapposto alla tela inquadrata. È più nitido e stabile, e permette di abbassare il telefono. L'animazione sopra la tela vera è stata scartata per ora: i colori della fotocamera e quelli dell'immagine non coincidono.
+- **Testi in prima persona**: il personaggio dice solo fatti documentati e tradotti dalle fonti (vedi `fonti.md`). Lo dichiara sotto: "Risposte preparate dal museo a partire dalle fonti".
+- **LivePortrait (facoltativo)**: un video animato da Colab per la sola presentazione non è stato fatto. Richiede un account Google e un servizio esterno, e non è necessario per l'MVP.
+- **Conversazione libera**: non c'è; vedi `docs/ROADMAP_CONVERSAZIONE_LIVE.md`.
+
 ## Blocca/Sblocca
 
 - Quando il quadro si perde, per 1,5 s si tiene l'ultima posizione. Poi per 3 s la sovrapposizione si sposta col giroscopio: è una compensazione approssimata, non un vero tracciamento. Dopo si passa da soli alla modalità bloccata, sull'ultima inquadratura buona.

@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "id": "autoritratto-durer",
+  "order": 1,
+  "title": "Autoritratto con pelliccia",
+  "artist": "Albrecht Dürer",
+  "year": "1500",
+  "room": "",
+  "experience": "personaggio",
+  "demo": true,
+  "aspect": 0.7233000565078169,
+  "image": "immagine.jpg",
+  "depth": "depth.jpg",
+  "audio": {
+    "src": "audio.opus",
+    "fallback": "audio.m4a",
+    "durationSec": 62.7
+  },
+  "subtitles": "subtitles.vtt",
+  "alignment": "alignment.json",
+  "targets": {
+    "mind": "targets.mind",
+    "main": {
+      "targetIndex": 0,
+      "image": "target.jpg",
+      "points": 1763
+    }
+  },
+  "dettagli": [],
+  "personaggio": {
+    "modo": "completa",
+    "volto": {
+      "punti": {
+        "occhioSxEsterno": [
+          0.4104,
+          0.2496
+        ],
+        "occhioSxInterno": [
+          0.4653,
+          0.2526
+        ],
+        "occhioSxSopra": [
+          0.4326,
+          0.2412
+        ],
+        "occhioSxSotto": [
+          0.4365,
+          0.2563
+        ],
+        "occhioSxIride": [
+          0.4329,
+          0.2485
+        ],
+        "occhioDxEsterno": [
+          0.5864,
+          0.2446
+        ],
+        "occhioDxInterno": [
+          0.5309,
+          0.2512
+        ],
+        "occhioDxSopra": [
+          0.5641,
+          0.2376
+        ],
+        "occhioDxSotto": [
+          0.56,
+          0.2528
+        ],
+        "occhioDxIride": [
+          0.5607,
+          0.2447
+        ],
+        "boccaSx": [
+          0.458,
+          0.3625
+        ],
+        "boccaDx": [
+          0.5447,
+          0.3617
+        ],
+        "labbroSopra": [
+          0.4999,
+          0.3628
+        ],
+        "labbroSotto": [
+          0.5,
+          0.3633
+        ],
+        "mento": [
+          0.5024,
+          0.4281
+        ]
+      },
+      "box": {
+        "x": 0.3597,
+        "y": 0.1682,
+        "w": 0.2845,
+        "h": 0.2599
+      }
+    },
+    "inviluppi": "inviluppi.json",
+    "domande": [
+      {
+        "id": "chi-sei",
+        "domanda": "Chi sei?",
+        "varianti": [
+          "Come ti chiami?",
+          "Chi è il pittore?",
+          "Presentati",
+          "Chi sei tu?"
+        ],
+        "risposta": "Sono Albrecht Dürer, di Norimberga. Questo è il ritratto che ho fatto di me stesso.",
+        "fonte": "Sono Albrecht Dürer, di Norimberga. Questo ritratto l'ho dipinto nel 1500, a olio su tavola.",
+        "audio": {
+          "src": "risposta-chi-sei.opus",
+          "fallback": "risposta-chi-sei.m4a",
+          "durationSec": 5.8
+        }
+      },
+      {
+        "id": "quando",
+        "domanda": "Quando hai dipinto questo quadro?",
+        "varianti": [
+          "In che anno è stato dipinto?",
+          "Che anno è?",
+          "Quando è stato fatto?",
+          "Data del quadro"
+        ],
+        "risposta": "Nel 1500. La data l'ho scritta proprio sul quadro, a sinistra del mio viso, sopra le mie iniziali.",
+        "fonte": "Questo ritratto l'ho dipinto nel 1500, a olio su tavola. A sinistra c'è la data, 1500, sopra le mie iniziali.",
+        "audio": {
+          "src": "risposta-quando.opus",
+          "fallback": "risposta-quando.m4a",
+          "durationSec": 7.4
+        }
+      },
+      {
+        "id": "eta",
+        "domanda": "Quanti anni avevi?",
+        "varianti": [
+          "Che età avevi?",
+          "Quanti anni hai?",
+          "Eri giovane?",
+          "La tua età",
+          "Quanti anni avevi quando hai dipinto il ritratto?"
+        ],
+        "risposta": "Ventotto anni. L'ho scritto io stesso, in latino, nella frase a destra del mio viso.",
+        "fonte": "«Io, Albrecht Dürer di Norimberga, mi sono ritratto così, con i miei colori, all'età di ventotto anni».",
+        "audio": {
+          "src": "risposta-eta.opus",
+          "fallback": "risposta-eta.m4a",
+          "durationSec": 6
+        }
+      },
+      {
+        "id": "scritta",
+        "domanda": "Cosa c'è scritto accanto a te?",
+        "varianti": [
+          "Cosa dice la scritta?",
+          "Che cosa significa la frase in latino?",
+          "Iscrizione",
+          "Cosa c'è scritto a destra?"
+        ],
+        "risposta": "È una frase in latino. Tradotta dice: «Io, Albrecht Dürer di Norimberga, mi sono ritratto così, con i miei colori, all'età di ventotto anni». Non ho scritto «ho dipinto», ma una parola che vuol dire piuttosto «creare».",
+        "fonte": "A destra c'è una frase in latino. Te la traduco: «Io, Albrecht Dürer di Norimberga, mi sono ritratto così, con i miei colori, all'età di ventotto anni». Nota che non ho scritto «ho dipinto»: ho usato una parola che vuol dire piuttosto «creare», «dare forma».",
+        "audio": {
+          "src": "risposta-scritta.opus",
+          "fallback": "risposta-scritta.m4a",
+          "durationSec": 14.1
+        }
+      },
+      {
+        "id": "iniziali",
+        "domanda": "Cosa sono le lettere A e D?",
+        "varianti": [
+          "Che cos'è il monogramma?",
+          "Le lettere a sinistra",
+          "Firma",
+          "Che cosa sono quelle lettere?"
+        ],
+        "risposta": "Sono le mie iniziali, A e D: Albrecht Dürer. Le ho scritte a sinistra, sotto la data 1500.",
+        "fonte": "A sinistra c'è la data, 1500, sopra le mie iniziali: una A e una D.",
+        "audio": {
+          "src": "risposta-iniziali.opus",
+          "fallback": "risposta-iniziali.m4a",
+          "durationSec": 7.7
+        }
+      },
+      {
+        "id": "posa",
+        "domanda": "Perché sei messo di fronte?",
+        "varianti": [
+          "Perché guardi dritto?",
+          "Perché sembri Gesù?",
+          "Perché assomigli a Cristo?",
+          "La tua posa",
+          "Perché mi guardi così?"
+        ],
+        "risposta": "Ai miei tempi una posa così rigida e frontale si usava per le immagini sacre, soprattutto per quelle di Cristo. Io l'ho usata per un ritratto di me stesso.",
+        "fonte": "A quel tempo una posa così rigida e frontale era riservata alle immagini sacre, soprattutto a quelle di Cristo.",
+        "audio": {
+          "src": "risposta-posa.opus",
+          "fallback": "risposta-posa.m4a",
+          "durationSec": 9.4
+        }
+      },
+      {
+        "id": "mano",
+        "domanda": "Che cosa fa la tua mano?",
+        "varianti": [
+          "Il gesto della mano",
+          "Perché tieni la mano così?",
+          "Cosa fanno le tue dita?"
+        ],
+        "risposta": "È appoggiata al bordo di pelliccia del mantello, e ricorda il gesto di chi benedice.",
+        "fonte": "Anche la mia mano, appoggiata al bordo di pelliccia del mantello, ricorda il gesto di chi benedice.",
+        "audio": {
+          "src": "risposta-mano.opus",
+          "fallback": "risposta-mano.m4a",
+          "durationSec": 5.2
+        }
+      },
+      {
+        "id": "vestito",
+        "domanda": "Che cosa indossi?",
+        "varianti": [
+          "Il tuo vestito",
+          "Com'è il mantello?",
+          "È una pelliccia?",
+          "I tuoi abiti"
+        ],
+        "risposta": "Un mantello con il bordo di pelliccia. La mia mano è appoggiata proprio lì.",
+        "fonte": "Anche la mia mano, appoggiata al bordo di pelliccia del mantello, ricorda il gesto di chi benedice.",
+        "audio": {
+          "src": "risposta-vestito.opus",
+          "fallback": "risposta-vestito.m4a",
+          "durationSec": 5
+        }
+      },
+      {
+        "id": "tecnica",
+        "domanda": "Come l'hai dipinto?",
+        "varianti": [
+          "Che tecnica hai usato?",
+          "Su che cosa è dipinto?",
+          "È una tela?",
+          "Materiale"
+        ],
+        "risposta": "A olio, su una tavola.",
+        "fonte": "Questo ritratto l'ho dipinto nel 1500, a olio su tavola.",
+        "audio": {
+          "src": "risposta-tecnica.opus",
+          "fallback": "risposta-tecnica.m4a",
+          "durationSec": 2.6
+        }
+      },
+      {
+        "id": "dove",
+        "domanda": "Dove si trova oggi il quadro?",
+        "varianti": [
+          "In che museo sei?",
+          "Dove sei adesso?",
+          "Dove posso vedere l'originale?",
+          "Museo"
+        ],
+        "risposta": "A Monaco di Baviera, nell'Alte Pinakothek.",
+        "fonte": "Oggi mi trovi a Monaco, nell'Alte Pinakothek.",
+        "audio": {
+          "src": "risposta-dove.opus",
+          "fallback": "risposta-dove.m4a",
+          "durationSec": 3.5
+        }
+      },
+      {
+        "id": "storia",
+        "domanda": "Che strada ha fatto il quadro?",
+        "varianti": [
+          "Cosa è successo dopo la tua morte?",
+          "Chi aveva il quadro?",
+          "La storia del quadro",
+          "Come è arrivato a Monaco?"
+        ],
+        "risposta": "Dopo la mia morte rimase a Norimberga, nel palazzo del Comune. Nei primi anni dell'Ottocento passò alle collezioni reali di Baviera, e oggi è a Monaco.",
+        "fonte": "Dopo la mia morte il ritratto rimase a Norimberga, nel palazzo del Comune. Nei primi anni dell'Ottocento passò alle collezioni reali di Baviera.",
+        "audio": {
+          "src": "risposta-storia.opus",
+          "fallback": "risposta-storia.m4a",
+          "durationSec": 9.4
+        }
+      }
+    ],
+    "suggerite": [
+      "chi-sei",
+      "scritta",
+      "posa",
+      "eta"
+    ],
+    "nonSo": {
+      "text": "Non so rispondere a questa domanda. Posso raccontarti solo quello che sappiamo di questo quadro: prova con una delle domande suggerite.",
+      "audio": {
+        "src": "risposta-nonso.opus",
+        "fallback": "risposta-nonso.m4a",
+        "durationSec": 8.2
+      }
+    }
+  },
+  "budget": {
+    "bytes": 2006594,
+    "limit": 6291456
+  }
+}

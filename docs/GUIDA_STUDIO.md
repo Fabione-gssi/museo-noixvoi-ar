@@ -76,6 +76,26 @@ Se l'interazione è **Caccia**, nella scheda **Caccia** metti gli elementi nasco
 
 Usa solo cose che si vedono davvero nel quadro: servono almeno 3 elementi.
 
+## Il personaggio
+
+Se l'interazione è **Personaggio**, la figura del quadro si presenta (con il **testo storico**, scritto in prima persona) e risponde alle domande dei visitatori. Non è un'intelligenza artificiale: dice solo le risposte che scrivi tu.
+
+Nella scheda **Personaggio**:
+
+1. **Volto**: dopo **Prepara**, il computer trova da solo occhi, bocca e mento (puntini gialli). Se un punto è fuori posto, sceglilo nell'elenco a destra e clicca (o trascina) nel punto giusto. **"Rimetti i punti trovati da soli"** annulla le correzioni.
+2. **Animazione**:
+   - **Completa**: la bocca si muove con la voce, gli occhi sbattono le ciglia e seguono il visitatore.
+   - **Solo presenza**: niente bocca, solo sguardo, respiro e un leggero movimento. Scegli questa se l'animazione completa sembra innaturale.
+3. **Domande e risposte**: ne servono da 8 a 15. Per ognuna scrivi:
+   - la **domanda**, come appare sul pulsante;
+   - **altri modi di chiederlo**, uno per riga (aiutano a capire le domande scritte dai visitatori);
+   - la **risposta**, in prima persona e solo con fatti del testo storico;
+   - la **fonte**, cioè la frase del testo storico da cui viene. Se la frase non si trova nel testo compare un avviso arancione.
+   - Spunta **Suggerita** per le 4 domande da mostrare come pulsanti.
+4. In fondo puoi cambiare la frase per le domande non previste ("Non so rispondere…").
+5. **Salva il personaggio**, poi **Prepara**: la voce DEMO legge ogni risposta. Con un attore vero, metti le sue registrazioni nella cartella `risposte` del quadro, con il nome della domanda (es. `risposte/chi-sei.mp3`).
+6. **Prova il personaggio** apre l'app sul computer, senza fotocamera.
+
 ## Provare
 
 Scheda **Anteprima**: a sinistra c'è la vera app in una cornice a forma di telefono.

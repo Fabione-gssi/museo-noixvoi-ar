@@ -49,7 +49,21 @@ button { font: inherit; cursor: pointer; }
 .ar-snapshot { position: absolute; }
 
 /* Racconto */
-#story { padding: 0; justify-content: flex-start; }
+#story, #character { padding: 0; justify-content: flex-start; }
+#character.anteprima .char-bottom, #character.anteprima .story-head, #character.anteprima .story-note { display: none; }
+.char-stage { position: absolute; inset: 0; background: #121110; touch-action: none; }
+.char-bottom { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 8px; padding: 32px 12px calc(10px + env(safe-area-inset-bottom)); background: linear-gradient(#0000, #000d 22%); text-align: left; }
+.char-question { margin: 0; color: var(--accent); font-size: 0.95rem; font-style: italic; }
+.char-question[hidden] { display: none; }
+.char-subs { max-height: 7.2em; overflow-y: auto; }
+.char-controls { display: flex; gap: 8px; }
+.char-controls button { min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #fff4; background: #0008; color: var(--fg); font-size: 0.9rem; }
+.char-play { width: 48px; padding: 0 !important; }
+.char-suggest { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.char-suggest button { min-height: 48px; padding: 6px 10px; border-radius: 12px; border: 1px solid #fff3; background: #2a2622; color: var(--fg); font-size: 0.9rem; text-align: left; }
+.char-form { display: flex; gap: 8px; }
+.char-form input { flex: 1; min-width: 0; min-height: 48px; padding: 0 12px; border-radius: 12px; border: 1px solid #fff4; background: #000a; color: var(--fg); font: inherit; font-size: 1rem; }
+.char-form button { min-height: 48px; padding: 0 16px; border: 0; border-radius: 12px; background: var(--accent); color: #111; font-weight: 600; }
 .story-stage { position: absolute; inset: 0; background: #121110; }
 .story-stage .story-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
 .story-head { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: 10px; padding: calc(10px + env(safe-area-inset-top)) 12px 18px; background: linear-gradient(#000c, #0000); text-align: left; }
