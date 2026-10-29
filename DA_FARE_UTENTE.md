@@ -5,6 +5,14 @@ Per rispondere basta scrivermi in chat, per esempio: "1 iPhone: sì sì no".
 
 ---
 
+## Seconda tornata di modifiche (29/10/2026): da ricontrollare
+
+| Richiesta | Cosa ho cambiato | Da provare |
+|---|---|---|
+| QR che portano subito al quadro | I codici QR (anteprima dello Studio, pagina di pubblicazione, cartellini) aprono direttamente l'interazione: dopo "Inizia" non chiede più di inquadrare il quadro. Racconto e personaggio partono subito; i particolari si toccano sull'immagine; la caccia usa la lente sullo schermo. Chi vuole può passare alla fotocamera con **📷 Usa la fotocamera sul quadro** | **Ristampa i cartellini**: quelli vecchi aprono ancora la versione "da inquadrare" |
+| Ronda: niente riquadri gialli | I riquadri dei particolari da trovare sono nascosti. Compaiono man mano che il cerchio al centro ci si avvicina, oppure tutti insieme per 5 secondi con **💡 Aiuto**. Toccando la miniatura di un particolare non trovato si accende solo il suo riquadro e compare la zona ("in basso a sinistra"). I particolari già trovati restano segnati in verde | Ronda e Arnolfini con la fotocamera: si trovano ancora i particolari? |
+| CHIEDI più realistico | Non ancora fatto: serve una tua scelta (vedi la chat) | — |
+
 ## Dopo le prove con gli utenti (29/10/2026): da ricontrollare
 
 Ho sistemato i 4 punti segnalati. Ti chiedo di rifare queste prove sul Galaxy, meglio se con le stesse persone.

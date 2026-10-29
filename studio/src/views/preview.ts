@@ -28,7 +28,7 @@ export function previewPanel(d: PaintingDetails, folder: string) {
   const off = onServerEvent((e) => {
     if (e.event !== 'tunnel') return;
     const ev = e as { step?: string; urls?: string[]; message?: string; local?: boolean };
-    if (ev.step === 'fatto' && ev.urls) void showPhone(ev.urls.map((u) => `${u}?p=${encodeURIComponent(d.id)}`), !!ev.local);
+    if (ev.step === 'fatto' && ev.urls) void showPhone(ev.urls.map((u) => `${u}?p=${encodeURIComponent(d.id)}&diretto=1`), !!ev.local);
     else if (ev.message) phoneBox.replaceChildren(h('p.muted', {}, ev.message));
   });
   async function showPhone(urls: string[], local: boolean) {

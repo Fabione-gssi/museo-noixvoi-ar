@@ -144,7 +144,7 @@ function cloudflareHelp() {
 
 async function qrSheet(url: string, paintings: PaintingSummary[]) {
   const base = url.endsWith('/') ? url : `${url}/`;
-  const items = [{ label: 'Ingresso generale', link: base }, ...paintings.map((p) => ({ label: p.title || p.id, link: `${base}?p=${encodeURIComponent(p.id)}` }))];
+  const items = [{ label: 'Ingresso generale', link: base }, ...paintings.map((p) => ({ label: p.title || p.id, link: `${base}?p=${encodeURIComponent(p.id)}&diretto=1` }))];
   const cards = await Promise.all(items.map(async (i) => h('figure.qr', {}, h('img', { src: await QRCode.toDataURL(i.link, { margin: 1, width: 300 }), alt: `Codice QR: ${i.label}` }), h('figcaption', {}, h('strong', {}, i.label), h('br', {}), h('code', {}, i.link)))));
   const sheet = h('div.qr-sheet', {}, ...cards);
   return h('div', {},

@@ -33,14 +33,17 @@ export interface UnlockResult {
 }
 
 /** Da chiamare direttamente nel gestore del tap, senza await prima. */
-export async function unlockAll(): Promise<UnlockResult> {
+/** withCamera=false: aperto da un codice QR accanto al quadro, la fotocamera non serve. */
+export async function unlockAll(withCamera = true): Promise<UnlockResult> {
   // Avvio sincrono di tutte le richieste che esigono il gesto: un await
   // precedente farebbe perdere l'"attivazione utente" su Safari.
   const audioP = playSilently(audioEl);
   const videoP = playSilently(mediaVideoEl);
   const orientP = requestOrientation();
   const sim = simulatedCamera();
-  const camP = sim
+  const camP = !withCamera
+    ? Promise.reject(new Error('non richiesta'))
+    : sim
     ? Promise.resolve(sim)
     : navigator.mediaDevices?.getUserMedia
     ? navigator.mediaDevices.getUserMedia({

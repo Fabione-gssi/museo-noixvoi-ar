@@ -39,6 +39,19 @@ test.describe('racconto', () => {
     }
   });
 
+  test('da codice QR (diretto): il racconto parte senza inquadrare il quadro', async () => {
+    const browser = await launchWithCamera(null);
+    try {
+      const page = await newPage(browser);
+      await page.goto(`/?p=${meta.id}&diretto=1&notutorial`);
+      await page.click('#start');
+      await waitStory(page);
+      await expect(page.locator('#story-note')).toHaveText('');
+    } finally {
+      await browser.close();
+    }
+  });
+
   test('capitoli e controlli: salta a un particolare, pausa, ±15 s', async () => {
     const browser = await launchWithCamera(null);
     try {

@@ -103,6 +103,7 @@ Scheda **Anteprima**: a sinistra c'è la vera app in una cornice a forma di tele
 - **Fotocamera simulata**: con i cursori ti avvicini, inclini il telefono, aggiungi un riflesso o abbassi la luce, senza bisogno di un telefono.
 - **Webcam del computer**: inquadri una stampa del quadro con la webcam.
 - **Crea il link per il telefono**: dopo circa 20 secondi compare un codice QR da inquadrare con il telefono.
+  - Il codice apre direttamente l'interazione con il quadro, come i codici dei cartellini: non serve inquadrare il quadro.
   - Funziona anche in rete mobile, attraverso un collegamento gratuito di Cloudflare.
   - L'indirizzo è casuale e resta valido finché premi **"Chiudi l'anteprima sul telefono"** o chiudi lo Studio.
   - Se il collegamento via internet non parte, lo Studio usa la rete locale. In quel caso serve lo stesso Wi-Fi e, al primo accesso, devi toccare **Avanzate → Procedi** sull'avviso del certificato.
@@ -114,6 +115,7 @@ Pagina **Verifica e pubblica**:
 1. **Verifica tutto**: prepara tutti i quadri e prova l'app da solo (alcuni minuti). Alla fine trovi un rapporto: ✅ tutto bene, ❌ cosa sistemare.
 2. **Pubblica**: aggiorna il sito dei visitatori (1-2 minuti).
    - Alla fine trovi l'indirizzo del sito e i **codici QR** (uno generale e uno per quadro).
+   - I codici dei quadri aprono subito l'interazione, senza inquadrare il quadro. Il codice generale apre l'elenco.
    - **"Stampa i codici QR"** apre la pagina pronta per la stampa.
 3. Se GitHub non è configurato, compaiono le istruzioni per l'accesso (una sola volta). In alternativa, **"Crea la cartella per Cloudflare Pages"** prepara un file da caricare sul sito di Cloudflare: le istruzioni compaiono sullo schermo.
 

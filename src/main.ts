@@ -15,6 +15,8 @@ import { startDebug, debugInfo, APP_VERSION } from './debug';
 const params = new URLSearchParams(location.search);
 const DEBUG = params.has('debug');
 const MAX_TRACK = Number(params.get('maxTrack') ?? 1);
+/** Aperto dal codice QR accanto al quadro: si va subito all'esperienza, senza inquadrarlo. */
+const DIRECT = params.has('diretto');
 
 const $ = <T extends HTMLElement>(sel: string) => document.querySelector(sel) as T;
 const show = (id: string) => document.querySelectorAll<HTMLElement>('.screen').forEach((s) => (s.hidden = s.id !== id));
@@ -60,7 +62,9 @@ async function init() {
     list.append(a);
   }
   const id = params.get('p');
-  if (id && !index.paintings.some((p) => p.id === id)) $('#welcome-note').textContent = 'Quadro non trovato: scegline uno dall\'elenco.';
+  const chosen = index.paintings.find((p) => p.id === id);
+  if (id && !chosen) $('#welcome-note').textContent = 'Quadro non trovato: scegline uno dall\'elenco.';
+  else if (chosen && DIRECT) $('#welcome-note').textContent = `${chosen.title}: tocca "Inizia" per farlo prendere vita.`;
   void markPicker(index);
   void bindOfflinePanel(index, $('#offline'));
   // Segnale per i test e per l'anteprima dello Studio: l'app è pronta a ricevere il tap.
@@ -70,7 +74,7 @@ async function init() {
 async function onStart() {
   const id = params.get('p');
   // Nessun await prima di unlockAll: il tap deve restare "fresco" per Safari.
-  const unlockP = unlockAll();
+  const unlockP = unlockAll(!(DIRECT && id));
   if (!id) {
     await unlockP;
     show('picker');
@@ -86,11 +90,16 @@ async function onStart() {
   downloadInBackground(index.paintings.find((p) => p.id === id));
   debugInfo.painting = meta.title;
   debugInfo.experience = experienceOf(meta);
+  if (DIRECT) return withoutCamera(meta);
   if (!unlock.camera) {
     probe.error = unlock.cameraError ?? 'camera';
     return withoutCamera(meta, unlock.cameraError);
   }
   stream = unlock.camera;
+  await withCamera(meta);
+}
+
+async function withCamera(meta: PaintingMeta) {
   await showTutorial(meta);
   try {
     await runAr(meta);
@@ -208,6 +217,18 @@ function withoutCamera(meta: PaintingMeta, reason?: string) {
   $('#fallback-reason').textContent = reason ?? '';
   $<HTMLImageElement>('#fallback-img').src = dataUrl(meta.id, meta.image);
   $('#fallback-title').textContent = meta.title;
+  // Da QR: chi vuole può comunque passare alla fotocamera (lente sul quadro vero, mirino).
+  const camBtn = $<HTMLButtonElement>('#camera-btn');
+  camBtn.hidden = !DIRECT;
+  camBtn.onclick = async () => {
+    const unlock = await unlockAll();
+    if (!unlock.camera) {
+      $('#fallback-reason').textContent = unlock.cameraError ?? 'Fotocamera non disponibile.';
+      return;
+    }
+    stream = unlock.camera;
+    void withCamera(meta);
+  };
   if (experienceOf(meta) === 'caccia') {
     $('#fallback-img').hidden = true;
     $('#fallback-find').hidden = true;

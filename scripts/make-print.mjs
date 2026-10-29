@@ -50,14 +50,14 @@ await page.pdf({ path: path.join(OUT, 'prova.pdf'), format: 'A4', printBackgroun
 
 // Cartellini da appendere accanto ai quadri: due per foglio A4, da ritagliare.
 const HINT = {
-  racconto: 'Inquadra il quadro: parte il suo racconto.',
-  dettagli: 'Inquadra il quadro, poi avvicinati ai particolari: ognuno racconta la sua storia.',
-  caccia: 'Passa il telefono sul quadro: la lente rivela cose nascoste.',
-  personaggio: 'Inquadra il quadro: il personaggio si presenta e risponde alle tue domande.',
+  racconto: 'Inquadra il codice: parte subito il racconto del quadro.',
+  dettagli: 'Inquadra il codice e tocca i particolari: ognuno racconta la sua storia.',
+  caccia: 'Inquadra il codice: con la lente sullo schermo scopri cose nascoste.',
+  personaggio: 'Inquadra il codice: il personaggio si presenta e risponde alle tue domande.',
 };
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;');
 const labels = [
-  ...metas.map((m) => ({ title: m.title, sub: [m.artist, m.year].filter(Boolean).join(', '), room: m.room, hint: HINT[m.experience] ?? HINT.racconto, url: `${BASE}?p=${encodeURIComponent(m.id)}` })),
+  ...metas.map((m) => ({ title: m.title, sub: [m.artist, m.year].filter(Boolean).join(', '), room: m.room, hint: HINT[m.experience] ?? HINT.racconto, url: `${BASE}?p=${encodeURIComponent(m.id)}&diretto=1` })),
   { title: 'Quadri che prendono vita', sub: 'Tutti i quadri del percorso', room: '', hint: 'Scegli un quadro dall\'elenco e inquadralo con il telefono.', url: BASE },
 ];
 const labelQrs = await Promise.all(labels.map((l) => QRCode.toDataURL(l.url, { margin: 1, width: 700, errorCorrectionLevel: 'M' })));

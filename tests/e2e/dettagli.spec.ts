@@ -59,6 +59,42 @@ for (const meta of metas) {
       });
     }
 
+    test('riquadri nascosti finché non ci si avvicina; "Aiuto" li accende per qualche secondo', async () => {
+      const browser = await launchWithCamera(`${meta.id}/fermo`);
+      try {
+        const page = await newPage(browser);
+        await page.goto(`/?p=${meta.id}&notutorial`);
+        await page.click('#start');
+        await expect(page.locator('#status')).toHaveText('Quadro riconosciuto', { timeout: 30_000 });
+        const frames = () => page.evaluate(() => (window as unknown as { __detailFrames: () => Record<string, number> }).__detailFrames());
+        // Col quadro intero inquadrato da lontano i particolari non sono segnati.
+        await expect.poll(async () => Math.min(...Object.values(await frames())), { timeout: 5000 }).toBeLessThan(0.1);
+        await page.locator('#find-help').click();
+        await expect(page.locator('#status')).toContainText(/riquadri accesi|Manca/);
+        await expect.poll(async () => Math.min(...Object.values(await frames())), { timeout: 3000 }).toBeGreaterThan(0.25);
+        // Dopo qualche secondo si rispengono.
+        await expect.poll(async () => Math.min(...Object.values(await frames())), { timeout: 10_000 }).toBeLessThan(0.1);
+      } finally {
+        await browser.close();
+      }
+    });
+
+    test('da codice QR (diretto): particolari subito, senza inquadrare; la fotocamera resta a scelta', async () => {
+      const browser = await launchWithCamera(`${meta.id}/fermo`);
+      try {
+        const page = await newPage(browser);
+        await page.goto(`/?p=${meta.id}&diretto=1&notutorial`);
+        await expect(page.locator('#welcome-note')).toContainText(meta.title);
+        await page.click('#start');
+        await expect(page.locator('#fallback .find-item')).toHaveCount(meta.dettagli.length, { timeout: 20_000 });
+        await expect(page.locator('#fallback-reason')).toHaveText('');
+        await page.locator('#camera-btn').click();
+        await expect(page.locator('#find')).toBeVisible({ timeout: 30_000 });
+      } finally {
+        await browser.close();
+      }
+    });
+
     test('senza fotocamera: si toccano i particolari e parte il contenuto', async () => {
       const browser = await launchWithCamera(null);
       try {
