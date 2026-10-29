@@ -8,8 +8,12 @@ import type { Rect } from '../story/timeline';
 // - bocca: la mascella scende seguendo il volume della voce, tra le labbra si apre il buio;
 // - palpebre: la pelle sopra l'occhio scende sull'occhio (battito di ciglia);
 // - sguardo: l'iride si sposta verso chi guarda (orientamento del telefono);
-// - respiro e parallasse con la mappa di profondità.
-// In modalità "presenza" restano sguardo, respiro e parallasse: niente bocca né palpebre.
+// - labbra: più strette e tonde sulle vocali o/u (forma calcolata dal testo);
+// - sopracciglia: si alzano appena sulle sillabe accentate;
+// - testa: annuisce mentre parla, oscilla e si gira un poco verso chi guarda
+//   (la rotazione usa la profondità: il naso si sposta più delle orecchie);
+// - quadro vivo: respiro, parallasse che ondeggia, capelli e vesti appena mossi.
+// In modalità "presenza" restano sguardo, testa, respiro e sfondo: niente bocca, palpebre, sopracciglia.
 
 const vertex = /* glsl */ `
 varying vec2 vUv;
@@ -37,14 +41,36 @@ uniform vec2 uIrisL;
 uniform vec2 uIrisR;
 uniform float uLid;       // 0 aperto, 1 chiuso
 uniform vec2 uGaze;       // -1..1
+uniform float uTime;
+uniform vec3 uHead;       // girata, cenno, inclinazione (-1..1)
+uniform vec2 uFaceC;      // centro della testa (spazio isotropo)
+uniform vec2 uFaceR;      // raggi della testa
+uniform vec2 uNeck;       // perno del collo
+uniform float uBrow;      // sopracciglia alzate (0..1)
+uniform float uRound;     // labbra tonde (0..1)
+uniform float uLife;      // intensità di sfondo e vesti che si muovono
 varying vec2 vUv;
+
+float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+float noise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
+}
 
 vec2 eyeWarp(vec2 p, vec4 eye, vec2 iris, inout float lash) {
   vec2 q = p - eye.xy;
   float nx = q.x / eye.z;
   float ny = q.y / eye.w;
-  if (abs(nx) > 1.4 || ny > 1.6 || ny < -4.0) return p;
+  if (abs(nx) > 1.7 || ny > 1.6 || ny < -7.0) return p;
   float ex = clamp(1.0 - nx * nx, 0.0, 1.0);
+  // Sopracciglia: la fascia sopra l'occhio sale (la pelle sotto si stira).
+  if (uBrow > 0.01) {
+    float bx = clamp(1.0 - pow(nx / 1.6, 2.0), 0.0, 1.0);
+    float band = smoothstep(-7.0, -4.0, ny) * (1.0 - smoothstep(-2.2, -1.1, ny)) * bx;
+    p.y += uBrow * eye.w * 0.7 * band;
+  }
   // Sguardo: si sposta solo un cerchio attorno all'iride (raggio ~ metà altezza
   // dell'occhio), così palpebre e angoli restano fermi.
   float r = eye.w * 1.25;
@@ -75,6 +101,23 @@ void main() {
   float inside = 0.0;
   float lash = 0.0;
   vec2 p = vec2(uv.x * uAspect, uv.y);
+  float hw = 0.0;
+  if (uHasFace > 0.5) {
+    // Testa: peso pieno sul volto, sfuma su capelli e collo, nullo sulle spalle.
+    hw = 1.0 - smoothstep(0.75, 1.35, length((p - uFaceC) / uFaceR));
+    if (hw > 0.0) {
+      vec2 rel = p - uNeck;
+      float a = -uHead.z * 0.045 * hw;
+      rel = mat2(cos(a), sin(a), -sin(a), cos(a)) * rel;
+      p = uNeck + rel;
+      // Girata: i punti vicini (naso) si spostano più dei lontani (orecchie, capelli).
+      p.x -= uHead.x * uFaceR.x * 0.09 * hw * (0.4 + (d - 0.5) * 2.5);
+      p.y -= uHead.y * uFaceR.y * 0.06 * hw;
+    }
+  }
+  // Quadro vivo: capelli, vesti e sfondo si muovono appena, il volto no.
+  vec2 n = vec2(noise(p * 6.0 + uTime * 0.15), noise(p * 6.0 + 17.0 - uTime * 0.12)) - 0.5;
+  p += n * 0.004 * uLife * (1.0 - hw);
   if (uHasFace > 0.5) {
     p = eyeWarp(p, uEyeL, uIrisL, lash);
     p = eyeWarp(p, uEyeR, uIrisR, lash);
@@ -84,6 +127,9 @@ void main() {
       // Peso orizzontale: pieno al centro, nullo poco oltre gli angoli (apertura a forma di lente).
       float wx = 1.0 - smoothstep(0.35, 1.15, abs(q.x) / uMouthHalf);
       if (wx > 0.0 && q.y > -uChin && q.y < uChin * 1.7) {
+        // Labbra tonde (o, u): la bocca si stringe verso il centro.
+        float rz = 1.0 - smoothstep(0.0, uChin * 0.7, abs(q.y));
+        q.x *= 1.0 + uRound * 0.22 * rz * (1.0 - smoothstep(0.9, 1.5, abs(q.x) / uMouthHalf));
         float edge = uOpen * 0.12 + 0.0004;
         if (q.y >= 0.0) {
           // Labbro inferiore e mento scendono; il collo resta fermo.
@@ -114,7 +160,16 @@ void main() {
 }
 `;
 
-export interface FaceState { open: number; lid: number; gaze: { x: number; y: number }; breath: number }
+export interface FaceState {
+  open: number;
+  lid: number;
+  gaze: { x: number; y: number };
+  breath: number;
+  /** Testa: girata, cenno, inclinazione (-1..1). */
+  head: { x: number; y: number; z: number };
+  brow: number;
+  round: number;
+}
 
 export class FaceRenderer {
   readonly renderer: THREE.WebGLRenderer;
@@ -139,6 +194,9 @@ export class FaceRenderer {
       uEyeL: { value: new THREE.Vector4() }, uEyeR: { value: new THREE.Vector4() },
       uIrisL: { value: new THREE.Vector2() }, uIrisR: { value: new THREE.Vector2() },
       uLid: { value: 0 }, uGaze: { value: new THREE.Vector2() },
+      uTime: { value: 0 }, uHead: { value: new THREE.Vector3() }, uFaceC: { value: new THREE.Vector2() },
+      uFaceR: { value: new THREE.Vector2(1, 1) }, uNeck: { value: new THREE.Vector2() },
+      uBrow: { value: 0 }, uRound: { value: 0 }, uLife: { value: 1 },
     };
     this.material = new THREE.ShaderMaterial({ vertexShader: vertex, fragmentShader: fragment, uniforms: this.u });
     this.scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), this.material));
@@ -197,6 +255,11 @@ export class FaceRenderer {
     };
     eye('Sx', this.u.uEyeL.value, this.u.uIrisL.value);
     eye('Dx', this.u.uEyeR.value, this.u.uIrisR.value);
+    // Testa: il riquadro del volto un po' allargato (capelli); perno sotto il mento.
+    const b = this.p.volto!.box;
+    this.u.uFaceC.value.set((b.x + b.w / 2) * a, b.y + b.h / 2);
+    this.u.uFaceR.value.set((b.w / 2) * a * 1.15, (b.h / 2) * 1.2);
+    this.u.uNeck.value.set(P('mento').x, P('mento').y + b.h * 0.3);
     this.u.uHasFace.value = 1;
   }
 
@@ -231,6 +294,10 @@ export class FaceRenderer {
     this.u.uOpen.value = this.p.modo === 'completa' ? s.open * this.maxOpen * (this.u.uMouthHalf.value as number) : 0;
     this.u.uLid.value = this.p.modo === 'completa' ? s.lid : 0;
     (this.u.uGaze.value as THREE.Vector2).set(s.gaze.x, s.gaze.y);
+    (this.u.uHead.value as THREE.Vector3).set(s.head.x, s.head.y, s.head.z);
+    this.u.uBrow.value = this.p.modo === 'completa' ? s.brow : 0;
+    this.u.uRound.value = this.p.modo === 'completa' ? s.round : 0;
+    this.u.uTime.value = performance.now() / 1000;
     this.u.uBreath.value = s.breath;
     (this.u.uTilt.value as THREE.Vector2).set(tilt.x, tilt.y);
     this.renderer.render(this.scene, this.camera);

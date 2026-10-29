@@ -1,10 +1,12 @@
 import { audioEl, mediaVideoEl } from '../media';
-import { parseVtt, cueAt, type Cue } from '../story/timeline';
+import { parseVtt, cueAt, fitToScreen, type Cue } from '../story/timeline';
+import { StoryRenderer } from '../story/StoryRenderer';
 import { dataUrl, type DettaglioMeta, type PaintingMeta } from '../data';
 import { log } from '../probe';
 
-// Scheda di un particolare: titolo, poi il contenuto (pezzo dell'audio
-// principale con sottotitoli, audio o video caricato, oppure solo testo).
+// Scheda di un particolare: titolo, primo piano animato del particolare (la
+// camera si avvicina piano, con parallasse e "quadro vivo"), poi il contenuto
+// (pezzo dell'audio principale con sottotitoli, audio o video caricato, oppure solo testo).
 // Usa gli unici elementi <audio>/<video> sbloccati al primo tap.
 
 const $ = <T extends HTMLElement>(sel: string, root: ParentNode = document) => root.querySelector(sel) as T;
@@ -12,6 +14,38 @@ const $ = <T extends HTMLElement>(sel: string, root: ParentNode = document) => r
 let cues: Cue[] | null = null;
 let raf = 0;
 let stopAt: number | null = null;
+let closeup: { renderer: StoryRenderer; raf: number } | null = null;
+
+/** Primo piano del particolare: dal riquadro un po' allargato fino al particolare, in `seconds`. */
+async function showCloseup(meta: PaintingMeta, d: DettaglioMeta, host: HTMLElement, seconds: number) {
+  const stage = document.createElement('div');
+  stage.className = 'detail-stage';
+  host.prepend(stage);
+  const renderer = new StoryRenderer(stage);
+  const mine = { renderer, raf: 0 };
+  closeup = mine;
+  await renderer.load(dataUrl(meta.id, meta.image), meta.depth ? dataUrl(meta.id, meta.depth) : undefined);
+  if (closeup !== mine) return renderer.dispose();
+  const c = d.crop;
+  const started = performance.now();
+  const loop = () => {
+    const k = Math.min(1, (performance.now() - started) / 1000 / Math.max(4, seconds));
+    const ease = 1 - Math.pow(1 - k, 2);
+    // Allargato di 1,7 volte all'inizio, stretto sul particolare alla fine.
+    const pad = 1.7 - 0.62 * ease;
+    renderer.render(fitToScreen(c, meta.aspect, renderer.aspect, pad), Math.min(1, (performance.now() - started) / 500));
+    mine.raf = requestAnimationFrame(loop);
+  };
+  mine.raf = requestAnimationFrame(loop);
+}
+
+function hideCloseup() {
+  if (!closeup) return;
+  cancelAnimationFrame(closeup.raf);
+  closeup.renderer.dispose();
+  closeup.renderer.renderer.domElement.parentElement?.remove();
+  closeup = null;
+}
 
 async function loadCues(meta: PaintingMeta) {
   if (cues || !meta.subtitles) return cues ?? [];
@@ -25,6 +59,7 @@ async function loadCues(meta: PaintingMeta) {
 
 export function closeDetail() {
   cancelAnimationFrame(raf);
+  hideCloseup();
   stopAt = null;
   audioEl.pause();
   mediaVideoEl.pause();
@@ -57,8 +92,10 @@ export async function openDetail(meta: PaintingMeta, d: DettaglioMeta | null) {
     void mediaVideoEl.play().catch(() => undefined);
     return;
   }
+  const realDetail = d && (d.crop.w < 1 || d.crop.h < 1);
   if (media.type === 'text' || !meta.audio) {
     body.append(Object.assign(document.createElement('p'), { className: 'detail-text', textContent: d?.text ?? '' }));
+    if (realDetail) void showCloseup(meta, d, body, 8);
     return;
   }
 
@@ -96,6 +133,7 @@ export async function openDetail(meta: PaintingMeta, d: DettaglioMeta | null) {
     raf = requestAnimationFrame(tick);
   };
   if (own && d?.text) body.append(Object.assign(document.createElement('p'), { className: 'detail-text', textContent: d.text }));
+  if (realDetail) void showCloseup(meta, d, body, seg ? seg.to - seg.from : 10);
   start();
   raf = requestAnimationFrame(tick);
 }

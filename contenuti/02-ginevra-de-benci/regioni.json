@@ -2,82 +2,144 @@
   "dettagli": [],
   "personaggio": {
     "modo": "completa",
-    "suggerite": ["chi-sei", "ginepro", "mani", "motto"],
+    "suggerite": [
+      "chi-sei",
+      "ginepro",
+      "mani",
+      "motto"
+    ],
     "domande": [
       {
         "id": "chi-sei",
         "domanda": "Chi sei?",
-        "varianti": ["Come ti chiami?", "Presentati", "Chi è questa donna?", "Chi sei tu?"],
+        "varianti": [
+          "Come ti chiami?",
+          "Presentati",
+          "Chi è questa donna?",
+          "Chi sei tu?"
+        ],
         "risposta": "Sono Ginevra de' Benci, di Firenze.",
         "fonte": "Sono Ginevra de' Benci, di Firenze."
       },
       {
         "id": "famiglia",
         "domanda": "Chi era la tua famiglia?",
-        "varianti": ["Chi era tuo padre?", "La tua famiglia", "Eri ricca?", "Che lavoro faceva tuo padre?"],
+        "varianti": [
+          "Chi era tuo padre?",
+          "La tua famiglia",
+          "Eri ricca?",
+          "Che lavoro faceva tuo padre?",
+          "Come si chiamava tuo padre?"
+        ],
         "risposta": "Mio padre era Amerigo de' Benci, un ricco banchiere di Firenze.",
         "fonte": "Mio padre era Amerigo de' Benci, un ricco banchiere."
       },
       {
         "id": "pittore",
         "domanda": "Chi ti ha dipinta?",
-        "varianti": ["Chi è il pittore?", "Chi ha fatto il quadro?", "Autore", "È Leonardo?"],
+        "varianti": [
+          "Chi è il pittore?",
+          "Chi ha fatto il quadro?",
+          "Autore",
+          "È Leonardo?"
+        ],
         "risposta": "Leonardo da Vinci. Mi ha ritratta quando ero giovane.",
         "fonte": "Leonardo da Vinci mi ha ritratta quando ero giovane, tra il 1474 e il 1478."
       },
       {
         "id": "quando",
         "domanda": "Quando è stato dipinto il ritratto?",
-        "varianti": ["In che anno?", "Quando ti ha dipinta?", "Data del quadro", "Quanto è antico?"],
+        "varianti": [
+          "In che anno?",
+          "Quando ti ha dipinta?",
+          "Data del quadro",
+          "Quanto è antico?"
+        ],
         "risposta": "Tra il 1474 e il 1478.",
         "fonte": "Leonardo da Vinci mi ha ritratta quando ero giovane, tra il 1474 e il 1478."
       },
       {
         "id": "matrimonio",
         "domanda": "Eri sposata?",
-        "varianti": ["Chi era tuo marito?", "Perché ti hanno ritratta?", "Matrimonio", "Eri fidanzata?"],
+        "varianti": [
+          "Chi era tuo marito?",
+          "Perché ti hanno ritratta?",
+          "Matrimonio",
+          "Eri fidanzata?"
+        ],
         "risposta": "Sì: nel 1474 mi sposai con Luigi Niccolini. Forse questo ritratto ricorda quel momento, o forse il mio fidanzamento.",
         "fonte": "Proprio nel 1474 mi sposai con Luigi Niccolini. Forse questo ritratto ricorda quel momento, o forse il mio fidanzamento."
       },
       {
         "id": "ginepro",
         "domanda": "Che pianta c'è dietro di te?",
-        "varianti": ["Che albero è?", "Il cespuglio dietro", "Cos'è il ginepro?", "Lo sfondo", "Perché c'è un ginepro?"],
+        "varianti": [
+          "Che albero è?",
+          "Il cespuglio dietro",
+          "Cos'è il ginepro?",
+          "Lo sfondo",
+          "Perché c'è un ginepro?"
+        ],
         "risposta": "È un ginepro. La parola ginepro somiglia al mio nome, Ginevra, e il ginepro era anche un simbolo di virtù.",
         "fonte": "Dietro di me vedi un cespuglio di ginepro. Non è un caso: la parola ginepro somiglia al mio nome, Ginevra, e il ginepro era anche un simbolo di virtù."
       },
       {
         "id": "retro",
         "domanda": "Che cosa c'è sul retro?",
-        "varianti": ["Cosa c'è dietro la tavola?", "Il rovescio del quadro", "L'altro lato", "Il retro"],
+        "varianti": [
+          "Cosa c'è dietro la tavola?",
+          "Il rovescio del quadro",
+          "L'altro lato",
+          "Il retro"
+        ],
         "risposta": "Un rametto di ginepro dentro una corona di alloro e di palma, con un motto in latino.",
         "fonte": "Se giri la tavola, sul retro trovi un rametto di ginepro dentro una corona di alloro e di palma, con un motto in latino."
       },
       {
         "id": "motto",
         "domanda": "Cosa vuol dire il motto?",
-        "varianti": ["Cosa c'è scritto sul retro?", "Che cosa significa la frase in latino?", "Virtutem forma decorat", "La scritta"],
+        "varianti": [
+          "Cosa c'è scritto sul retro?",
+          "Che cosa significa la frase in latino?",
+          "Virtutem forma decorat",
+          "La scritta"
+        ],
         "risposta": "Il motto è «Virtutem forma decorat». Tradotto vuol dire: «la bellezza adorna la virtù».",
         "fonte": "«Virtutem forma decorat». Te lo traduco: «la bellezza adorna la virtù»."
       },
       {
         "id": "bembo",
         "domanda": "Chi era Bernardo Bembo?",
-        "varianti": ["Bembo", "Chi ti scriveva?", "L'ambasciatore", "Chi era l'ambasciatore veneziano?"],
+        "varianti": [
+          "Bembo",
+          "Chi ti scriveva?",
+          "L'ambasciatore",
+          "Chi era l'ambasciatore veneziano?"
+        ],
         "risposta": "Un ambasciatore veneziano che mi scriveva. L'alloro e la palma sul retro della tavola ricordano il suo emblema.",
         "fonte": "L'alloro e la palma ricordano l'emblema di Bernardo Bembo, un ambasciatore veneziano che mi scriveva."
       },
       {
         "id": "mani",
         "domanda": "Perché non si vedono le mani?",
-        "varianti": ["Perché il quadro è tagliato?", "Dove sono le mani?", "Manca un pezzo?", "Perché è quadrato?"],
+        "varianti": [
+          "Perché il quadro è tagliato?",
+          "Dove sono le mani?",
+          "Manca un pezzo?",
+          "Perché è quadrato?"
+        ],
         "risposta": "Un tempo la tavola era più lunga e probabilmente mostrava anche le mie mani. Quella parte in basso è andata perduta.",
         "fonte": "Un tempo la tavola era più lunga e probabilmente mostrava anche le mie mani, ma quella parte è andata perduta."
       },
       {
         "id": "dove",
         "domanda": "Dove si trova oggi il quadro?",
-        "varianti": ["In che museo sei?", "Dove sei adesso?", "Dove posso vedere l'originale?", "Chi ti ha comprata?"],
+        "varianti": [
+          "In che museo sei?",
+          "Dove sei adesso?",
+          "Dove posso vedere l'originale?",
+          "Chi ti ha comprata?"
+        ],
         "risposta": "A Washington, nella National Gallery of Art, che mi ha acquistata nel 1967 dal principe del Liechtenstein.",
         "fonte": "Oggi sono a Washington, nella National Gallery of Art, che mi ha acquistata nel 1967 dal principe del Liechtenstein."
       }

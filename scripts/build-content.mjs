@@ -33,7 +33,7 @@ const WEAK_POINTS = 250; // sotto questa soglia il ritaglio usa solo il mirino
 const BUDGET_PAINTING = 6 * 1024 * 1024;
 const BUDGET_TOTAL = 120 * 1024 * 1024;
 const MAX_FILE = 25 * 1024 * 1024; // limite per file di Cloudflare Pages, il più stretto
-const PIPELINE_VERSION = 2;
+const PIPELINE_VERSION = 3;
 
 const emit = (event, data = {}) => process.stdout.write(JSON.stringify({ event, ...data }) + '\n');
 const ajv = new Ajv({ allErrors: true });
@@ -151,7 +151,9 @@ async function buildPainting(folder, order, force) {
   // Immagini: target del tracking, versione alta risoluzione per racconto/lente, ritagli.
   emit('step', { id, step: 'immagini' });
   await sharp(image).resize({ width: TARGET_SIZE, height: TARGET_SIZE, fit: 'inside' }).jpeg({ quality: 88 }).toFile(path.join(outDir, 'target.jpg'));
-  await sharp(image).resize({ width: 2400, height: 2400, fit: 'inside' }).jpeg({ quality: 80, mozjpeg: true }).toFile(path.join(outDir, 'immagine.jpg'));
+  // Per la caccia la lente ingrandisce ×2 anche da vicino: serve più risoluzione.
+  const imageSize = experience === 'caccia' ? 3840 : 2400;
+  await sharp(image).resize({ width: imageSize, height: imageSize, fit: 'inside', withoutEnlargement: true }).jpeg({ quality: 80, mozjpeg: true }).toFile(path.join(outDir, 'immagine.jpg'));
   const crops = regions.dettagli.filter((d) => experience === 'dettagli' || d.target === true);
   const targetFiles = [path.join(outDir, 'target.jpg')];
   for (const d of crops) {
@@ -227,7 +229,7 @@ async function buildPainting(folder, order, force) {
 
   // Profondità per la parallasse del racconto.
   let depth;
-  if (experience === 'racconto' || experience === 'personaggio') {
+  if (experience === 'racconto' || experience === 'personaggio' || experience === 'dettagli') {
     try {
       const [d] = await cached(id, 'profondita', hash(image), ['depth.jpg'], (out) =>
         python('depth.py', [image, out, path.join(MODELS, 'depth/depth-anything-v2-small.onnx')], { id, step: 'profondita' }));
@@ -239,10 +241,11 @@ async function buildPainting(folder, order, force) {
   }
 
   // Racconto: video fornito, oppure animazione automatica sincronizzata all'audio.
+  // Nei dettagli serve per "Ascolta tutto": la camera va sui particolari quando la voce li nomina.
   let racconto;
-  if (experience === 'racconto') {
+  if (experience === 'racconto' || (experience === 'dettagli' && alignment)) {
     let video;
-    if (videoSrc) {
+    if (videoSrc && experience === 'racconto') {
       const [mp4, webm] = await cached(id, 'video', hash(videoSrc), ['racconto.mp4', 'racconto.webm'], async (m, w) => {
         const scale = 'scale=\'min(1280,iw)\':-2';
         await ffmpeg(['-i', videoSrc, '-vf', scale, '-c:v', 'libx264', '-profile:v', 'main', '-crf', '28', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', m], { id, step: 'video' });
@@ -292,7 +295,7 @@ async function buildPainting(folder, order, force) {
     if (fs.existsSync(path.join(dir, 'caccia.txt'))) problems.push('caccia.txt presente: gli elementi descritti vanno posizionati nello Studio (scheda Caccia)');
   }
 
-  const personaggio = experience === 'personaggio' ? await characterContent({ id, dir, outDir, image, regions, pronFile, audioFile, demoVoice, problems }) : null;
+  const personaggio = experience === 'personaggio' ? await characterContent({ id, dir, outDir, image, regions, pronFile, audioFile, demoVoice, alignment, problems }) : null;
 
   const meta = {
     schemaVersion: 1,
@@ -411,7 +414,7 @@ const ENVELOPE_HZ = 25;
  * domande e risposte con la loro fonte, audio di ogni risposta e "inviluppo"
  * (volume nel tempo) che muove la bocca.
  */
-async function characterContent({ id, dir, outDir, image, regions, pronFile, audioFile, demoVoice, problems }) {
+async function characterContent({ id, dir, outDir, image, regions, pronFile, audioFile, demoVoice, alignment, problems }) {
   const p = regions.personaggio ?? {};
   let auto = null;
   try {
@@ -428,6 +431,7 @@ async function characterContent({ id, dir, outDir, image, regions, pronFile, aud
 
   const envelopes = {};
   if (audioFile) envelopes.audio = await envelope(audioFile);
+  if (alignment && envelopes.audio) envelopes['audio:forma'] = lipShape(alignment, envelopes.audio.length);
 
   // Audio di una risposta: registrazione in risposte/<id>.*, altrimenti voce DEMO.
   const speak = async (key, text) => {
@@ -449,6 +453,9 @@ async function characterContent({ id, dir, outDir, image, regions, pronFile, aud
     fs.copyFileSync(opus, path.join(outDir, `${name}.opus`));
     fs.copyFileSync(m4a, path.join(outDir, `${name}.m4a`));
     envelopes[name] = await envelope(src);
+    // Con la voce DEMO c'è anche l'allineamento parola per parola: forma delle labbra.
+    const align = !recorded && fs.existsSync(`${src}.json`) ? JSON.parse(fs.readFileSync(`${src}.json`, 'utf8')) : null;
+    if (align) envelopes[`${name}:forma`] = lipShape(align, envelopes[name].length);
     return { src: `${name}.opus`, fallback: `${name}.m4a`, durationSec: Math.round((envelopes[name].length / ENVELOPE_HZ) * 10) / 10 };
   };
 
@@ -476,6 +483,30 @@ async function characterContent({ id, dir, outDir, image, regions, pronFile, aud
     suggerite,
     nonSo: { text: nonSoText, ...(nonSoAudio ? { audio: nonSoAudio } : {}) },
   };
+}
+
+/**
+ * Forma delle labbra nel tempo (0-100, ENVELOPE_HZ valori al secondo): quanto
+ * sono arrotondate. Dalle vocali delle parole (l'italiano si legge come si
+ * scrive): o/u strette e tonde, a aperta, e/i distese. Le vocali di ogni parola
+ * si distribuiscono in modo uniforme sulla sua durata.
+ */
+function lipShape(alignment, frames) {
+  const ROUND = { o: 100, u: 100, a: 35, e: 15, i: 0 };
+  const out = new Array(frames).fill(0);
+  for (const s of alignment.sentences ?? []) {
+    for (const w of s.words ?? []) {
+      const vowels = [...w.w.toLowerCase().normalize('NFD').replace(/[^a-z]/g, '')].filter((c) => c in ROUND);
+      if (!vowels.length) continue;
+      const step = (w.end - w.start) / vowels.length;
+      vowels.forEach((v, k) => {
+        const a = Math.floor((w.start + k * step) * ENVELOPE_HZ);
+        const b = Math.ceil((w.start + (k + 1) * step) * ENVELOPE_HZ);
+        for (let i = Math.max(0, a); i < Math.min(frames, b); i++) out[i] = ROUND[v];
+      });
+    }
+  }
+  return out;
 }
 
 /** Riquadro del volto ricavato dai punti (quando sono stati messi a mano). */

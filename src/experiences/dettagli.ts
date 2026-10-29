@@ -46,7 +46,8 @@ function renderFindList(meta: PaintingMeta, found: Set<string>, host: HTMLElemen
   );
 }
 
-export function setupDettagli(meta: PaintingMeta, session: ArSession) {
+/** onFull: "Ascolta tutto" con racconto animato (se il quadro ne ha uno); altrimenti solo audio. */
+export function setupDettagli(meta: PaintingMeta, session: ArSession, onFull?: () => void) {
   bindDetailCard();
   const found = loadFound(meta);
   const view = session.view;
@@ -87,7 +88,7 @@ export function setupDettagli(meta: PaintingMeta, session: ArSession) {
     }
   }
   refresh();
-  $<HTMLButtonElement>('#find-full').onclick = () => void openDetail(meta, null);
+  $<HTMLButtonElement>('#find-full').onclick = () => (onFull && meta.racconto ? onFull() : void openDetail(meta, null));
   $<HTMLButtonElement>('#find-toggle').onclick = () => panel.classList.toggle('collapsed');
 
   function discover(d: DettaglioMeta, via: string) {
@@ -165,11 +166,11 @@ export function setupDettagli(meta: PaintingMeta, session: ArSession) {
 }
 
 /** Senza fotocamera: immagine del quadro e particolari da toccare (ripiego manuale). */
-export function dettagliWithoutCamera(meta: PaintingMeta) {
+export function dettagliWithoutCamera(meta: PaintingMeta, onFull?: () => void) {
   bindDetailCard();
   const found = new Set(meta.dettagli.map((d) => d.id));
   const host = $('#fallback-find');
   renderFindList(meta, found, host, (d) => void openDetail(meta, d));
   $('.find-title', host).textContent = 'Tocca un particolare';
-  $<HTMLButtonElement>('#fallback-full').onclick = () => void openDetail(meta, null);
+  $<HTMLButtonElement>('#fallback-full').onclick = () => (onFull && meta.racconto ? onFull() : void openDetail(meta, null));
 }

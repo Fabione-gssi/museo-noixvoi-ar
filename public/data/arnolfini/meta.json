@@ -10,10 +10,11 @@
   "demo": true,
   "aspect": 0.731,
   "image": "immagine.jpg",
+  "depth": "depth.jpg",
   "audio": {
     "src": "audio.opus",
     "fallback": "audio.m4a",
-    "durationSec": 135.3
+    "durationSec": 135.2
   },
   "subtitles": "subtitles.vtt",
   "alignment": "alignment.json",
@@ -46,8 +47,8 @@
       "media": {
         "type": "audio",
         "audioSegment": {
-          "from": 57.98,
-          "to": 71.54
+          "from": 58.34,
+          "to": 71.78
         }
       },
       "text": "Lo specchio convesso riflette tutta la stanza, vista da dietro, e sulla porta due figure che entrano. Intorno allo specchio, in piccoli medaglioni, sono dipinte scene della Passione di Cristo: minuscole, eppure riconoscibili.",
@@ -73,8 +74,8 @@
       "media": {
         "type": "audio",
         "audioSegment": {
-          "from": 72.44,
-          "to": 80.58
+          "from": 72.68,
+          "to": 81.12
         }
       },
       "text": "Sopra lo specchio c'è una scritta elegante, in latino: \"Johannes de eyck fuit hic 1434\", cioè \"Jan van Eyck è stato qui.",
@@ -100,11 +101,11 @@
       "media": {
         "type": "audio",
         "audioSegment": {
-          "from": 89.17,
-          "to": 95.36
+          "from": 89.75,
+          "to": 98.29
         }
       },
-      "text": "In alto pende un lampadario di ottone. Guardalo bene: c'è una sola candela accesa, in pieno giorno.",
+      "text": "In alto pende un lampadario di ottone. Guardalo bene: c'è una sola candela accesa, in pieno giorno. Il suo significato è ancora discusso.",
       "source": "testo.txt: \"In alto pende un lampadario di ottone. Guardalo bene: c'è una sola candela accesa, in pien…\""
     },
     {
@@ -127,8 +128,8 @@
       "media": {
         "type": "audio",
         "audioSegment": {
-          "from": 98.9,
-          "to": 107.3
+          "from": 99.19,
+          "to": 107.52
         }
       },
       "text": "In basso, tra i due personaggi, c'è un cagnolino dal pelo arruffato, dipinto pelo per pelo. Il cane è spesso letto come simbolo di fedeltà.",
@@ -154,8 +155,8 @@
       "media": {
         "type": "audio",
         "audioSegment": {
-          "from": 108.2,
-          "to": 114.38
+          "from": 108.42,
+          "to": 114.88
         }
       },
       "text": "In basso a sinistra vedi gli zoccoli di legno dell'uomo, tolti e lasciati sul pavimento, ancora sporchi di fango.",
@@ -181,16 +182,125 @@
       "media": {
         "type": "audio",
         "audioSegment": {
-          "from": 115.28,
-          "to": 123.62
+          "from": 115.78,
+          "to": 123.83
         }
       },
       "text": "Vicino alla finestra ci sono alcune arance. Oggi ci sembrano un dettaglio qualunque, ma allora erano un frutto costoso: un segno di ricchezza.",
       "source": "testo.txt: \"Vicino alla finestra ci sono alcune arance. Oggi ci sembrano un dettaglio qualunque, ma al…\""
     }
   ],
+  "racconto": {
+    "auto": true,
+    "timeline": [
+      {
+        "t": 0,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "w": 1,
+            "h": 1
+          },
+          "label": ""
+        },
+        "source": "inizio"
+      },
+      {
+        "t": 58.04,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0.415,
+            "y": 0.233,
+            "w": 0.178,
+            "h": 0.13
+          },
+          "label": "Lo specchio convesso",
+          "id": "specchio"
+        },
+        "source": "ancora: \"Lo specchio convesso riflette tutta la stanza\""
+      },
+      {
+        "t": 72.38,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0.425,
+            "y": 0.188,
+            "w": 0.165,
+            "h": 0.05
+          },
+          "label": "La firma del pittore",
+          "id": "firma"
+        },
+        "source": "ancora: \"Sopra lo specchio c'è una scritta elegante\""
+      },
+      {
+        "t": 89.45,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0.364,
+            "y": 0.021,
+            "w": 0.293,
+            "h": 0.177
+          },
+          "label": "Il lampadario",
+          "id": "lampadario"
+        },
+        "source": "ancora: \"In alto pende un lampadario di ottone\""
+      },
+      {
+        "t": 100.7,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0.36,
+            "y": 0.815,
+            "w": 0.225,
+            "h": 0.175
+          },
+          "label": "Il cagnolino",
+          "id": "cane"
+        },
+        "source": "ancora: \"c'è un cagnolino dal pelo arruffato\""
+      },
+      {
+        "t": 109.28,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0,
+            "y": 0.85,
+            "w": 0.16,
+            "h": 0.135
+          },
+          "label": "Gli zoccoli",
+          "id": "zoccoli"
+        },
+        "source": "ancora: \"vedi gli zoccoli di legno dell'uomo\""
+      },
+      {
+        "t": 115.48,
+        "action": "cameraTo",
+        "args": {
+          "rect": {
+            "x": 0.055,
+            "y": 0.495,
+            "w": 0.105,
+            "h": 0.07
+          },
+          "label": "Le arance",
+          "id": "arance"
+        },
+        "source": "ancora: \"Vicino alla finestra ci sono alcune arance\""
+      }
+    ]
+  },
   "budget": {
-    "bytes": 5146740,
+    "bytes": 5157437,
     "limit": 6291456
   }
 }

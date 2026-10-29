@@ -35,6 +35,8 @@ for (const meta of metas) {
           await expect(page.locator('#find')).toBeVisible({ timeout: 30_000 });
           await expect(page.locator('#find .find-item')).toHaveCount(meta.dettagli.length);
           await expect(page.locator('#detail-card h2')).toHaveText(d.label, { timeout: 40_000 });
+          // Primo piano animato del particolare nella scheda.
+          await expect(page.locator('#detail-card .detail-stage canvas')).toBeVisible();
           const p = await probe(page);
           saveResult(`dettagli-${meta.id}-${id}`, p);
           if (d.media.type === 'audio' && d.media.audioSegment) {
@@ -71,7 +73,14 @@ for (const meta of metas) {
         await page.getByRole('button', { name: 'Chiudi' }).click();
         await expect(page.locator('#detail-card')).toBeHidden();
         await page.getByRole('button', { name: 'Ascolta il racconto completo' }).click();
-        await expect(page.locator('#detail-card h2')).toHaveText(meta.title);
+        // Racconto animato: la camera va sui particolari quando la voce li nomina.
+        await expect(page.locator('#story')).toBeVisible({ timeout: 20_000 });
+        await expect(page.locator('#story .story-title')).toHaveText(meta.title);
+        const first = meta.racconto.timeline.find((k: { args: { label?: string } }) => k.args.label);
+        await expect.poll(async () => (await probe(page)).events.some((e) => e.type === 'camera'), { timeout: (first.t + 8) * 1000 }).toBe(true);
+        // Indietro: si torna all'elenco dei particolari.
+        await page.locator('#story .story-back').click();
+        await expect(page.locator('#fallback .find-item')).toHaveCount(meta.dettagli.length);
       } finally {
         await browser.close();
       }

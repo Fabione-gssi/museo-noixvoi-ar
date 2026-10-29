@@ -32,6 +32,11 @@ Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 3.
 - La parallasse col giroscopio è leggera per scelta (niente effetti che diano fastidio). Su iPhone richiede il permesso al primo tap: se viene negato, il racconto funziona lo stesso.
 - Il video caricato non ha sottotitoli automatici (vanno inclusi nel video stesso).
 
+## Quadro vivo (racconto, particolari, personaggio)
+
+- Il movimento viene dalla mappa di profondità calcolata dal computer: i piani vicini si spostano più dei lontani e "respirano" appena. Le figure **non si muovono davvero** (niente braccia o gambe animate): servirebbero video generati con l'intelligenza artificiale, esclusi dai vincoli del progetto. Si può sempre caricare un video già pronto (racconto o particolare).
+- Dove la profondità cambia di colpo (bordi delle figure) può comparire un leggero stiramento: l'ondeggiamento è tenuto piccolo apposta.
+
 ## Caccia
 
 - La lente mostra l'immagine ad alta risoluzione nel punto del quadro che sta sotto il centro dello schermo (precisione misurata nei test: meno di 0,5% della larghezza). Ignora però la prospettiva: se si guarda il quadro molto di lato, il contenuto della lente è leggermente diverso da quello visto dalla fotocamera.
@@ -41,8 +46,11 @@ Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 3.
 
 ## Personaggio
 
-- **Non è un'intelligenza artificiale.** Risponde solo con le risposte scritte nello Studio. A una domanda imprevista dice che non sa rispondere. La ricerca tollera errori di battitura e modi diversi di chiedere, ma può sbagliare: con domande molto lunghe o ambigue sceglie la risposta più vicina oppure il "non so".
-- **Volto animato**: è una deformazione dell'immagine attorno a occhi e bocca, non un modello 3D. La bocca si apre seguendo il volume della voce, non le singole sillabe, e l'interno della bocca è un'ombra scura (niente denti né lingua).
+- **Non è un'intelligenza artificiale.** Risponde solo con le risposte scritte nello Studio. La ricerca tollera errori di battitura, sinonimi comuni e modi diversi di chiedere, e guarda anche le parole delle risposte. Quando è incerta propone 2-3 domande vicine ("Forse volevi chiedere…"); se nulla corrisponde, dice che non sa rispondere. Può ancora sbagliare con domande lunghe o ambigue. Il rimedio è aggiungere nello Studio altri modi di chiedere: è normale farlo dopo le prime settimane in sala.
+- **Volto animato**: è una deformazione dell'immagine attorno a occhi, bocca, sopracciglia e testa, non un modello 3D.
+  - La bocca si apre seguendo il volume della voce. La forma delle labbra (strette su o/u) viene dalle vocali del testo allineato alla voce, quindi c'è solo con la voce DEMO o con registrazioni allineate al testo. Per le risposte registrate da un attore c'è solo l'apertura.
+  - L'interno della bocca è un'ombra scura: niente denti né lingua.
+  - La testa si gira di pochi gradi: girate più ampie stirerebbero capelli e sfondo.
   - Funziona bene con volti grandi, frontali o di tre quarti. Con volti piccoli, di profilo o coperti (barba folta, mani) va usata la "presenza".
 - **Punti del volto**: li trova MediaPipe sul computer. Con un dipinto può sbagliare: lo Studio permette di correggerli a mano.
 - **Dopo il riconoscimento** il personaggio si guarda a tutto schermo, non sovrapposto alla tela inquadrata. È più nitido e stabile, e permette di abbassare il telefono. L'animazione sopra la tela vera è stata scartata per ora: i colori della fotocamera e quelli dell'immagine non coincidono.

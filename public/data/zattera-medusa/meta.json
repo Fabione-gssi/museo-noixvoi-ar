@@ -14,7 +14,7 @@
   "audio": {
     "src": "audio.opus",
     "fallback": "audio.m4a",
-    "durationSec": 154.1
+    "durationSec": 153.8
   },
   "subtitles": "subtitles.vtt",
   "alignment": "alignment.json",
@@ -124,7 +124,7 @@
         "source": "inizio"
       },
       {
-        "t": 2.37,
+        "t": 2.31,
         "action": "cameraTo",
         "args": {
           "rect": {
@@ -139,7 +139,7 @@
         "source": "ancora: \"In primo piano ci sono dei corpi\""
       },
       {
-        "t": 16.08,
+        "t": 15.93,
         "action": "cameraTo",
         "args": {
           "rect": {
@@ -153,7 +153,7 @@
         "source": "ancora: \"Il 2 luglio 1816\""
       },
       {
-        "t": 33.67,
+        "t": 33.56,
         "action": "cameraTo",
         "args": {
           "rect": {
@@ -168,7 +168,7 @@
         "source": "ancora: \"fu costruita in fretta una zattera\""
       },
       {
-        "t": 85.02,
+        "t": 84.68,
         "action": "cameraTo",
         "args": {
           "rect": {
@@ -182,7 +182,7 @@
         "source": "ancora: \"Ora segui con lo sguardo la composizione\""
       },
       {
-        "t": 89.53,
+        "t": 89.49,
         "action": "cameraTo",
         "args": {
           "rect": {
@@ -197,7 +197,7 @@
         "source": "ancora: \"Accanto all'albero e alla vela gonfia\" + ancora: \"un uomo anziano tiene sulle ginocchia\""
       },
       {
-        "t": 101.62,
+        "t": 101.35,
         "action": "cameraTo",
         "args": {
           "rect": {
@@ -212,7 +212,7 @@
         "source": "ancora: \"In cima, sopra un barile\""
       },
       {
-        "t": 106.84,
+        "t": 106.65,
         "action": "cameraTo",
         "args": {
           "rect": {
@@ -227,7 +227,7 @@
         "source": "ancora: \"laggiù, minuscola\""
       },
       {
-        "t": 118.34,
+        "t": 118.29,
         "action": "cameraTo",
         "args": {
           "rect": {
@@ -243,7 +243,7 @@
     ]
   },
   "budget": {
-    "bytes": 2949869,
+    "bytes": 2946338,
     "limit": 6291456
   }
 }

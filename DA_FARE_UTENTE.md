@@ -5,6 +5,19 @@ Per rispondere basta scrivermi in chat, per esempio: "1 iPhone: sì sì no".
 
 ---
 
+## Dopo le prove con gli utenti (29/10/2026): da ricontrollare
+
+Ho sistemato i 4 punti segnalati. Ti chiedo di rifare queste prove sul Galaxy, meglio se con le stesse persone.
+
+| Segnalazione | Cosa ho cambiato | Da provare |
+|---|---|---|
+| 1. Personaggio poco vivo (Dürer) | La testa annuisce mentre parla, oscilla e si gira un po' verso di te. Le sopracciglia si alzano sulle sillabe forti, le labbra si stringono su "o" e "u". Lo sfondo ondeggia in profondità e capelli e vesti si muovono appena. Respiro più visibile | Dürer e Ginevra: è più naturale? Guarda anche i nuovi video in `revisione/volto-*.mp4` |
+| 2. Domande capite male | Sinonimi (papà = padre, abito = vestito, autore = pittore…), errori di battitura anche nei sinonimi, ricerca anche nelle parole delle risposte. Quando non è sicuro propone "Forse volevi chiedere…" con 2-3 pulsanti, invece di dire subito "non so" | Fai scrivere le domande alle stesse persone di prima. Se una domanda sbaglia ancora, mandami il testo esatto |
+| 3. Ronda di notte senza animazione | Ogni particolare si apre con un primo piano animato: la camera si avvicina piano, con effetto di profondità. "Ascolta tutto" ora è un racconto animato come quello della *Zattera*. Racconto e particolari "respirano" e ondeggiano in profondità | Ronda e Arnolfini: apri due particolari e poi "Ascolta tutto" |
+| 4. Lente dei Proverbi non precisa | La lente mostra sempre il punto sotto il suo centro, indicato da un mirino (+). Prima, senza fotocamera, mostrava il punto sotto il dito, non quello sotto la lente. Immagine più definita (da 2400 a 3840 pixel), così è nitida anche da vicino. Pulsante **💡 Aiuto**: al primo tocco dice la zona e mostra una freccia nella lente, al secondo anche il nome | Proverbi: la lente è centrata sul punto giusto? Gli aiuti bastano? |
+
+---
+
 ## Fase 6: rilascio dell'MVP
 
 Lo stato dei criteri di accettazione è in `docs/RILASCIO_MVP.md`. Per chiudere l'MVP mancano solo prove che puoi fare tu.

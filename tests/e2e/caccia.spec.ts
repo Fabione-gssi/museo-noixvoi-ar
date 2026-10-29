@@ -102,6 +102,31 @@ for (const meta of metas) {
         await page.evaluate(([u, v]) => (window as unknown as { __huntMove: (u: number, v: number) => void }).__huntMove(u, v), [last.x, last.y]);
         await expect(page.locator('#detail-card h2')).toHaveText(last.label, { timeout: 10_000 });
         await expect(page.locator('#hunt-count-fb')).toHaveText(`1/${N}`);
+        // La lente mostra il punto sotto il suo centro: dov'è disegnata.
+        const lens = await page.locator('#fallback-lens').boundingBox();
+        const pic = await page.locator('#fallback-hunt img').boundingBox();
+        expect(Math.abs((lens!.x + lens!.width / 2 - pic!.x) / pic!.width - last.x)).toBeLessThan(0.01);
+        expect(Math.abs((lens!.y + lens!.height / 2 - pic!.y) / pic!.height - last.y)).toBeLessThan(0.01);
+      } finally {
+        await browser.close();
+      }
+    });
+
+    test('aiuto: prima la zona e la freccia, poi anche il nome', async () => {
+      const browser = await launchWithCamera(null);
+      try {
+        const page = await newPage(browser, { camera: false });
+        await page.goto(`/?p=${meta.id}&notutorial`);
+        await page.click('#start');
+        await expect(page.locator('#fallback-hunt img')).toBeVisible({ timeout: 20_000 });
+        const help = page.locator('#hunt-help-fb');
+        await help.click();
+        const tip = page.locator('#hunt-tip-fb');
+        await expect(tip).toContainText(/C'è qualcosa da scoprire (in alto|in basso|a sinistra|a destra|al centro)/);
+        await help.click();
+        const named = await tip.textContent();
+        expect(items.some((it) => named!.includes(`«${it.label}»`))).toBe(true);
+        expect((await probe(page)).events.filter((e) => e.type === 'aiuto')).toHaveLength(2);
       } finally {
         await browser.close();
       }

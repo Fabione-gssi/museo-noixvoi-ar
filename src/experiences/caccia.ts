@@ -10,8 +10,10 @@ import { log, probe } from '../probe';
 // ingrandito (dall'immagine ad alta risoluzione, mai dalla fotocamera). Gli
 // elementi nascosti sono invisibili finché non entrano nella lente; tenerli
 // dentro per DWELL_MS li scopre. Dopo HINT_AFTER_MS senza scoperte compare un
-// luccichio verso un elemento non ancora trovato. Ordine libero, progresso
-// salvato, finale quando sono tutti trovati.
+// luccichio verso un elemento non ancora trovato. Il pulsante "Aiuto" dice
+// dove cercare (1° tocco: la zona e una freccia sul bordo della lente; 2°: anche
+// il nome). Ordine libero, progresso salvato, finale quando sono tutti trovati.
+// La lente mostra sempre il punto del quadro che sta sotto il suo centro (mirino).
 //
 // La stessa logica serve anche senza fotocamera: la lente si trascina col dito
 // sull'immagine del quadro.
@@ -30,11 +32,20 @@ interface Hunt {
   found: Set<string>;
 }
 
+/** Zona del quadro in parole: "in basso a sinistra", "al centro"... */
+export function zoneOf(x: number, y: number) {
+  const v = y < 1 / 3 ? 'in alto' : y < 2 / 3 ? '' : 'in basso';
+  const h = x < 1 / 3 ? 'a sinistra' : x < 2 / 3 ? '' : 'a destra';
+  if (!v && !h) return 'al centro del quadro';
+  if (!v) return `${h}, a metà altezza`;
+  return h ? `${v} ${h}` : `${v} al centro`;
+}
+
 const key = (id: string) => `caccia:${id}`;
 const asDetail = (it: { label: string; media: DettaglioMeta['media']; text: string }, id: string): DettaglioMeta =>
   ({ id, label: it.label, crop: { x: 0, y: 0, w: 1, h: 1 }, trigger: [], media: it.media, text: it.text });
 
-function createHunt(meta: PaintingMeta, lensCanvas: HTMLCanvasElement, counter: HTMLElement, toScreen: (u: number, v: number) => { x: number; y: number } | null): Hunt {
+function createHunt(meta: PaintingMeta, lensCanvas: HTMLCanvasElement, counter: HTMLElement, toScreen: (u: number, v: number) => { x: number; y: number } | null, help: { button: HTMLButtonElement; tip: HTMLElement }): Hunt {
   bindDetailCard();
   const c = meta.caccia!;
   const img = new Image();
@@ -53,6 +64,28 @@ function createHunt(meta: PaintingMeta, lensCanvas: HTMLCanvasElement, counter: 
   let lastDiscovery = performance.now();
   let flash = 0;
   let zoom = ZOOM;
+  let lastPose: LensPose | null = null;
+  // Aiuto: elemento suggerito e livello (1 = zona e freccia, 2 = anche il nome).
+  let tip: { it: CacciaItem; level: number } | null = null;
+  const showTip = () => {
+    help.tip.hidden = !tip;
+    if (!tip) return;
+    const where = zoneOf(tip.it.x, tip.it.y);
+    help.tip.textContent = tip.level >= 2 ? `Cerca ${where}: «${tip.it.label}». Segui la freccia nella lente.` : `C'è qualcosa da scoprire ${where}. Segui la freccia nella lente.`;
+  };
+  const giveTip = (auto = false) => {
+    const missing = c.items.filter((it) => !found.has(it.id));
+    if (!missing.length) return;
+    const p = lastPose;
+    const nearest = p ? [...missing].sort((a, b) => Math.hypot(a.x - p.u, a.y - p.v) - Math.hypot(b.x - p.u, b.y - p.v))[0] : missing[0];
+    const it = tip && !found.has(tip.it.id) ? tip.it : nearest;
+    if (auto && tip) return;
+    tip = { it, level: auto ? 1 : Math.min(2, tip?.it.id === it.id ? tip.level + 1 : 1) };
+    log(auto ? 'aiuto:auto' : 'aiuto', it.label);
+    showTip();
+  };
+  help.button.onclick = () => giveTip();
+  help.button.hidden = false;
 
   function discover(it: CacciaItem) {
     found.add(it.id);
@@ -62,6 +95,11 @@ function createHunt(meta: PaintingMeta, lensCanvas: HTMLCanvasElement, counter: 
     flash = performance.now();
     log('discover:lente', it.label);
     hint.hidden = true;
+    if (tip?.it.id === it.id) {
+      tip = null;
+      showTip();
+    }
+    if (found.size === c.items.length) help.button.hidden = true;
     const done = found.size === c.items.length;
     void openDetail(meta, asDetail(it, it.id)).then(() => {
       if (!done || !c.finale) return;
@@ -140,6 +178,61 @@ function createHunt(meta: PaintingMeta, lensCanvas: HTMLCanvasElement, counter: 
       }
     }
     ctx.restore();
+    // Mirino: il punto esatto del quadro sotto il centro della lente.
+    const m = size / 2;
+    // Croce bianca con bordo scuro: si vede sia sulle zone chiare sia su quelle scure.
+    const arm = size / 16;
+    const cross = () => {
+      ctx.beginPath();
+      ctx.moveTo(m - arm, m);
+      ctx.lineTo(m - arm / 3, m);
+      ctx.moveTo(m + arm / 3, m);
+      ctx.lineTo(m + arm, m);
+      ctx.moveTo(m, m - arm);
+      ctx.lineTo(m, m - arm / 3);
+      ctx.moveTo(m, m + arm / 3);
+      ctx.lineTo(m, m + arm);
+      ctx.stroke();
+    };
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
+    ctx.lineWidth = Math.max(4, size / 45);
+    cross();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.95)';
+    ctx.lineWidth = Math.max(2, size / 110);
+    cross();
+    // Aiuto: freccia sul bordo verso l'elemento suggerito, o cerchio se è già nella lente.
+    if (tip && !found.has(tip.it.id)) {
+      const dx = (tip.it.x - p.u) * img.naturalWidth;
+      const dy = (tip.it.y - p.v) * img.naturalHeight;
+      const dist = Math.hypot(dx, dy) * k;
+      const pulse = 0.5 + 0.5 * Math.sin(now / 160);
+      ctx.strokeStyle = `rgba(255, 209, 102, ${0.6 + 0.4 * pulse})`;
+      ctx.fillStyle = ctx.strokeStyle;
+      if (dist > m * 0.85) {
+        const a = Math.atan2(dy, dx);
+        const r = m * 0.78;
+        const tx = m + Math.cos(a) * r;
+        const ty = m + Math.sin(a) * r;
+        const s = size / 8;
+        ctx.beginPath();
+        ctx.moveTo(tx + Math.cos(a) * s, ty + Math.sin(a) * s);
+        ctx.lineTo(tx + Math.cos(a + 2.4) * s, ty + Math.sin(a + 2.4) * s);
+        ctx.lineTo(tx + Math.cos(a - 2.4) * s, ty + Math.sin(a - 2.4) * s);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.lineWidth = Math.max(2, size / 90);
+        ctx.stroke();
+      } else {
+        ctx.lineWidth = Math.max(3, size / 60);
+        ctx.setLineDash([size / 40, size / 50]);
+        ctx.beginPath();
+        ctx.arc(m + dx * k, m + dy * k, Math.max(size / 12, tip.it.r * img.naturalWidth * k), 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    }
     // Avanzamento della scoperta: anello che si riempie sul bordo della lente.
     if (dwell) {
       const a = Math.min(1, (now - dwell.since) / DWELL_MS);
@@ -164,7 +257,8 @@ function createHunt(meta: PaintingMeta, lensCanvas: HTMLCanvasElement, counter: 
       hint.hidden = true;
       return;
     }
-    const target = missing[0];
+    const target = tip && !found.has(tip.it.id) ? tip.it : missing[0];
+    giveTip(true);
     const s = toScreen(target.x, target.y);
     if (!s) {
       hint.hidden = true;
@@ -185,6 +279,7 @@ function createHunt(meta: PaintingMeta, lensCanvas: HTMLCanvasElement, counter: 
     frame(p) {
       const now = performance.now();
       probe.lens = p && { u: +p.u.toFixed(3), v: +p.v.toFixed(3), rW: +p.rW.toFixed(3) };
+      if (p) lastPose = p;
       if (!p) {
         lensCanvas.hidden = true;
         dwell = null;
@@ -224,7 +319,7 @@ export function setupCaccia(meta: PaintingMeta, session: ArSession) {
   const lens = $<HTMLCanvasElement>('#lens');
   $('#hunt').hidden = false;
   const local = (u: number, v: number) => new THREE.Vector3(u - 0.5, (0.5 - v) * mainH, 0);
-  const hunt = createHunt(meta, lens, $('#hunt-count'), (u, v) => view.toScreen(0, local(u, v)));
+  const hunt = createHunt(meta, lens, $('#hunt-count'), (u, v) => view.toScreen(0, local(u, v)), { button: $('#hunt-help'), tip: $('#hunt-tip') });
 
   // Segno verde (sul quadro, fuori dalla lente) per gli elementi già trovati.
   const marks = new Map<string, THREE.Mesh>();
@@ -255,6 +350,7 @@ export function setupCaccia(meta: PaintingMeta, session: ArSession) {
     stop: () => {
       closeDetail();
       lens.hidden = true;
+      $('#hunt-tip').hidden = true;
     },
   };
 }
@@ -270,33 +366,40 @@ export function cacciaWithoutCamera(meta: PaintingMeta) {
     const b = pic.getBoundingClientRect();
     return { x: b.left + u * b.width, y: b.top + v * b.height };
   };
-  const hunt = createHunt(meta, lens, $('#hunt-count-fb'), toScreen);
-  let pointer: { x: number; y: number } | null = null;
+  const hunt = createHunt(meta, lens, $('#hunt-count-fb'), toScreen, { button: $('#hunt-help-fb'), tip: $('#hunt-tip-fb') });
+  const lensRadius = () => meta.caccia!.lensRadius * Math.min(window.innerWidth, window.innerHeight * 0.75);
+  const clamp = (x: number) => Math.min(1, Math.max(0, x));
+  // Centro della lente in coordinate dell'immagine: resta agganciato al quadro
+  // anche se la pagina scorre. La lente sta un po' sopra il dito, per non
+  // coprirla, e mostra il punto che sta sotto il suo centro (non sotto il dito).
+  // All'inizio: il punto vicino al centro più lontano dagli elementi, per non scoprirne uno senza cercarlo.
+  const starts = [0.5, 0.35, 0.65].flatMap((u) => [0.5, 0.35, 0.65].map((v) => ({ u, v })));
+  const room = (p: { u: number; v: number }) => Math.min(...meta.caccia!.items.map((it) => Math.hypot(it.x - p.u, (it.y - p.v) / meta.aspect) - it.r));
+  let center = starts.reduce((best, p) => (room(p) > room(best) ? p : best));
   const move = (e: PointerEvent) => {
-    pointer = { x: e.clientX, y: e.clientY };
+    const b = pic.getBoundingClientRect();
+    center = { u: clamp((e.clientX - b.left) / b.width), v: clamp((e.clientY - lensRadius() * 0.9 - b.top) / b.height) };
   };
+  let dragging = false;
   pic.addEventListener('pointerdown', (e) => {
     pic.setPointerCapture(e.pointerId);
+    dragging = true;
     move(e);
   });
-  pic.addEventListener('pointermove', (e) => pointer && move(e));
+  pic.addEventListener('pointermove', (e) => dragging && move(e));
+  pic.addEventListener('pointerup', () => (dragging = false));
   // La lente resta dove la si lascia (si può alzare il dito e ascoltare).
   const loop = () => {
     const b = pic.getBoundingClientRect();
-    if (!b.width) return requestAnimationFrame(loop);
-    pointer ??= { x: b.left + b.width / 2, y: b.top + b.height / 2 };
-    const sr = meta.caccia!.lensRadius * Math.min(window.innerWidth, window.innerHeight * 0.75);
-    // Sullo schermo la lente sta un po' sopra il dito, per non coprirla.
-    const sx = pointer.x;
-    const sy = pointer.y - sr * 0.9;
-    const u = (pointer.x - b.left) / b.width;
-    const v = (pointer.y - b.top) / b.height;
-    hunt.frame({ u: Math.min(1, Math.max(0, u)), v: Math.min(1, Math.max(0, v)), rW: sr / b.width, sx, sy, sr });
+    if (b.width) {
+      const sr = lensRadius();
+      hunt.frame({ u: center.u, v: center.v, rW: sr / b.width, sx: b.left + center.u * b.width, sy: b.top + center.v * b.height, sr });
+    }
     requestAnimationFrame(loop);
   };
   requestAnimationFrame(loop);
+  // Per i test: porta il centro della lente sul punto (u, v) dell'immagine.
   (window as unknown as { __huntMove?: (u: number, v: number) => void }).__huntMove = (u, v) => {
-    const b = pic.getBoundingClientRect();
-    pointer = { x: b.left + u * b.width, y: b.top + v * b.height };
+    center = { u, v };
   };
 }

@@ -14,7 +14,7 @@
   "audio": {
     "src": "audio.opus",
     "fallback": "audio.m4a",
-    "durationSec": 62.7
+    "durationSec": 62.2
   },
   "subtitles": "subtitles.vtt",
   "alignment": "alignment.json",
@@ -115,7 +115,7 @@
         "audio": {
           "src": "risposta-chi-sei.opus",
           "fallback": "risposta-chi-sei.m4a",
-          "durationSec": 5.8
+          "durationSec": 5.6
         }
       },
       {
@@ -167,7 +167,7 @@
         "audio": {
           "src": "risposta-scritta.opus",
           "fallback": "risposta-scritta.m4a",
-          "durationSec": 14.1
+          "durationSec": 14.6
         }
       },
       {
@@ -184,7 +184,7 @@
         "audio": {
           "src": "risposta-iniziali.opus",
           "fallback": "risposta-iniziali.m4a",
-          "durationSec": 7.7
+          "durationSec": 7.5
         }
       },
       {
@@ -218,7 +218,7 @@
         "audio": {
           "src": "risposta-mano.opus",
           "fallback": "risposta-mano.m4a",
-          "durationSec": 5.2
+          "durationSec": 5.4
         }
       },
       {
@@ -235,7 +235,7 @@
         "audio": {
           "src": "risposta-vestito.opus",
           "fallback": "risposta-vestito.m4a",
-          "durationSec": 5
+          "durationSec": 5.1
         }
       },
       {
@@ -286,7 +286,7 @@
         "audio": {
           "src": "risposta-storia.opus",
           "fallback": "risposta-storia.m4a",
-          "durationSec": 9.4
+          "durationSec": 9.6
         }
       }
     ],
@@ -301,12 +301,12 @@
       "audio": {
         "src": "risposta-nonso.opus",
         "fallback": "risposta-nonso.m4a",
-        "durationSec": 8.2
+        "durationSec": 8.1
       }
     }
   },
   "budget": {
-    "bytes": 2006594,
+    "bytes": 2024042,
     "limit": 6291456
   }
 }

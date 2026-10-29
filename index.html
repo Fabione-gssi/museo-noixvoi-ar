@@ -46,7 +46,8 @@
     <button id="lock" class="lock" aria-pressed="false">Blocca</button>
     <button id="fallback-btn" class="ghost">Non funziona? Guarda senza fotocamera</button>
     <canvas id="lens" class="lens" hidden aria-hidden="true"></canvas>
-    <aside id="hunt" class="hunt pill pill-bottom" hidden>Elementi nascosti trovati: <strong id="hunt-count">0/0</strong></aside>
+    <aside id="hunt" class="hunt pill pill-bottom" hidden>Trovati: <strong id="hunt-count">0/0</strong> <button id="hunt-help" class="hunt-help" hidden>💡 Aiuto</button></aside>
+    <p id="hunt-tip" class="hunt-tip" role="status" hidden></p>
     <aside id="find" class="find" hidden aria-label="Particolari da trovare">
       <div class="find-head">
         <button id="find-toggle" class="find-toggle" aria-label="Mostra o nascondi i particolari"><span class="find-title"></span> <span class="find-count"></span></button>
@@ -90,6 +91,7 @@
     <div class="char-bottom">
       <p class="char-question" hidden></p>
       <p class="subtitles char-subs" aria-live="polite"></p>
+      <div class="char-maybe char-suggest" aria-label="Forse volevi chiedere" hidden></div>
       <div class="char-controls">
         <button class="char-play" aria-label="Pausa">❚❚</button>
         <button class="char-intro">↺ Ascolta la presentazione</button>
@@ -108,9 +110,10 @@
     <h1 id="fallback-title"></h1>
     <img id="fallback-img" alt="Immagine del quadro" />
     <div id="fallback-hunt" class="fallback-hunt" hidden>
-      <p class="note">Trascina il dito sull'immagine: la lente rivela le cose nascoste. Trovate: <strong id="hunt-count-fb"></strong></p>
+      <p class="note">Trascina il dito sull'immagine: la lente rivela le cose nascoste. Trovate: <strong id="hunt-count-fb"></strong> <button id="hunt-help-fb" class="hunt-help" hidden>💡 Aiuto</button></p>
       <img alt="Immagine del quadro: trascina per spostare la lente" draggable="false" />
       <canvas id="fallback-lens" class="lens" hidden aria-hidden="true"></canvas>
+      <p id="hunt-tip-fb" class="hunt-tip static" role="status" hidden></p>
     </div>
     <div id="fallback-find" class="find static">
       <div class="find-head"><span class="find-title"></span> <span class="find-count"></span></div>

@@ -158,7 +158,12 @@ async function runAr(meta: PaintingMeta) {
   $('#find').hidden = true;
   $('#hunt').hidden = true;
   $('#reticle').hidden = true;
-  if (kind === 'dettagli') exp = setupDettagli(meta, session);
+  if (kind === 'dettagli') {
+    exp = setupDettagli(meta, session, () => {
+      exp?.stop();
+      void toStory(meta);
+    });
+  }
   else if (kind === 'caccia') exp = setupCaccia(meta, session);
   else session.view.anchor(0).add(makeFrame(1, 1 / session.aspects[0], 0xffd166));
 
@@ -184,6 +189,8 @@ async function toStory(meta: PaintingMeta) {
   story = await (kind === 'personaggio' ? startPersonaggio : startRacconto)(meta, $(kind === 'personaggio' ? '#character' : '#story'), () => {
     story = null;
     if (stream) void runAr(meta);
+    // Senza fotocamera, dal racconto completo dei dettagli si torna all'elenco dei particolari.
+    else if (kind === 'dettagli') withoutCamera(meta);
     else show('welcome');
   });
 }
@@ -205,7 +212,7 @@ function withoutCamera(meta: PaintingMeta, reason?: string) {
     $('#fallback-img').hidden = true;
     $('#fallback-find').hidden = true;
     cacciaWithoutCamera(meta);
-  } else dettagliWithoutCamera(meta);
+  } else dettagliWithoutCamera(meta, () => void toStory(meta));
 }
 
 function setStatus(text: string) {

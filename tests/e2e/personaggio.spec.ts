@@ -49,6 +49,18 @@ for (const meta of metas) {
         await page.getByRole('button', { name: 'Chiedi' }).click();
         await expect(page.locator('#character .char-subs')).toHaveText(q.risposta);
 
+        // Domanda incerta: "forse volevi chiedere" con pulsanti che portano alla risposta.
+        await page.getByRole('textbox', { name: 'Scrivi una domanda' }).fill(p.domande[0].risposta.split(/[ ,.]+/).sort((a: string, b: string) => b.length - a.length)[0]);
+        await page.getByRole('button', { name: 'Chiedi' }).click();
+        const maybe = page.locator('#character .char-maybe');
+        if (await maybe.isVisible()) {
+          const label = await maybe.locator('button').first().textContent();
+          await maybe.locator('button').first().click();
+          const q = p.domande.find((d: { domanda: string }) => d.domanda === label);
+          await expect(page.locator('#character .char-subs')).toHaveText(q.risposta);
+          await expect(maybe).toBeHidden();
+        }
+
         // Fuori tema: risposta onesta.
         await page.getByRole('textbox', { name: 'Scrivi una domanda' }).fill('Che tempo farà domani a Milano?');
         await page.getByRole('button', { name: 'Chiedi' }).click();

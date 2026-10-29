@@ -53,17 +53,30 @@ export async function startPersonaggio(meta: PaintingMeta, screen: HTMLElement, 
     audioEl.currentTime = 0;
     void audioEl.play().catch(() => syncButton());
   };
+  // "Forse volevi chiedere…": pulsanti con le domande vicine quando la domanda è incerta.
+  const maybe = $('.char-maybe', screen);
+  const showMaybe = (a: Answer | null) => {
+    maybe.hidden = !a?.suggestions?.length;
+    maybe.replaceChildren(...(a?.suggestions ?? []).map((s) => {
+      const b = document.createElement('button');
+      b.textContent = s.label;
+      b.onclick = () => answer(qa.byId(s.id));
+      return b;
+    }));
+  };
   const intro = () => {
+    showMaybe(null);
     asked.hidden = true;
     play('audio', meta.audio, null);
   };
-  const answer = (a: Answer) => {
+  function answer(a: Answer) {
+    showMaybe(a);
     asked.hidden = false;
     asked.textContent = `«${a.question}»`;
     probe.answer = a.id;
     log('answer', a.id);
     play(a.id === 'nonso' ? 'risposta-nonso' : `risposta-${a.id}`, a.audio, a.text);
-  };
+  }
   const syncButton = () => {
     playBtn.textContent = audioEl.paused ? '▶' : '❚❚';
     playBtn.setAttribute('aria-label', audioEl.paused ? 'Riproduci' : 'Pausa');
@@ -73,7 +86,7 @@ export async function startPersonaggio(meta: PaintingMeta, screen: HTMLElement, 
   playBtn.onclick = () => (audioEl.paused ? void audioEl.play().catch(() => undefined) : audioEl.pause());
   $<HTMLButtonElement>('.char-intro', screen).onclick = intro;
 
-  const suggest = $('.char-suggest', screen);
+  const suggest = $('.char-suggest:not(.char-maybe)', screen);
   suggest.replaceChildren(...qa.suggestions().map((s) => {
     const b = document.createElement('button');
     b.textContent = s.label;
@@ -114,7 +127,9 @@ export async function startPersonaggio(meta: PaintingMeta, screen: HTMLElement, 
     renderer.resize();
   };
   fitStage();
-  const state: FaceState = { open: 0, lid: 0, gaze: { x: 0, y: 0 }, breath: 0 };
+  const state: FaceState = { open: 0, lid: 0, gaze: { x: 0, y: 0 }, breath: 0, head: { x: 0, y: 0, z: 0 }, brow: 0, round: 0 };
+  /** Quanto sta parlando (volume medio dell'ultimo mezzo secondo): guida i cenni della testa. */
+  let speaking = 0;
   const tilt = { x: 0, y: 0 };
   const saccade = { x: 0, y: 0 };
   let nextSaccade = 0;
@@ -125,14 +140,28 @@ export async function startPersonaggio(meta: PaintingMeta, screen: HTMLElement, 
     raf = requestAnimationFrame(frame);
     // Bocca: volume della voce nell'istante attuale, con attacco rapido e rilascio lento.
     const env = envelopes[current.key] as number[] | undefined;
+    const shape = envelopes[`${current.key}:forma`] as number[] | undefined;
     let target = 0;
+    let round = 0;
+    let v = 0;
     if (env && !audioEl.paused) {
       const f = audioEl.currentTime * envelopes.hz;
       const i = Math.floor(f);
-      const v = ((env[i] ?? 0) * (1 - (f - i)) + (env[i + 1] ?? 0) * (f - i)) / 100;
+      v = ((env[i] ?? 0) * (1 - (f - i)) + (env[i + 1] ?? 0) * (f - i)) / 100;
       target = Math.pow(Math.max(0, (v - 0.12) / 0.88), 0.8);
+      round = (shape?.[i] ?? 0) / 100;
     }
     state.open += (target - state.open) * (target > state.open ? 0.55 : 0.25);
+    // Labbra tonde sulle o/u, solo mentre la bocca è aperta.
+    state.round += (round * Math.min(1, state.open * 2) - state.round) * 0.3;
+    // Sopracciglia: si alzano sulle sillabe più forti e scendono piano.
+    state.brow += (Math.max(0, v - 0.8) * 4 - state.brow) * (v > 0.8 ? 0.3 : 0.05);
+    speaking += ((target > 0.05 ? 1 : 0) - speaking) * 0.02;
+    // Testa: piccola oscillazione sempre, cenni quando parla, si gira un poco verso chi guarda.
+    const t = now / 1000;
+    state.head.x += (0.35 * Math.sin(t * 0.29) + 0.15 * Math.sin(t * 0.83) + look.x * 0.4 - state.head.x) * 0.05;
+    state.head.y += (0.25 * Math.sin(t * 0.5) + 0.6 * speaking * Math.sin(t * 2.6) * (0.5 + state.open) - state.head.y) * 0.08;
+    state.head.z = 0.4 * Math.sin(t * 0.23) + 0.15 * Math.sin(t * 0.71);
     // Ciglia: un battito ogni 2,5-6 s, circa 160 ms.
     if (blinkStart < 0 && now > nextBlink) blinkStart = now;
     if (blinkStart >= 0) {
@@ -151,9 +180,10 @@ export async function startPersonaggio(meta: PaintingMeta, screen: HTMLElement, 
     }
     state.gaze.x += (clamp(look.x * 0.8 + saccade.x) - state.gaze.x) * 0.12;
     state.gaze.y += (clamp(look.y * 0.6 + saccade.y) - state.gaze.y) * 0.12;
-    tilt.x += (look.x * 0.012 - tilt.x) * 0.06;
-    tilt.y += (look.y * 0.012 - tilt.y) * 0.06;
-    state.breath = 0.0016 * Math.sin((now / 4500) * Math.PI * 2);
+    // Parallasse: segue il telefono e ondeggia da sola, lentamente.
+    tilt.x += (look.x * 0.012 + Math.sin(t * 0.4) * 0.008 - tilt.x) * 0.06;
+    tilt.y += (look.y * 0.012 + Math.sin(t * 0.27 + 1) * 0.005 - tilt.y) * 0.06;
+    state.breath = 0.003 * Math.sin((now / 4200) * Math.PI * 2);
     if (current.key === 'audio') subs.textContent = cueAt(cues, audioEl.currentTime)?.text ?? '';
     renderer.render(renderer.view(stage.clientWidth / Math.max(1, stage.clientHeight)), state, tilt);
     probe.mouth = p.modo === 'completa' ? Math.round(state.open * 100) / 100 : 0;

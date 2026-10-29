@@ -2,6 +2,20 @@
 
 > **Avviso importante.** Questi test girano su un computer Windows, con Chromium headless e una fotocamera *simulata* (video sintetici generati dall'immagine del quadro). **Non sostituiscono la prova su telefoni reali**: non riproducono autofocus, esposizione automatica, mosso vero, riflessi e moiré reali, né la potenza di calcolo di un telefono. I numeri veri arriveranno dalle prove in `DA_FARE_UTENTE.md`.
 
+## Miglioramenti dopo le prove con gli utenti (29/10/2026)
+
+Quattro segnalazioni dalle prove con altre persone, tutte sistemate. Test automatici: **71 test unitari e 53 test E2E superati su 53**.
+
+| Segnalazione | Causa trovata | Correzione e verifica |
+|---|---|---|
+| Lente dei Proverbi "defocalizzata" | Senza fotocamera la lente stava sopra il dito ma mostrava il punto sotto il dito: si vedeva ingrandito un punto diverso da quello indicato. Da vicino, inoltre, l'immagine da 2400 px non bastava per l'ingrandimento ×2 | La lente mostra il punto sotto il suo centro, con un mirino. Immagine della caccia a 3840 px (peso del quadro 4,9 MB, sotto i 6). Test: centro della lente sul punto giusto con scarto < 1%. All'inizio la lente non parte più sopra un elemento |
+| Suggerimenti su dove cercare | Prima c'era solo un luccichio dopo 20 s | Pulsante "💡 Aiuto": zona del quadro e freccia nella lente, poi anche il nome. Test automatico superato |
+| Ronda di notte senza animazione | Nei dettagli la scheda mostrava solo testo e audio | Primo piano animato del particolare nella scheda; "Ascolta tutto" diventa il racconto animato, con la camera sincronizzata alla voce. Per Ronda e Arnolfini ci sono ora mappa di profondità e sequenza del racconto. Test: tela del primo piano visibile, racconto con movimenti di camera, ritorno all'elenco |
+| Domande capite male | Mancavano sinonimi, ricerca nelle risposte e una via di mezzo tra risposta e "non so" | Sinonimi, errori di battitura anche nei sinonimi, parole delle risposte (peso minore), "Forse volevi chiedere…". Test unitari: 37 formulazioni libere (erano 20) trovano la risposta giusta; le domande fuori tema ricevono ancora "non so" |
+| Personaggio poco vivo | La testa era ferma e la bocca si muoveva solo in apertura | Testa (cenni, oscillazione, girata con profondità), sopracciglia, forma delle labbra dalle vocali, sfondo e vesti mossi, respiro più ampio. Nuove anteprime in `revisione/volto-*.mp4`, controllate fotogramma per fotogramma: niente strappi su capelli e collo |
+
+**Non verificato**: le prove su telefono vero di queste modifiche (vedi DA_FARE_UTENTE.md).
+
 ## Fase 6 (29/10/2026): rilascio
 
 Esito: **52 test unitari e 52 test E2E superati su 52** (nuovo test della pagina `?debug=1`).

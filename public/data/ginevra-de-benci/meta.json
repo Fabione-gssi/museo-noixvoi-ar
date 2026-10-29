@@ -14,7 +14,7 @@
   "audio": {
     "src": "audio.opus",
     "fallback": "audio.m4a",
-    "durationSec": 72.5
+    "durationSec": 71.5
   },
   "subtitles": "subtitles.vtt",
   "alignment": "alignment.json",
@@ -115,7 +115,7 @@
         "audio": {
           "src": "risposta-chi-sei.opus",
           "fallback": "risposta-chi-sei.m4a",
-          "durationSec": 3
+          "durationSec": 2.9
         }
       },
       {
@@ -125,7 +125,8 @@
           "Chi era tuo padre?",
           "La tua famiglia",
           "Eri ricca?",
-          "Che lavoro faceva tuo padre?"
+          "Che lavoro faceva tuo padre?",
+          "Come si chiamava tuo padre?"
         ],
         "risposta": "Mio padre era Amerigo de' Benci, un ricco banchiere di Firenze.",
         "fonte": "Mio padre era Amerigo de' Benci, un ricco banchiere.",
@@ -149,7 +150,7 @@
         "audio": {
           "src": "risposta-pittore.opus",
           "fallback": "risposta-pittore.m4a",
-          "durationSec": 4.2
+          "durationSec": 4.1
         }
       },
       {
@@ -166,7 +167,7 @@
         "audio": {
           "src": "risposta-quando.opus",
           "fallback": "risposta-quando.m4a",
-          "durationSec": 4.9
+          "durationSec": 4.8
         }
       },
       {
@@ -183,7 +184,7 @@
         "audio": {
           "src": "risposta-matrimonio.opus",
           "fallback": "risposta-matrimonio.m4a",
-          "durationSec": 9.3
+          "durationSec": 9.2
         }
       },
       {
@@ -201,7 +202,7 @@
         "audio": {
           "src": "risposta-ginepro.opus",
           "fallback": "risposta-ginepro.m4a",
-          "durationSec": 7.3
+          "durationSec": 7
         }
       },
       {
@@ -218,7 +219,7 @@
         "audio": {
           "src": "risposta-retro.opus",
           "fallback": "risposta-retro.m4a",
-          "durationSec": 5.6
+          "durationSec": 5.2
         }
       },
       {
@@ -235,7 +236,7 @@
         "audio": {
           "src": "risposta-motto.opus",
           "fallback": "risposta-motto.m4a",
-          "durationSec": 6
+          "durationSec": 6.1
         }
       },
       {
@@ -269,7 +270,7 @@
         "audio": {
           "src": "risposta-mani.opus",
           "fallback": "risposta-mani.m4a",
-          "durationSec": 7.8
+          "durationSec": 7.7
         }
       },
       {
@@ -301,12 +302,12 @@
       "audio": {
         "src": "risposta-nonso.opus",
         "fallback": "risposta-nonso.m4a",
-        "durationSec": 8.2
+        "durationSec": 8
       }
     }
   },
   "budget": {
-    "bytes": 2902032,
+    "bytes": 2898389,
     "limit": 6291456
   }
 }
