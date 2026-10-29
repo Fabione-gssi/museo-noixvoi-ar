@@ -12,6 +12,8 @@ export default defineConfig({
     {
       command: 'npx vite --port 5179 --strictPort',
       url: 'http://localhost:5179',
+      // Assistente online finto: i test lo intercettano (o lo lasciano irraggiungibile).
+      env: { ASSISTENTE_URL: 'https://assistente.test/' },
       reuseExistingServer: true,
     },
     {

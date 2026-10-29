@@ -72,6 +72,60 @@ for (const meta of metas) {
       }
     });
 
+    test('domanda non prevista: dal testo del museo, con l\'assistente online o leggendo il passaggio', async () => {
+      test.skip(!p.approfondimento, 'questo quadro non ha il testo completo');
+      const ap = JSON.parse(fs.readFileSync(path.join(DATA, meta.id, p.approfondimento), 'utf8'));
+      // Una domanda sul primo passaggio che non è tra quelle previste: le sue parole più lunghe.
+      const passage = ap.passages.find((x: { text: string }) => !p.domande.some((d: { risposta: string }) => d.risposta.includes(x.text.slice(0, 30)))) ?? ap.passages[0];
+      const question = `Parlami di ${passage.text.split(/[^\p{L}]+/u).filter((w: string) => w.length > 6).slice(0, 3).join(' ')}`;
+      const browser = await launchWithCamera(null);
+      try {
+        const page = await newPage(browser, { camera: false });
+        let sent: { quadro: string; domanda: string; passaggi: string[] } | null = null;
+        const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Methods': 'POST' };
+        await page.route('https://assistente.test/**', async (route) => {
+          if (route.request().method() === 'OPTIONS') return route.fulfill({ status: 204, headers: cors });
+          sent = route.request().postDataJSON();
+          await route.fulfill({ status: 200, headers: cors, contentType: 'application/json', body: JSON.stringify({ risposta: 'Risposta di prova preparata dal testo.' }) });
+        });
+        await page.goto(`/?p=${meta.id}&notutorial`);
+        await page.click('#start');
+        await expect(page.locator('#character')).toBeVisible({ timeout: 20_000 });
+        await expect(page.locator('#character .reconstruction')).toContainText('assistente automatico');
+        const ask = async (q: string) => {
+          await page.getByRole('textbox', { name: 'Scrivi una domanda' }).fill(q);
+          await page.getByRole('button', { name: 'Chiedi' }).click();
+        };
+
+        // Con internet: risponde l'assistente, con i passaggi trovati sul telefono; la bocca si muove.
+        await ask(question);
+        await expect(page.locator('#character .char-subs')).toHaveText('Risposta di prova preparata dal testo.');
+        await expect(page.locator('#character .char-source')).toContainText('assistente');
+        expect(sent).toMatchObject({ quadro: meta.id, domanda: question });
+        expect(sent!.passaggi).toContain(passage.id);
+        expect((await probe(page)).answer).toBe('libera:assistente');
+        let maxMouth = 0;
+        await expect.poll(async () => (maxMouth = Math.max(maxMouth, await mouth(page))), { timeout: 5000, intervals: [50] }).toBeGreaterThan(0.25);
+
+        // Assistente irraggiungibile (o senza internet): si legge il passaggio del testo del museo.
+        await page.unroute('https://assistente.test/**');
+        await page.route('https://assistente.test/**', (route) => route.abort());
+        await ask(question);
+        await expect(page.locator('#character .char-subs')).toHaveText(passage.text, { timeout: 15_000 });
+        await expect(page.locator('#character .char-source')).toHaveText('Dal testo del museo');
+        expect((await probe(page)).answer).toBe('libera:testo');
+
+        // Una domanda prevista usa ancora la risposta preparata, con il suo audio.
+        const sug = p.domande.find((q: { id: string }) => q.id === p.suggerite[0]);
+        await page.getByRole('button', { name: sug.domanda }).click();
+        await expect(page.locator('#character .char-subs')).toHaveText(sug.risposta);
+        await expect(page.locator('#character .char-source')).toBeHidden();
+        expect(await audioSrc(page)).toContain(`risposta-${sug.id}.`);
+      } finally {
+        await browser.close();
+      }
+    });
+
     test('modalità "presenza": niente bocca, la voce parla lo stesso', async () => {
       const browser = await launchWithCamera(null);
       try {

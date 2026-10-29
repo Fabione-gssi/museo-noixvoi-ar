@@ -101,6 +101,7 @@ export interface RegionCharacter {
 export interface PaintingDetails extends PaintingSummary {
   text: string;
   pronuncia: string;
+  approfondimento: string;
   regions: { dettagli: RegionDetail[]; caccia?: RegionHunt; personaggio?: RegionCharacter; racconto?: { inquadraturaIntera?: string[]; timeline?: Keyframe[] } };
   meta: null | {
     aspect: number; demo: boolean; audio?: { durationSec: number }; racconto?: { timeline: Keyframe[]; video?: unknown };

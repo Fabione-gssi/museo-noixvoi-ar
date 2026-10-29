@@ -47,6 +47,8 @@ const PHRASES: [RegExp, string][] = [
   [/\bcome mai\b/g, 'perche'],
   [/\bper quale motivo\b/g, 'perche'],
   [/\bin che anno\b/g, 'quando anno'],
+  [/\bchi (ti |vi |lo |la |l )?(ha|hanno) (dipint|ritratt)[oa]\b/g, 'chi pittore dipingere'],
+  [/\b(ha|hai|ho|abbia|avete|hanno) dipint[oa]\b/g, 'dipingere'],
 ];
 const SYNONYMS: Record<string, string[]> = {
   famiglia: ['padre', 'papa', 'babbo', 'madre', 'mamma', 'genitori', 'parenti'],
@@ -68,6 +70,15 @@ const SYNONYMS: Record<string, string[]> = {
   manca: ['tagliato', 'tagliata', 'mancano', 'perduta', 'perso', 'persa', 'perduto', 'mancante'],
   comprare: ['comprato', 'comprata', 'acquistato', 'acquistata', 'acquisto', 'venduto', 'venduta'],
   tecnica: ['materiale', 'colori', 'olio'],
+  nascere: ['nato', 'nata', 'nascesti', 'nascita', 'nacqui', 'nacque'],
+  morire: ['morto', 'morta', 'morte', 'moristi', 'morii', 'mori'],
+  maestro: ['apprendista', 'bottega', 'insegnante', 'allievo', 'imparato', 'imparare', 'studiato', 'studiare'],
+  misura: ['grande', 'grandi', 'piccolo', 'piccola', 'misure', 'centimetri', 'dimensioni', 'dimensione', 'grandezza'],
+  figli: ['figlio', 'figlia', 'figlie', 'bambini'],
+  viaggio: ['viaggi', 'viaggiato', 'viaggiare', 'visitato', 'visitare'],
+  libro: ['libri', 'trattato', 'trattati'],
+  imperatore: ['imperatori', 'sovrano', 're'],
+  america: ['americhe'],
 };
 const CANON = new Map(Object.entries(SYNONYMS).flatMap(([k, ws]) => ws.map((w) => [w, k] as [string, string])));
 
@@ -76,14 +87,21 @@ const stem = (w: string) => (w.length > 3 ? w.replace(/[aeiou]$/, '') : w);
 
 interface Token { stem: string; question: boolean }
 
-function words(s: string): Token[] {
+/**
+ * Opzioni: typos=false per i testi del museo (scritti giusti: "morto" non va
+ * "corretto" in "motto"); known = parole che esistono nel testo e quindi non si
+ * correggono; stop = altre parole da ignorare.
+ */
+export interface WordOptions { typos?: boolean; known?: Set<string>; stop?: Set<string> }
+
+function words(s: string, o: WordOptions = {}): Token[] {
   let text = normalize(s);
   for (const [re, to] of PHRASES) text = text.replace(re, to);
   const seen = new Set<string>();
   const out: Token[] = [];
   for (const raw of text.split(' ')) {
-    if (!raw || STOP.has(raw)) continue;
-    const w = CANON.get(raw) ?? canonTypo(raw) ?? raw;
+    if (!raw || STOP.has(raw) || o.stop?.has(raw)) continue;
+    const w = CANON.get(raw) ?? (o.typos === false || o.known?.has(raw) ? null : canonTypo(raw)) ?? raw;
     const t = { stem: stem(w), question: QUESTION_WORDS.has(w) };
     if (!seen.has(t.stem)) out.push(t);
     seen.add(t.stem);
@@ -91,7 +109,9 @@ function words(s: string): Token[] {
   return out;
 }
 
-export const tokens = (s: string) => words(s).map((t) => t.stem);
+export const tokens = (s: string, o?: WordOptions) => words(s, o).map((t) => t.stem);
+/** Radici delle parole interrogative (chi, dove, quando…): dicono cosa si chiede, non di cosa. */
+export const QUESTION_STEMS = new Set([...QUESTION_WORDS].map((w) => stem(CANON.get(w) ?? w)));
 
 /** Sinonimo scritto con un errore di battitura ("chami" → "chiami" → nome). */
 function canonTypo(raw: string) {
@@ -132,7 +152,7 @@ export class LocalQA implements DialogEngine {
   constructor(private p: Personaggio) {
     const df = new Map<string, number>();
     for (const q of p.domande) {
-      const texts = [q.domanda, ...q.varianti].map(tokens);
+      const texts = [q.domanda, ...q.varianti].map((t) => tokens(t));
       const all = new Set(texts.flat());
       const answer = new Set(tokens(`${q.risposta} ${q.fonte ?? ''}`).filter((t) => !all.has(t)));
       this.entries.push({ id: q.id, all, answer, texts });

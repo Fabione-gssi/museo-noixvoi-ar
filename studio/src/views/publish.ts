@@ -75,9 +75,51 @@ export async function publishView(root: HTMLElement) {
   });
 
   const history = historyPanel();
-  root.replaceChildren(h('h1', {}, 'Verifica e pubblica'), h('div.split', {}, h('div', {}, verifyBox, pubBox, history.el), todoBox));
+  const assistant = await assistantPanel();
+  root.replaceChildren(h('h1', {}, 'Verifica e pubblica'), h('div.split', {}, h('div', {}, verifyBox, pubBox, history.el, assistant.el), todoBox));
   void history.refresh();
-  return off;
+  return () => {
+    off();
+    assistant.destroy();
+  };
+}
+
+/**
+ * Assistente online dei personaggi (Cloudflare Workers AI, gratuito): lo
+ * pubblica sull'account Cloudflare del museo e ne salva l'indirizzo, che
+ * entra nell'app alla prossima pubblicazione.
+ */
+async function assistantPanel() {
+  const { url } = await api<{ url: string }>('assistant');
+  const input = h('input.input', { value: url, placeholder: 'https://museo-assistente.<nome>.workers.dev/', 'aria-label': 'Indirizzo dell’assistente online' }) as HTMLInputElement;
+  const status = h('p', {});
+  const log = h('div.publog', {});
+  const showStatus = (u: string) => (status.textContent = u ? `✅ Collegato: ${u}. Entra nell'app alla prossima pubblicazione.` : 'Non collegato: alle domande libere il personaggio legge il paragrafo del testo del museo.');
+  showStatus(url);
+  const off = onServerEvent((e) => {
+    if (e.event === 'assistente') {
+      const ev = e as unknown as { text?: string };
+      if (ev.text) log.append(h('p', {}, ev.text));
+    }
+    if (e.event === 'job' && e.name === 'assistente' && e.state === 'done') {
+      const u = (e.result as { url: string }).url;
+      input.value = u;
+      showStatus(u);
+      toast('Assistente pubblicato e collegato. Ora premi "Pubblica".');
+    }
+    if (e.event === 'job' && e.name === 'assistente' && e.state === 'error') log.append(h('p.ko', {}, `❌ ${e.message}`));
+  });
+  const el = h('div.panel', {}, h('h2', {}, '4. Assistente online dei personaggi'),
+    h('p.muted', {}, 'Facoltativo. Con internet, alle domande non previste il personaggio risponde con frasi brevi preparate da un modello linguistico open source (Cloudflare Workers AI, piano gratuito), usando solo il testo completo del museo. Le domande arrivano a Cloudflare senza dati personali.'),
+    h('ol', {},
+      h('li', {}, 'Premi "Pubblica l’assistente". La prima volta si apre il browser: accedi a Cloudflare, o crea un account gratuito, e consenti l’accesso.'),
+      h('li', {}, 'Quando compare "Collegato", premi "Pubblica" qui sopra: l’app dei visitatori inizia a usarlo.')),
+    h('div.row', {},
+      h('button.btn.primary', { onclick: () => attempt(() => api('assistant/deploy', { method: 'POST' })) }, 'Pubblica l’assistente'),
+      input,
+      h('button.btn', { onclick: () => attempt(() => api<{ url: string }>('assistant', { method: 'PUT', body: { url: input.value.trim() } }).then((r) => showStatus(r.url)), 'Indirizzo salvato.') }, 'Salva l’indirizzo')),
+    status, log);
+  return { el, destroy: off };
 }
 
 /** Cronologia delle pubblicazioni con "Ripristina questa versione". */

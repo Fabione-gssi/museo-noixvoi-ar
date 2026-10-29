@@ -1,0 +1,20 @@
+# Assistente online del personaggio: Cloudflare Worker con Workers AI (piano gratuito).
+# Si pubblica dallo Studio (Verifica e pubblica → Assistente online) oppure con:
+#   npx wrangler deploy --config assistente/wrangler.toml
+name = "museo-assistente"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+[ai]
+binding = "AI"
+
+[vars]
+# Sito dei visitatori, da cui rilegge il testo del museo.
+SITO = "https://fabione-gssi.github.io/museo-noixvoi-ar"
+# Pagine che possono usare l'assistente (oltre all'anteprima dello Studio).
+ORIGINI = "https://fabione-gssi.github.io"
+# Modelli open source di Workers AI, entrambi con licenza Apache 2.0: il secondo
+# si usa se il primo non risponde. Si possono cambiare con altri del catalogo.
+MODELLO = "@cf/mistralai/mistral-small-3.1-24b-instruct"
+MODELLO_RISERVA = "@cf/qwen/qwen3-30b-a3b-fp8"

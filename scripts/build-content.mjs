@@ -17,6 +17,7 @@ import { compileMind, inspectMind } from './lib/mind-compiler.mjs';
 import { ffmpegPath } from './lib/ffmpeg.mjs';
 import { buildTimeline, toVtt, segmentFor } from './lib/timeline.mjs';
 import { readInfo, readRegions, findFile, AUDIO_EXT, folderId } from './lib/contenuti.mjs';
+import { parseApprofondimento } from './lib/approfondimento.mjs';
 import { detectFace, LANDMARKS } from './lib/face-landmarks.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -134,7 +135,7 @@ async function buildPainting(folder, order, force) {
   const detailFiles = fs.existsSync(detailDir) ? fs.readdirSync(detailDir).sort().map((f) => path.join(detailDir, f)) : [];
   const answerDir = path.join(dir, 'risposte');
   const answerFiles = fs.existsSync(answerDir) ? fs.readdirSync(answerDir).sort().map((f) => path.join(answerDir, f)) : [];
-  const allInputs = [image, path.join(dir, 'info.txt'), path.join(dir, 'regioni.json'), path.join(dir, 'dettagli.txt'), textFile, pronFile, audioSrc, videoSrc, order, ...detailFiles, ...answerFiles];
+  const allInputs = [image, path.join(dir, 'info.txt'), path.join(dir, 'regioni.json'), path.join(dir, 'dettagli.txt'), path.join(dir, 'approfondimento.txt'), textFile, pronFile, audioSrc, videoSrc, order, ...detailFiles, ...answerFiles];
   const fullKey = hash(...allInputs);
   const stamp = path.join(CACHE, id, 'ultimo.json');
   if (!force && fs.existsSync(stamp) && JSON.parse(fs.readFileSync(stamp, 'utf8')).key === fullKey && fs.existsSync(path.join(outDir, 'meta.json'))) {
@@ -475,7 +476,22 @@ async function characterContent({ id, dir, outDir, image, regions, pronFile, aud
   const nonSoAudio = await speak('nonso', nonSoText);
 
   fs.writeFileSync(path.join(outDir, 'inviluppi.json'), JSON.stringify({ hz: ENVELOPE_HZ, ...envelopes }));
+
+  // Testo completo del museo: per le domande libere (ricerca sul telefono e assistente online).
+  const apFile = path.join(dir, 'approfondimento.txt');
+  let approfondimento = null;
+  if (fs.existsSync(apFile)) {
+    const ap = parseApprofondimento(fs.readFileSync(apFile, 'utf8'));
+    if (!ap.chiParla) problems.push('approfondimento.txt: manca la riga "Chi parla: …" (chi è il personaggio)');
+    const noSource = ap.passages.filter((x) => !x.fonte).length;
+    if (noSource) problems.push(`approfondimento.txt: ${noSource} paragrafi senza la riga "Fonte: …"`);
+    if (ap.passages.length) {
+      fs.writeFileSync(path.join(outDir, 'approfondimento.json'), JSON.stringify(ap));
+      approfondimento = 'approfondimento.json';
+    }
+  }
   return {
+    ...(approfondimento ? { approfondimento } : {}),
     modo,
     ...(complete ? { volto: { punti: Object.fromEntries(Object.keys(LANDMARKS).map((k) => [k, punti[k]])), box: auto?.volto ?? faceBox(punti) } } : {}),
     inviluppi: 'inviluppi.json',

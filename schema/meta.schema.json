@@ -520,6 +520,10 @@
         "inviluppi": {
           "$ref": "#/definitions/file"
         },
+        "approfondimento": {
+          "$ref": "#/definitions/file",
+          "description": "Testo completo del museo diviso in passaggi, per le domande libere"
+        },
         "domande": {
           "type": "array",
           "items": {

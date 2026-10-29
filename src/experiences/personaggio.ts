@@ -1,5 +1,8 @@
 import { FaceRenderer, type FaceState } from '../character/FaceRenderer';
 import { LocalQA, type Answer } from '../character/dialog';
+import { PassageSearch, preferPassage, type Approfondimento, type Hit } from '../character/approfondimento';
+import { askAssistant, ASSISTANT_URL } from '../character/assistente';
+import { DeviceVoice } from '../character/voce';
 import { parseVtt, cueAt, type Cue } from '../story/timeline';
 import { audioEl } from '../media';
 import { dataUrl, type AudioRef, type PaintingMeta } from '../data';
@@ -9,7 +12,11 @@ import type { StoryHandle } from './racconto';
 // Personaggio: dopo il riconoscimento (o senza fotocamera) la figura del quadro
 // si presenta e risponde alle domande. Bocca mossa dal volume della voce
 // (inviluppo calcolato in anticipo), battito di ciglia, sguardo che segue il
-// telefono, respiro. Domande: 4 suggerite e testo libero, risposte preparate.
+// telefono, respiro. Domande: 4 suggerite e testo libero. Le domande previste
+// hanno la risposta preparata con il suo audio; le altre si cercano nel testo
+// completo del museo: l'assistente online (se c'è internet) ne ricava una
+// risposta breve, altrimenti si legge il passaggio. Queste risposte usano la
+// voce del telefono.
 
 const $ = <T extends HTMLElement>(sel: string, root: ParentNode = document) => root.querySelector(sel) as T;
 
@@ -29,7 +36,11 @@ export async function startPersonaggio(meta: PaintingMeta, screen: HTMLElement, 
   $('.story-title', screen).textContent = meta.title;
   $('.story-artist', screen).textContent = [meta.artist, meta.year].filter(Boolean).join(', ');
   $('.badge-demo', screen).hidden = !meta.demo;
-  $('.reconstruction', screen).textContent = `Risposte preparate dal museo a partire dalle fonti: non è un'intelligenza artificiale e non registra nulla.${meta.demo ? ' Voce sintetica DEMO: Piper, voce "serena" (dataset CC-BY-4.0 di committa).' : ''} Volto animato: ricostruzione.`;
+  const online = !!(p.approfondimento && ASSISTANT_URL);
+  $('.reconstruction', screen).textContent = (online
+    ? 'Risposte preparate dal museo a partire dalle fonti. Alle altre domande risponde un assistente automatico (intelligenza artificiale open source) usando solo il testo del museo: la domanda viene inviata senza alcun dato personale. Senza internet si legge il passaggio del testo.'
+    : 'Risposte preparate dal museo a partire dalle fonti: non è un’intelligenza artificiale e non registra nulla.')
+    + `${meta.demo ? ' Voce sintetica DEMO: Piper, voce "serena" (dataset CC-BY-4.0 di committa).' : ''} Volto animato: ricostruzione.`;
 
   const renderer = new FaceRenderer(stage, p);
   await renderer.load(dataUrl(meta.id, meta.image), meta.depth ? dataUrl(meta.id, meta.depth) : undefined);
@@ -38,11 +49,24 @@ export async function startPersonaggio(meta: PaintingMeta, screen: HTMLElement, 
   let cues: Cue[] = [];
   if (meta.subtitles) cues = await fetch(dataUrl(meta.id, meta.subtitles)).then((r) => r.text()).then(parseVtt).catch(() => []);
   const qa = new LocalQA(p);
+  let search: PassageSearch | null = null;
+  if (p.approfondimento) {
+    const ap = await fetch(dataUrl(meta.id, p.approfondimento)).then((r) => r.json() as Promise<Approfondimento>).catch(() => null);
+    if (ap?.passages.length) search = new PassageSearch(ap.passages);
+  }
+  const voice = new DeviceVoice();
+  const source = $('.char-source', screen);
 
   // ---- Audio: presentazione o risposta, sempre sull'unico <audio> sbloccato ----
   let current: { key: string; text: string | null } = { key: 'audio', text: null };
   const opus = !!audioEl.canPlayType('audio/ogg; codecs=opus');
+  /** Ogni nuova domanda annulla la risposta libera ancora in attesa. */
+  let turn = 0;
   const play = (key: string, ref: AudioRef | undefined, text: string | null) => {
+    turn++;
+    voice.stop();
+    screen.classList.remove('thinking');
+    source.textContent = '';
     current = { key, text };
     subs.textContent = text ?? '';
     if (!ref) {
@@ -77,13 +101,43 @@ export async function startPersonaggio(meta: PaintingMeta, screen: HTMLElement, 
     log('answer', a.id);
     play(a.id === 'nonso' ? 'risposta-nonso' : `risposta-${a.id}`, a.audio, a.text);
   }
+  /** Domanda non prevista: passaggi del testo del museo, poi assistente online o lettura del passaggio. */
+  async function freeAnswer(question: string, hits: Hit[]) {
+    const my = ++turn;
+    voice.stop();
+    audioEl.pause();
+    showMaybe(null);
+    asked.hidden = false;
+    asked.textContent = `«${question}»`;
+    current = { key: 'libera', text: null };
+    subs.textContent = '…';
+    source.textContent = '';
+    screen.classList.add('thinking');
+    const reply = await askAssistant(meta.id, question, hits.map((h) => h.passage.id));
+    if (my !== turn) return;
+    screen.classList.remove('thinking');
+    const via = reply ? 'assistente' : 'testo';
+    const text = reply ?? hits[0].passage.text;
+    probe.answer = `libera:${via}`;
+    log('answer', `libera:${via}`);
+    subs.textContent = text;
+    source.textContent = reply ? 'Risposta dell’assistente automatico, dal testo del museo' : 'Dal testo del museo';
+    voice.speak(text, syncButton);
+    syncButton();
+  }
   const syncButton = () => {
-    playBtn.textContent = audioEl.paused ? '▶' : '❚❚';
-    playBtn.setAttribute('aria-label', audioEl.paused ? 'Riproduci' : 'Pausa');
+    const paused = voice.active ? voice.paused : audioEl.paused;
+    playBtn.textContent = paused ? '▶' : '❚❚';
+    playBtn.setAttribute('aria-label', paused ? 'Riproduci' : 'Pausa');
   };
   const onMedia = () => syncButton();
   for (const ev of ['play', 'pause', 'ended']) audioEl.addEventListener(ev, onMedia);
-  playBtn.onclick = () => (audioEl.paused ? void audioEl.play().catch(() => undefined) : audioEl.pause());
+  playBtn.onclick = () => {
+    if (voice.active) voice.paused ? voice.resume() : voice.pause();
+    else if (audioEl.paused) void audioEl.play().catch(() => undefined);
+    else audioEl.pause();
+    syncButton();
+  };
   $<HTMLButtonElement>('.char-intro', screen).onclick = intro;
 
   const suggest = $('.char-suggest:not(.char-maybe)', screen);
@@ -99,7 +153,11 @@ export async function startPersonaggio(meta: PaintingMeta, screen: HTMLElement, 
     if (!text) return;
     input.value = '';
     input.blur();
-    answer(qa.ask(text));
+    voice.unlock();
+    const a = qa.ask(text);
+    const hits = search?.search(text) ?? [];
+    if (preferPassage(a.known ? qa.match(text)?.score ?? null : null, hits[0])) void freeAnswer(text, hits);
+    else answer(a);
   };
 
   // ---- Sguardo e parallasse: orientamento del telefono, o il puntatore ----
@@ -144,7 +202,12 @@ export async function startPersonaggio(meta: PaintingMeta, screen: HTMLElement, 
     let target = 0;
     let round = 0;
     let v = 0;
-    if (env && !audioEl.paused) {
+    if (voice.active) {
+      const m = voice.mouth(now);
+      v = m.open;
+      target = m.open;
+      round = m.round;
+    } else if (env && !audioEl.paused) {
       const f = audioEl.currentTime * envelopes.hz;
       const i = Math.floor(f);
       v = ((env[i] ?? 0) * (1 - (f - i)) + (env[i + 1] ?? 0) * (f - i)) / 100;
@@ -198,6 +261,8 @@ export async function startPersonaggio(meta: PaintingMeta, screen: HTMLElement, 
   const handle: StoryHandle = {
     stop() {
       cancelAnimationFrame(raf);
+      turn++;
+      voice.stop();
       audioEl.pause();
       for (const ev of ['play', 'pause', 'ended']) audioEl.removeEventListener(ev, onMedia);
       window.removeEventListener('deviceorientation', onOrientation);

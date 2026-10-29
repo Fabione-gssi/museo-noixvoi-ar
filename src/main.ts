@@ -8,6 +8,7 @@ import { setupDettagli, dettagliWithoutCamera } from './experiences/dettagli';
 import { setupCaccia, cacciaWithoutCamera } from './experiences/caccia';
 import { startRacconto, type StoryHandle } from './experiences/racconto';
 import { startPersonaggio } from './experiences/personaggio';
+import { ASSISTANT_URL } from './character/assistente';
 import { probe, log } from './probe';
 import { getPref, setPref } from './prefs';
 import { startDebug, debugInfo, APP_VERSION } from './debug';
@@ -43,6 +44,7 @@ async function init() {
   debugInfo.maxTrack = MAX_TRACK;
   if (DEBUG) startDebug($('#debug'));
   $('#version').textContent = `Versione ${APP_VERSION}`;
+  if (ASSISTANT_URL) $('.privacy').textContent += ' Se scrivi una domanda a un personaggio, la domanda viene inviata a un servizio esterno per preparare la risposta, senza alcun dato personale.';
   $('#start').addEventListener('click', onStart);
   // Versione nuova dell'app: si ricarica solo se il visitatore non sta usando un quadro.
   void registerServiceWorker(() => {

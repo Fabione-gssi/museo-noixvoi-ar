@@ -1,6 +1,6 @@
 # Roadmap: conversazione "dal vivo" con il personaggio
 
-**Stato: non implementata.** Nella v1 il personaggio risponde solo con risposte preparate dal museo (`LocalQA` in `src/character/dialog.ts`). Questo documento spiega che cosa servirebbe per una conversazione libera, e perché oggi non si fa.
+**Stato (29/10/2026): fatto un primo passo, su richiesta del museo.** Alle domande non previste il personaggio risponde con il testo completo del museo: ricerca del paragrafo sul telefono (`src/character/approfondimento.ts`) e, con internet, risposta breve di un modello open source su Cloudflare Workers AI (`assistente/`), vincolata ai paragrafi trovati. Il vincolo "nessuna AI esterna a runtime" è stato quindi allentato, solo per questa funzione e solo se l'assistente è collegato; gli altri restano (niente microfono, nessun dato personale raccolto, voce dell'attore solo per le risposte preparate). Il resto di questo documento è l'analisi fatta prima della decisione.
 
 Verifica dei limiti: 29/10/2026, con ricerche web (fonti in fondo).
 

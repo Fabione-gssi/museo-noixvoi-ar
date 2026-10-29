@@ -28,6 +28,7 @@
   },
   "dettagli": [],
   "personaggio": {
+    "approfondimento": "approfondimento.json",
     "modo": "completa",
     "volto": {
       "punti": {
@@ -307,7 +308,7 @@
     }
   },
   "budget": {
-    "bytes": 2898389,
+    "bytes": 2901430,
     "limit": 6291456
   }
 }

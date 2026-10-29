@@ -61,6 +61,11 @@ button { font: inherit; cursor: pointer; }
 .char-question { margin: 0; color: var(--accent); font-size: 0.95rem; font-style: italic; }
 .char-question[hidden] { display: none; }
 .char-subs { max-height: 7.2em; overflow-y: auto; }
+.char-source { margin: 0; font-size: 0.8rem; opacity: 0.75; }
+.char-source:empty { display: none; }
+/* In attesa della risposta libera: i puntini nei sottotitoli pulsano. */
+#character.thinking .char-subs { animation: thinking 1s ease-in-out infinite; }
+@keyframes thinking { 50% { opacity: 0.35; } }
 .char-controls { display: flex; gap: 8px; }
 .char-controls button { min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #fff4; background: #0008; color: var(--fg); font-size: 0.9rem; }
 .char-play { width: 48px; padding: 0 !important; }

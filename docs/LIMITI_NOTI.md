@@ -46,7 +46,7 @@ Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 3.
 
 ## Personaggio
 
-- **Non è un'intelligenza artificiale.** Risponde solo con le risposte scritte nello Studio. La ricerca tollera errori di battitura, sinonimi comuni e modi diversi di chiedere, e guarda anche le parole delle risposte. Quando è incerta propone 2-3 domande vicine ("Forse volevi chiedere…"); se nulla corrisponde, dice che non sa rispondere. Può ancora sbagliare con domande lunghe o ambigue. Il rimedio è aggiungere nello Studio altri modi di chiedere: è normale farlo dopo le prime settimane in sala.
+- **Domande previste**: risponde con le risposte scritte nello Studio, con il loro audio. La ricerca tollera errori di battitura, sinonimi comuni e modi diversi di chiedere, e guarda anche le parole delle risposte. Quando è incerta propone 2-3 domande vicine ("Forse volevi chiedere…"); se nulla corrisponde, dice che non sa rispondere. Può ancora sbagliare con domande lunghe o ambigue. Il rimedio è aggiungere nello Studio altri modi di chiedere: è normale farlo dopo le prime settimane in sala.
 - **Volto animato**: è una deformazione dell'immagine attorno a occhi, bocca, sopracciglia e testa, non un modello 3D.
   - La bocca si apre seguendo il volume della voce. La forma delle labbra (strette su o/u) viene dalle vocali del testo allineato alla voce, quindi c'è solo con la voce DEMO o con registrazioni allineate al testo. Per le risposte registrate da un attore c'è solo l'apertura.
   - L'interno della bocca è un'ombra scura: niente denti né lingua.
@@ -56,7 +56,14 @@ Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 3.
 - **Dopo il riconoscimento** il personaggio si guarda a tutto schermo, non sovrapposto alla tela inquadrata. È più nitido e stabile, e permette di abbassare il telefono. L'animazione sopra la tela vera è stata scartata per ora: i colori della fotocamera e quelli dell'immagine non coincidono.
 - **Testi in prima persona**: il personaggio dice solo fatti documentati e tradotti dalle fonti (vedi `fonti.md`). Lo dichiara sotto: "Risposte preparate dal museo a partire dalle fonti".
 - **LivePortrait (facoltativo)**: un video animato da Colab per la sola presentazione non è stato fatto. Richiede un account Google e un servizio esterno, e non è necessario per l'MVP.
-- **Conversazione libera**: non c'è; vedi `docs/ROADMAP_CONVERSAZIONE_LIVE.md`.
+- **Domande libere (testo completo + assistente online)**:
+  - Il telefono cerca nel testo completo del museo (`approfondimento.txt`) il paragrafo che risponde. Vince sulla domanda prevista solo quando spiega la domanda meglio di lei.
+  - Con internet e con l'assistente collegato, un modello open source (Mistral Small 3.1, riserva Qwen3, licenza Apache 2.0, su Cloudflare Workers AI) ne ricava una risposta breve in prima persona. Ha l'ordine di usare solo i paragrafi trovati; se cita un numero che nei paragrafi non c'è, la risposta viene scartata e si legge il paragrafo. Può comunque riformulare in modo impreciso: per questo l'app dichiara "Risposta dell'assistente automatico, dal testo del museo".
+  - **Non ancora provato con il modello vero**: serve l'account Cloudflare del museo (vedi `DA_FARE_UTENTE.md`). I test usano un assistente finto.
+  - Piano gratuito: circa 10.000 "neuroni" al giorno, cioè da qualche decina a un paio di centinaia di risposte (stime non ufficiali). Finita la quota, o senza internet, il personaggio legge il paragrafo: funziona sempre.
+  - Privacy: la domanda scritta arriva a Cloudflare senza cookie né dati del telefono; l'assistente non la registra. Se il visitatore scrive un dato personale nella domanda, quel testo esce dal telefono: l'app lo dichiara nella pagina iniziale e sotto il personaggio.
+  - Voce: le risposte libere usano la voce italiana del telefono, che cambia da telefono a telefono. Se il telefono non ha una voce italiana compaiono solo i sottotitoli. La bocca si muove a sillabe, non segue il volume vero.
+  - Microfono: escluso; si scrive.
 
 ## Blocca/Sblocca
 

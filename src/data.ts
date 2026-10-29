@@ -62,6 +62,8 @@ export interface Personaggio {
   modo: 'completa' | 'presenza';
   volto?: { punti: Record<string, Point>; box: { x: number; y: number; w: number; h: number } };
   inviluppi?: string;
+  /** Testo completo del museo in passaggi (approfondimento.json), per le domande libere. */
+  approfondimento?: string;
   domande: { id: string; domanda: string; varianti: string[]; risposta: string; fonte?: string; audio?: AudioRef }[];
   suggerite: string[];
   nonSo: { text: string; audio?: AudioRef };

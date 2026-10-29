@@ -219,6 +219,14 @@ test.describe.serial('Studio', () => {
     await expect(page.locator('#toast')).toContainText('Personaggio salvato');
     const regions = JSON.parse(fs.readFileSync(path.join(ROOT, 'contenuti', folder, 'regioni.json'), 'utf8'));
     expect(regions.personaggio.punti.mento[1]).toBeGreaterThan(0);
+    // Testo completo del museo, con la prova di una domanda non prevista.
+    await page.getByLabel('Testo completo del personaggio').fill(['Chi parla: il naufrago della zattera.', '', '## Il viaggio', 'La nave si chiamava Medusa e partì nel 1816.', 'Fonte: prova.', '', 'Sulla zattera eravamo in tanti.', 'Fonte: prova.'].join('\n'));
+    await expect(page.getByText('2 paragrafi.')).toBeVisible();
+    await page.getByRole('button', { name: 'Salva il testo completo' }).click();
+    await expect(page.locator('#toast')).toContainText('Testo completo salvato');
+    await page.getByLabel('Domanda di prova').fill('Come si chiamava la nave?');
+    await page.getByRole('button', { name: 'Prova', exact: true }).click();
+    await expect(page.locator('.ap-hit.best')).toContainText('Medusa');
     await page.getByRole('button', { name: 'Prepara', exact: true }).first().click();
     await waitJob(page);
 
@@ -226,6 +234,8 @@ test.describe.serial('Studio', () => {
     expect(validate(meta), JSON.stringify(validate.errors)).toBe(true);
     expect(meta.experience).toBe('personaggio');
     expect(meta.personaggio.modo).toBe('presenza');
+    expect(meta.personaggio.approfondimento).toBe('approfondimento.json');
+    expect(JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data', ID, 'approfondimento.json'), 'utf8')).passages).toHaveLength(2);
     expect(meta.personaggio.domande[0]).toMatchObject({ domanda: 'Che cosa c\'è in primo piano?', risposta: 'In primo piano si vede la zattera.', audio: { src: expect.stringMatching(/^risposta-/) } });
   });
 
@@ -240,6 +250,29 @@ test.describe.serial('Studio', () => {
     await page.locator('#undo').click();
     await expect(page.locator('.card', { hasText: TITLE })).toBeVisible();
     expect(folderOf()).toBeTruthy();
+  });
+
+  test('assistente online: indirizzo salvato e tolto', async ({ page }) => {
+    const file = path.join(ROOT, 'contenuti/assistente.json');
+    const before = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
+    try {
+      await page.goto(`${STUDIO}#/pubblica`);
+      await expect(page.getByRole('heading', { name: '4. Assistente online dei personaggi' })).toBeVisible();
+      const input = page.getByLabel('Indirizzo dell’assistente online');
+      await input.fill('http://non-sicuro.example/');
+      await page.getByRole('button', { name: 'Salva l’indirizzo' }).click();
+      await expect(page.locator('#toast')).toContainText('https://');
+      await input.fill('https://museo-assistente.prova.workers.dev/');
+      await page.getByRole('button', { name: 'Salva l’indirizzo' }).click();
+      await expect(page.getByText('✅ Collegato: https://museo-assistente.prova.workers.dev/')).toBeVisible();
+      expect(JSON.parse(fs.readFileSync(file, 'utf8')).url).toBe('https://museo-assistente.prova.workers.dev/');
+      await input.fill('');
+      await page.getByRole('button', { name: 'Salva l’indirizzo' }).click();
+      await expect(page.getByText(/^Non collegato/)).toBeVisible();
+      expect(fs.existsSync(file)).toBe(false);
+    } finally {
+      if (before !== null) fs.writeFileSync(file, before);
+    }
   });
 
   test('cronologia: tornare alla versione online e recuperare con Annulla', async ({ page }) => {

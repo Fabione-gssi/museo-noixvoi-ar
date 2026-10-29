@@ -25,6 +25,16 @@ Tutte le immagini sono state scaricate da Wikimedia Commons il 27/10/2026 e sono
 | MediaPipe Face Landmarker (modello `face_landmarker.task` e libreria @mediapipe/tasks-vision 1.1.0) | Trova occhi, bocca e mento dei personaggi (Fase 4) | Apache-2.0 (https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker) |
 | Depth Anything V2 Small (ONNX) | Mappa di profondità per la parallasse del racconto e del personaggio | Apache-2.0 (https://huggingface.co/depth-anything/Depth-Anything-V2-Small) |
 
+## Assistente online (facoltativo, solo se collegato dallo Studio)
+
+| Cosa | Uso | Licenza |
+|---|---|---|
+| Cloudflare Workers e Workers AI (piano gratuito) | Ospita l'assistente delle domande libere (`assistente/`) | Servizio gratuito di Cloudflare |
+| Mistral Small 3.1 24B Instruct (`@cf/mistralai/mistral-small-3.1-24b-instruct`) | Modello principale dell'assistente | Apache-2.0 |
+| Qwen3 30B A3B (`@cf/qwen/qwen3-30b-a3b-fp8`) | Modello di riserva | Apache-2.0 |
+| Wrangler (strumento di Cloudflare, scaricato al momento con npx) | Pubblica l'assistente dallo Studio | MIT / Apache-2.0 |
+| Voce italiana del telefono (sintesi vocale del sistema) | Legge le risposte libere | Del sistema operativo del visitatore, nessun file distribuito |
+
 Quando nell'app si sente la voce DEMO, compare il badge "DEMO". Credito: "Voce sintetica: Piper, voce serena (dataset CC-BY-4.0 di committa)".
 
 ## Librerie dentro l'app

@@ -4,7 +4,7 @@ App per il telefono dei visitatori del museo: si inquadra un quadro e prende vit
 
 **Stato: versione 1.0.0, MVP pubblicato** (tutte le fasi 0-6). Ci sono tutte e quattro le esperienze, con i loro editor nello Studio, più l'uso senza internet, la cronologia, la pagina `?debug=1` e i cartellini con QR. Prima di aprire al pubblico servono le prove su iPhone e in sala: vedi [docs/RILASCIO_MVP.md](docs/RILASCIO_MVP.md). Quadri di prova:
 
-- *Autoritratto con pelliccia* di Dürer e *Ginevra de' Benci*: personaggi che si presentano e rispondono a 11 domande;
+- *Autoritratto con pelliccia* di Dürer e *Ginevra de' Benci*: personaggi che si presentano, rispondono a 11 domande preparate e alle altre con il testo completo del museo (con internet, anche tramite un assistente open source facoltativo);
 - *La zattera della Medusa*: racconto;
 - *La ronda di notte*: 7 particolari;
 - *Arnolfini*: 6 particolari;

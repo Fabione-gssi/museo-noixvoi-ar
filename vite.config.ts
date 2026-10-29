@@ -48,11 +48,20 @@ function serviceWorker(): Plugin {
   };
 }
 
+/** Indirizzo dell'assistente online (contenuti/assistente.json, scritto dallo Studio); vuoto = solo testo del museo. */
+function assistantUrl() {
+  try {
+    return String(JSON.parse(fs.readFileSync(resolve(ROOT, 'contenuti/assistente.json'), 'utf8')).url ?? '');
+  } catch {
+    return '';
+  }
+}
+
 // HTTPS in sviluppo solo con VITE_HTTPS=1 (prova da telefono in rete locale):
 // la fotocamera richiede un contesto sicuro, localhost escluso.
 export default defineConfig({
   base: './',
-  define: { __APP_VERSION__: JSON.stringify(appVersion()) },
+  define: { __APP_VERSION__: JSON.stringify(appVersion()), __ASSISTENTE_URL__: JSON.stringify(process.env.ASSISTENTE_URL ?? assistantUrl()) },
   plugins: [...(process.env.VITE_HTTPS ? [basicSsl()] : []), serviceWorker()],
   build: {
     target: 'es2020',

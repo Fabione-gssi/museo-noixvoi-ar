@@ -11,7 +11,24 @@ Per rispondere basta scrivermi in chat, per esempio: "1 iPhone: sì sì no".
 |---|---|---|
 | QR che portano subito al quadro | I codici QR (anteprima dello Studio, pagina di pubblicazione, cartellini) aprono direttamente l'interazione: dopo "Inizia" non chiede più di inquadrare il quadro. Racconto e personaggio partono subito; i particolari si toccano sull'immagine; la caccia usa la lente sullo schermo. Chi vuole può passare alla fotocamera con **📷 Usa la fotocamera sul quadro** | **Ristampa i cartellini**: quelli vecchi aprono ancora la versione "da inquadrare" |
 | Ronda: niente riquadri gialli | I riquadri dei particolari da trovare sono nascosti. Compaiono man mano che il cerchio al centro ci si avvicina, oppure tutti insieme per 5 secondi con **💡 Aiuto**. Toccando la miniatura di un particolare non trovato si accende solo il suo riquadro e compare la zona ("in basso a sinistra"). I particolari già trovati restano segnati in verde | Ronda e Arnolfini con la fotocamera: si trovano ancora i particolari? |
-| CHIEDI più realistico | Non ancora fatto: serve una tua scelta (vedi la chat) | — |
+| CHIEDI più realistico | Fatto l'ibrido: testo completo del museo + assistente online facoltativo (vedi sotto) | Vedi la sezione qui sotto |
+
+## CHIEDI con il testo completo del museo (29/10/2026)
+
+Come funziona adesso:
+- **Domanda prevista**: risposta preparata, con la sua voce (come prima).
+- **Domanda diversa**: il telefono cerca il paragrafo giusto nel **testo completo del museo**.
+  - **Con internet e con l'assistente collegato**: un modello open source lo trasforma in una risposta breve in prima persona.
+  - **Senza internet**: il personaggio legge il paragrafo.
+  - In entrambi i casi la voce è quella italiana del telefono.
+- **Domanda fuori tema**: "Non so rispondere".
+
+Da fare:
+1. **Rivedere i testi completi** che ho preparato per le prove: `contenuti/01-autoritratto-durer/approfondimento.txt` e `contenuti/02-ginevra-de-benci/approfondimento.txt` (o nello Studio, scheda Personaggio, in fondo). Ho aggiunto vita, viaggi, opere e autoritratti di Dürer e qualche fatto su Ginevra, ognuno su due fonti (`fonti.md`). È il museo che deve scrivere la versione definitiva: più il testo è ricco, più domande trovano risposta.
+2. **Collegare l'assistente online** (facoltativo, gratuito): nello Studio, **Verifica e pubblica** → riquadro **4** → **Pubblica l'assistente**. La prima volta serve un account Cloudflare gratuito: lo crei tu nella pagina che si apre (io non posso creare account). Poi premi **Pubblica**.
+   - Finché non lo colleghi, l'app funziona lo stesso: legge il paragrafo.
+   - Dopo il collegamento dimmelo: provo io qualche domanda vera e controllo che le risposte restino fedeli al testo.
+3. **Provare sul telefono** (Dürer e Ginevra), scrivendo domande che non sono tra i pulsanti, per esempio "Sei mai stato in Italia?", "Avevi figli?", "Quanto è grande il quadro?". Mandami quelle a cui risponde male.
 
 ## Dopo le prove con gli utenti (29/10/2026): da ricontrollare
 

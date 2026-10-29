@@ -78,7 +78,7 @@ Usa solo cose che si vedono davvero nel quadro: servono almeno 3 elementi.
 
 ## Il personaggio
 
-Se l'interazione è **Personaggio**, la figura del quadro si presenta (con il **testo storico**, scritto in prima persona) e risponde alle domande dei visitatori. Non è un'intelligenza artificiale: dice solo le risposte che scrivi tu.
+Se l'interazione è **Personaggio**, la figura del quadro si presenta (con il **testo storico**, scritto in prima persona) e risponde alle domande dei visitatori: alle domande previste con le risposte che scrivi tu, alle altre con il **testo completo del museo**.
 
 Nella scheda **Personaggio**:
 
@@ -94,7 +94,13 @@ Nella scheda **Personaggio**:
    - Spunta **Suggerita** per le 4 domande da mostrare come pulsanti.
 4. In fondo puoi cambiare la frase per le domande non previste ("Non so rispondere…").
 5. **Salva il personaggio**, poi **Prepara**: la voce DEMO legge ogni risposta. Con un attore vero, metti le sue registrazioni nella cartella `risposte` del quadro, con il nome della domanda (es. `risposte/chi-sei.mp3`).
-6. **Prova il personaggio** apre l'app sul computer, senza fotocamera.
+6. **Testo completo del museo** (in fondo alla scheda): tutto quello che il museo sa del personaggio, per le domande che non sono nell'elenco.
+   - Prima riga: `Chi parla: nome, chi è, in quale quadro.`
+   - Poi sezioni con `## Titolo` e un paragrafo per idea, in prima persona, separati da una riga vuota.
+   - Sotto ogni paragrafo: `Fonte: …` (servono due fonti affidabili, come per il testo storico).
+   - **Prova una domanda** mostra quale paragrafo userebbe il personaggio. Se non ne trova uno abbastanza pertinente, il personaggio dice che non lo sa.
+   - **Salva il testo completo**, poi **Prepara**.
+7. **Prova il personaggio** apre l'app sul computer, senza fotocamera.
 
 ## Provare
 
@@ -118,6 +124,14 @@ Pagina **Verifica e pubblica**:
    - I codici dei quadri aprono subito l'interazione, senza inquadrare il quadro. Il codice generale apre l'elenco.
    - **"Stampa i codici QR"** apre la pagina pronta per la stampa.
 3. Se GitHub non è configurato, compaiono le istruzioni per l'accesso (una sola volta). In alternativa, **"Crea la cartella per Cloudflare Pages"** prepara un file da caricare sul sito di Cloudflare: le istruzioni compaiono sullo schermo.
+
+### Assistente online dei personaggi (facoltativo)
+
+In fondo alla pagina **Verifica e pubblica**, riquadro **4**. Con internet, alle domande libere il personaggio risponde con frasi brevi preparate da un modello linguistico open source, usando solo il testo completo del museo. Senza assistente (o senza internet) legge il paragrafo trovato.
+
+1. Premi **Pubblica l'assistente**. La prima volta si apre il browser: accedi a Cloudflare, o crea un account gratuito, e consenti l'accesso.
+2. Quando compare **✅ Collegato**, premi **Pubblica** (riquadro 2): l'app dei visitatori inizia a usarlo.
+3. Per scollegarlo, svuota l'indirizzo, premi **Salva l'indirizzo** e poi **Pubblica**.
 
 ### Cronologia delle pubblicazioni
 

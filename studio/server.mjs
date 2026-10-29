@@ -76,6 +76,35 @@ function runStreaming(cmd, cmdArgs, tag) {
   });
 }
 
+const ASSISTANT_FILE = path.join(SRC, 'assistente.json');
+function readAssistantUrl() {
+  try {
+    return JSON.parse(fs.readFileSync(ASSISTANT_FILE, 'utf8')).url ?? '';
+  } catch {
+    return '';
+  }
+}
+function writeAssistantUrl(url) {
+  if (url) fs.writeFileSync(ASSISTANT_FILE, `${JSON.stringify({ url }, null, 2)}
+`);
+  else fs.rmSync(ASSISTANT_FILE, { force: true });
+}
+
+/** Pubblica assistente/ su Cloudflare (accesso dal browser la prima volta) e ne salva l'indirizzo. */
+async function deployAssistant() {
+  const wrangler = (...a) => runStreaming('npx', ['--yes', 'wrangler@4', ...a], 'assistente');
+  const who = await wrangler('whoami').catch((e) => e);
+  if (/not authenticated|non autenticat|wrangler login/i.test(who.out ?? '')) {
+    broadcast('assistente', { event: 'log', text: 'Si apre il browser: accedi a Cloudflare (o crea un account gratuito) e consenti l’accesso.' });
+    await wrangler('login');
+  }
+  const { out } = await wrangler('deploy', '--config', path.join(ROOT, 'assistente/wrangler.toml'));
+  const url = out.match(/https:\/\/[a-z0-9.-]+\.workers\.dev/i)?.[0];
+  if (!url) throw new Error('Assistente pubblicato, ma non trovo il suo indirizzo: copialo dalla pagina di Cloudflare e incollalo qui.');
+  writeAssistantUrl(`${url}/`);
+  return { url: `${url}/` };
+}
+
 const buildContent = (folders = []) => runStreaming(process.execPath, [path.join(ROOT, 'scripts/build-content.mjs'), ...folders], 'pipeline');
 
 // ---- Lettura dello stato dei quadri ----------------------------------------
@@ -206,6 +235,7 @@ async function details(folder) {
     quality: image ? await imageQuality(image, meta) : null,
     triage: triage(meta, regions),
     pronuncia: fs.existsSync(path.join(dir, 'pronuncia.txt')) ? fs.readFileSync(path.join(dir, 'pronuncia.txt'), 'utf8') : '',
+    approfondimento: fs.existsSync(path.join(dir, 'approfondimento.txt')) ? fs.readFileSync(path.join(dir, 'approfondimento.txt'), 'utf8') : '',
   };
 }
 
@@ -426,6 +456,13 @@ async function api(req, res, url) {
       else fs.rmSync(path.join(dir, 'pronuncia.txt'), { force: true });
       return json(res, 200, { ok: true });
     }
+    if (sub === 'approfondimento' && m === 'PUT') {
+      backups.snapshot(folder, 'Modificato il testo completo del personaggio');
+      const text = JSON.parse((await readBody(req)).toString()).text ?? '';
+      if (text.trim()) fs.writeFileSync(path.join(dir, 'approfondimento.txt'), text);
+      else fs.rmSync(path.join(dir, 'approfondimento.txt'), { force: true });
+      return json(res, 200, { ok: true });
+    }
     if (sub === 'regions' && m === 'PUT') {
       backups.snapshot(folder, 'Modificati particolari o movimenti');
       writeRegions(dir, JSON.parse((await readBody(req)).toString()).regions);
@@ -458,6 +495,18 @@ async function api(req, res, url) {
     }
   }
 
+  // Assistente online dei personaggi: indirizzo (contenuti/assistente.json) e pubblicazione su Cloudflare.
+  if (parts[0] === 'assistant' && !parts[1] && m === 'GET') return json(res, 200, { url: readAssistantUrl() });
+  if (parts[0] === 'assistant' && !parts[1] && m === 'PUT') {
+    const url = String(JSON.parse((await readBody(req)).toString() || '{}').url ?? '').trim();
+    if (url && !/^https:\/\/[^\s/]+(\/\S*)?$/.test(url)) throw httpError(400, 'L’indirizzo deve iniziare con https://');
+    writeAssistantUrl(url);
+    return json(res, 200, { url });
+  }
+  if (parts[0] === 'assistant' && parts[1] === 'deploy' && m === 'POST') {
+    runJob('assistente', deployAssistant);
+    return json(res, 202, { ok: true });
+  }
   if (parts[0] === 'build' && m === 'POST') {
     const { folders = [] } = JSON.parse((await readBody(req)).toString() || '{}');
     runJob('prepara', () => buildContent(folders).then(({ last }) => last));

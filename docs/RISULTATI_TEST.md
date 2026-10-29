@@ -2,6 +2,19 @@
 
 > **Avviso importante.** Questi test girano su un computer Windows, con Chromium headless e una fotocamera *simulata* (video sintetici generati dall'immagine del quadro). **Non sostituiscono la prova su telefoni reali**: non riproducono autofocus, esposizione automatica, mosso vero, riflessi e moiré reali, né la potenza di calcolo di un telefono. I numeri veri arriveranno dalle prove in `DA_FARE_UTENTE.md`.
 
+## Seconda tornata (29/10/2026): QR diretti, riquadri nascosti, CHIEDI con il testo del museo
+
+Test automatici: **109 test unitari e 61 test E2E superati su 61**.
+
+| Richiesta | Verifica |
+|---|---|
+| QR che aprono subito il quadro (`&diretto=1`) | E2E: racconto e particolari partono senza fotocamera e senza inquadrare; il pulsante "Usa la fotocamera sul quadro" passa al riconoscimento |
+| Riquadri dei particolari nascosti | E2E (Ronda e Arnolfini): da lontano tutti i riquadri sono invisibili (< 0,1); con "Aiuto" si accendono tutti (> 0,25) e dopo 5 s si rispengono. Controllato anche a occhio sugli screenshot |
+| Ricerca nel testo completo | Unitari: 16 domande libere su Dürer e Ginevra trovano il paragrafo giusto; 3 domande fuori tema non trovano nulla; la scelta tra risposta preparata e testo del museo è giusta su 11 casi (es. "Sei mai stato in Italia?" non è più "Chi sei?") |
+| Assistente online | Unitari con un modello finto: passaggi riletti dal sito, modello di riserva, origini non ammesse rifiutate, risposte con numeri inventati scartate. **Mai provato con il modello vero**: serve l'account Cloudflare |
+| Personaggio nell'app | E2E: con l'assistente la risposta compare con la nota "assistente automatico" e la bocca si muove; senza assistente si legge il paragrafo ("Dal testo del museo"); le domande previste usano ancora il loro audio |
+| Studio | E2E: testo completo salvato, "Prova una domanda" mostra il paragrafo giusto, l'app lo riceve dopo "Prepara"; indirizzo dell'assistente salvato (solo https) e tolto |
+
 ## Miglioramenti dopo le prove con gli utenti (29/10/2026)
 
 Quattro segnalazioni dalle prove con altre persone, tutte sistemate. Test automatici: **71 test unitari e 53 test E2E superati su 53**.

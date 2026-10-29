@@ -8,12 +8,16 @@
       "room": "",
       "experience": "personaggio",
       "demo": true,
-      "bytes": 2024042,
-      "version": "786d0803cfe3",
+      "bytes": 2028366,
+      "version": "6e1a310c7888",
       "files": [
         [
           "alignment.json",
           8640
+        ],
+        [
+          "approfondimento.json",
+          4324
         ],
         [
           "audio.m4a",
@@ -37,7 +41,7 @@
         ],
         [
           "meta.json",
-          9637
+          9684
         ],
         [
           "risposta-chi-sei.m4a",
@@ -157,12 +161,16 @@
       "room": "",
       "experience": "personaggio",
       "demo": true,
-      "bytes": 2898389,
-      "version": "1b664ab385a8",
+      "bytes": 2901430,
+      "version": "bb5c11441a4e",
       "files": [
         [
           "alignment.json",
           9487
+        ],
+        [
+          "approfondimento.json",
+          3041
         ],
         [
           "audio.m4a",
@@ -186,7 +194,7 @@
         ],
         [
           "meta.json",
-          9235
+          9282
         ],
         [
           "risposta-bembo.m4a",
@@ -595,5 +603,5 @@
       ]
     }
   ],
-  "totalBytes": 23463751
+  "totalBytes": 23471116
 }

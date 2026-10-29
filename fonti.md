@@ -52,6 +52,36 @@ La scheda della National Gallery of Art (nga.gov) ha rifiutato la lettura automa
 
 **Omessi**: il prezzo d'acquisto; l'iscrizione nascosta di Bembo vista con l'infrarosso (citata da più fonti, ma l'ho tenuta fuori per non appesantire); le poesie scritte su Ginevra; l'anagramma proposto da una sola ricercatrice; le ipotesi sulla posizione delle mani.
 
+## Testo completo dei personaggi (`approfondimento.txt`)
+
+Consultazione: 29/10/2026. È la prima versione, preparata da me per le prove: **va rivista e completata dal museo**. Ogni paragrafo ha la sua riga "Fonte:" nel file. Contiene i fatti del `testo.txt` (fonti qui sopra) più quelli elencati qui, ciascuno su due fonti.
+
+Fonti aggiunte:
+5. Wikipedia (inglese), "Albrecht Dürer": https://en.wikipedia.org/wiki/Albrecht_D%C3%BCrer
+6. Wikipedia (italiano), "Albrecht Dürer": https://it.wikipedia.org/wiki/Albrecht_D%C3%BCrer
+7. National Gallery of Art su Google Arts & Culture, "Ginevra de' Benci": https://artsandculture.google.com/asset/ginevra-de-benci/9QEdQ-BD4WEqPQ (letta tramite i risultati di ricerca)
+
+| Fatto (Dürer) | Fonti |
+|---|---|
+| Nato a Norimberga il 21 maggio 1471, morto a Norimberga il 6 aprile 1528 | 5, 6 |
+| Il padre, Albrecht, veniva dall'Ungheria; terzo di diciotto figli | 5, 6 |
+| Apprendista nella bottega di Michael Wolgemut, a Norimberga | 5, 6 |
+| Sposò Agnes Frey il 7 luglio 1494; nessun figlio | 5, 6 |
+| Due viaggi in Italia: 1494-1495 (Venezia) e 1505-1507 | 5, 6 |
+| Viaggio nei Paesi Bassi 1520-1521, ad Anversa, nei mesi dell'incoronazione di Carlo V | 5, 6 |
+| Dal 1512 al servizio di Massimiliano I, con una rendita annuale | 5, 6 |
+| Melencolia I (1514); il Rinoceronte, xilografia del 1515, di un animale mai visto | 5, 6 |
+| Trattati: misura e prospettiva (1525), fortificazioni (1527), proporzioni del corpo umano (1528) | 5, 6 |
+| Autoritratti: disegno a punta d'argento del 1484 (Albertina, Vienna), 1493 (Parigi), 1498 (Prado, Madrid) | 5, 6 |
+
+| Fatto (Ginevra) | Fonti |
+|---|---|
+| Donna colta; Lorenzo de' Medici scrisse di lei | 1 (sonetti di Lorenzo), 2 (tra le donne più colte di Firenze) |
+| Quadro piccolo, circa 38 × 37 cm, su tavola | 1 (38,1 × 37 cm), 2 (38,8 × 36,7 cm) |
+| Unico dipinto di Leonardo esposto al pubblico nelle Americhe | 1, 7 |
+
+**Omessi**: il mestiere del padre di Dürer (le due Wikipedia non concordano: orafo o incisore); l'anno di nascita di Ginevra (solo "circa 1458" in una fonte); il motto di Bembo visto con l'infrarosso (una sola fonte tra quelle lette).
+
 ## Domande e risposte dei personaggi
 
 Le risposte stanno in `contenuti/01-autoritratto-durer/regioni.json` e `contenuti/02-ginevra-de-benci/regioni.json`, 11 per quadro. Si modificano dallo Studio, scheda **Personaggio**. Ogni risposta riformula solo frasi del `testo.txt` dello stesso quadro, e il campo "fonte" riporta la frase usata. Lo Studio controlla che ogni frase della fonte si trovi davvero nel testo. **Da rivedere da te** prima della pubblicazione definitiva.
