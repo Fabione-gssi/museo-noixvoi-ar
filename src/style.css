@@ -39,7 +39,12 @@ button { font: inherit; cursor: pointer; }
 .card[hidden] { display: none; }
 .card h2 { margin: 0; }
 #fallback-img { width: 100%; height: auto; border-radius: 8px; }
-#debug { position: fixed; top: 110px; left: 8px; margin: 0; padding: 6px 8px; background: #000c; color: #7f7; font: 12px/1.35 ui-monospace, monospace; z-index: 10; pointer-events: none; white-space: pre; }
+#debug { position: fixed; top: calc(110px + env(safe-area-inset-top)); left: 8px; max-width: calc(100% - 16px); padding: 6px 8px; background: #000c; color: #7f7; font: 12px/1.35 ui-monospace, monospace; z-index: 30; pointer-events: none; }
+#debug pre { margin: 0; white-space: pre-wrap; font: inherit; }
+.debug-buttons { display: flex; gap: 6px; }
+#debug button { pointer-events: auto; margin-top: 6px; min-height: 36px; padding: 0 10px; border-radius: 8px; border: 1px solid #7f7; background: #000; color: #7f7; font: inherit; }
+#debug textarea { pointer-events: auto; display: block; width: 100%; height: 120px; margin-top: 6px; font: 11px ui-monospace, monospace; }
+.version { font-size: 0.75rem; opacity: 0.7; }
 #debug[hidden] { display: none; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 

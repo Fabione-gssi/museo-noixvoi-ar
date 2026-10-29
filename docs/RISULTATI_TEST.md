@@ -2,6 +2,15 @@
 
 > **Avviso importante.** Questi test girano su un computer Windows, con Chromium headless e una fotocamera *simulata* (video sintetici generati dall'immagine del quadro). **Non sostituiscono la prova su telefoni reali**: non riproducono autofocus, esposizione automatica, mosso vero, riflessi e moiré reali, né la potenza di calcolo di un telefono. I numeri veri arriveranno dalle prove in `DA_FARE_UTENTE.md`.
 
+## Fase 6 (29/10/2026): rilascio
+
+Esito: **52 test unitari e 52 test E2E superati su 52** (nuovo test della pagina `?debug=1`).
+
+- **Pagina `?debug=1`**: mostra versione, quadro, esperienza, stato del riconoscimento, nome del target agganciato, fps, risoluzione video, primo riconoscimento, rete, eventi. Ha i pulsanti "Riduci" e "Copia rapporto". Controllata nel browser.
+- **Versione nell'app**: in fondo alla schermata iniziale ("Versione 1.0.0 (commit, data)"), anche nei rapporti copiati.
+- **Cartellini**: `stampa/cartellini.pdf`, un cartellino con QR per quadro più quello generale. Lo Studio li rigenera a ogni pubblicazione.
+- **Criteri di accettazione**: stato dettagliato in `docs/RILASCIO_MVP.md`. Mancano le prove su iPhone, quelle in sala e la prova dello Studio in 20 minuti.
+
 ## Fase 4 (29/10/2026, fatta dopo la Fase 5)
 
 Esito: **52 test unitari e 51 test E2E superati su 51**.

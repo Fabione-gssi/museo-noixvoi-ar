@@ -48,5 +48,36 @@ await page.setContent(`<!doctype html><style>
 ${links.map(([label, url], i) => `<div class="row"><img src="${qrs[i]}"><div><h2>${i + 1}. ${label}</h2><code>${url}</code></div></div>`).join('')}`);
 await page.pdf({ path: path.join(OUT, 'prova.pdf'), format: 'A4', printBackground: true });
 
+// Cartellini da appendere accanto ai quadri: due per foglio A4, da ritagliare.
+const HINT = {
+  racconto: 'Inquadra il quadro: parte il suo racconto.',
+  dettagli: 'Inquadra il quadro, poi avvicinati ai particolari: ognuno racconta la sua storia.',
+  caccia: 'Passa il telefono sul quadro: la lente rivela cose nascoste.',
+  personaggio: 'Inquadra il quadro: il personaggio si presenta e risponde alle tue domande.',
+};
+const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const labels = [
+  ...metas.map((m) => ({ title: m.title, sub: [m.artist, m.year].filter(Boolean).join(', '), room: m.room, hint: HINT[m.experience] ?? HINT.racconto, url: `${BASE}?p=${encodeURIComponent(m.id)}` })),
+  { title: 'Quadri che prendono vita', sub: 'Tutti i quadri del percorso', room: '', hint: 'Scegli un quadro dall\'elenco e inquadralo con il telefono.', url: BASE },
+];
+const labelQrs = await Promise.all(labels.map((l) => QRCode.toDataURL(l.url, { margin: 1, width: 700, errorCorrectionLevel: 'M' })));
+await page.setContent(`<!doctype html><style>
+  @page { size: A4; margin: 8mm; }
+  body { margin: 0; font-family: Arial, sans-serif; color: #111; }
+  .label { height: 136mm; box-sizing: border-box; padding: 10mm 12mm; display: flex; gap: 10mm; align-items: center; border-bottom: 1px dashed #999; break-inside: avoid; }
+  .label:nth-child(2n) { break-after: page; border-bottom: 0; }
+  .label img { width: 62mm; height: 62mm; flex: none; }
+  h1 { font-size: 24pt; margin: 0 0 2mm; }
+  .sub { font-size: 14pt; margin: 0 0 1mm; color: #333; }
+  .room { font-size: 11pt; margin: 0 0 6mm; color: #666; }
+  .hint { font-size: 15pt; margin: 0 0 6mm; font-weight: bold; }
+  .small { font-size: 10pt; color: #555; margin: 0; line-height: 1.4; }
+</style>${labels.map((l, i) => `<div class="label"><img src="${labelQrs[i]}" alt=""><div>
+  <h1>${esc(l.title)}</h1><p class="sub">${esc(l.sub)}</p>${l.room ? `<p class="room">${esc(l.room)}</p>` : '<p class="room"></p>'}
+  <p class="hint">${esc(l.hint)}</p>
+  <p class="small">Inquadra il codice con la fotocamera del telefono. Si apre nel browser: nessuna app da installare.<br>La fotocamera non registra e non invia nulla. Consigliati gli auricolari.</p>
+</div></div>`).join('')}`);
+await page.pdf({ path: path.join(OUT, 'cartellini.pdf'), format: 'A4', printBackground: true });
+
 await browser.close();
 process.stdout.write(JSON.stringify({ event: 'end', files: fs.readdirSync(OUT) }) + '\n');

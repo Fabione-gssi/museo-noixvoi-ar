@@ -16,6 +16,7 @@
     <button id="start" class="big">Inizia</button>
     <p id="welcome-note" class="note"></p>
     <p class="note">Racconti e animazioni sono una ricostruzione.</p>
+    <p id="version" class="note version"></p>
     <div id="offline" class="offline" hidden>
       <button id="offline-btn" class="ghost"></button>
       <progress id="offline-progress" max="1" value="0" hidden></progress>
@@ -131,7 +132,7 @@
   </div>
 
   <div id="hunt-hint" class="hunt-hint" hidden aria-hidden="true"></div>
-  <pre id="debug" hidden></pre>
+  <div id="debug" class="debug" hidden aria-label="Dati di prova"></div>
   <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

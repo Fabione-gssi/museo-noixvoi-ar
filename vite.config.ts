@@ -3,8 +3,21 @@ import basicSsl from '@vitejs/plugin-basic-ssl';
 import { resolve } from 'node:path';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 
 const ROOT = import.meta.dirname;
+
+/** Versione mostrata nell'app e nei rapporti di prova: "1.0.0 (abc1234, 29/10/2026)". */
+function appVersion() {
+  const { version } = JSON.parse(fs.readFileSync(resolve(ROOT, 'package.json'), 'utf8'));
+  let sha = 'sviluppo';
+  try {
+    sha = execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: ROOT }).toString().trim();
+  } catch {
+    // Fuori da git (es. cartella per Cloudflare): solo numero e data.
+  }
+  return `${version} (${sha}, ${new Date().toLocaleDateString('it-IT')})`;
+}
 
 /**
  * Service worker (uso senza internet), solo nel sito costruito: parte da
@@ -39,6 +52,7 @@ function serviceWorker(): Plugin {
 // la fotocamera richiede un contesto sicuro, localhost escluso.
 export default defineConfig({
   base: './',
+  define: { __APP_VERSION__: JSON.stringify(appVersion()) },
   plugins: [...(process.env.VITE_HTTPS ? [basicSsl()] : []), serviceWorker()],
   build: {
     target: 'es2020',

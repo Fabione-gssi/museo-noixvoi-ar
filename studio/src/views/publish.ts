@@ -157,6 +157,8 @@ async function qrSheet(url: string, paintings: PaintingSummary[]) {
         w.document.close();
       },
     }, 'Stampa i codici QR'),
+    ' ',
+    h('a.btn', { href: `${base}stampa/cartellini.pdf`, target: '_blank', rel: 'noopener' }, 'Cartellini per la sala (PDF)'),
     sheet);
 }
 

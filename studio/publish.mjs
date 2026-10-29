@@ -41,6 +41,8 @@ export async function publish(root, emit, buildContent) {
   }
   emit({ step: 'prepara', message: 'Preparo i contenuti…' });
   await buildContent();
+  emit({ step: 'prepara', message: 'Preparo i cartellini con i codici QR…' });
+  await sh(process.execPath, [path.join(root, 'scripts/make-print.mjs')], root);
   emit({ step: 'salva', message: 'Salvo le modifiche…' });
   await sh('git', ['add', '--', 'contenuti', 'public', 'revisione', 'crediti.md', 'fonti.md', 'DA_FARE_UTENTE.md'], root);
   const pending = await sh('git', ['diff', '--cached', '--name-only'], root);

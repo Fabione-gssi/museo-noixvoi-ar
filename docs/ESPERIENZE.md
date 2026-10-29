@@ -11,6 +11,31 @@ Questa tabella viene aggiornata a ogni fase. Alla fine dell'MVP dirà che cosa h
 | 5 | Bruegel, *Proverbi fiamminghi* | caccia | **Fase 3: completo** (6 proverbi nascosti con il loro pezzo di audio, finale, indizi, voce DEMO) | Decine di scene-proverbio documentate, texture fittissima: 3950 punti, il più alto finora. Ideale per la lente | Molti dettagli piccoli: a distanza normale la lente ingrandisce l'immagine, non la fotocamera, quindi resta nitida |
 | 6 | Géricault, *Zattera della Medusa* | racconto | **Fase 1: completo** (voce DEMO, sottotitoli, camera sincronizzata, parallasse). Galaxy A56: tutto sì | Racconto naturale dal primo piano alla nave lontana. 3725 punti | Tela scura e riflessi in sala: da verificare dal vero |
 
+## Riepilogo dell'MVP: che cosa ha funzionato (29/10/2026)
+
+Basato sui test automatici e sulle prove su Galaxy A56 (a schermo e su stampa). Manca ancora la prova in sala e su iPhone.
+
+**Ha funzionato bene**
+- **Racconto**: è l'esperienza più semplice e robusta. Funziona con qualsiasi quadro ed è il ripiego universale.
+- **Dettagli** su quadri con figure grandi e distinte (*Ronda*). Sui particolari piccoli (*Arnolfini*) il mirino al centro è essenziale: avvicinarsi a un quadro piccolo è scomodo.
+- **Caccia** su quadri fitti di scene (*Proverbi*). La lente usa l'immagine ad alta risoluzione, quindi resta nitida anche da lontano. Precisione della lente nei test: meglio dello 0,5% della larghezza.
+- **Personaggio**: i volti dei due ritratti sono stati trovati da soli, con i punti al posto giusto. Il dialogo locale riconosce le domande scritte in modi diversi e dice "non so" a quelle fuori tema.
+- **Riconoscimento**: un set di target per quadro, un quadro alla volta. Riconoscimento in circa 0,2 s nei test e in 0,6 s sul Galaxy (benchmark della Fase 0).
+
+**Da verificare o con limiti**
+- **Personaggio**: la naturalezza dell'animazione dipende dal volto. È da giudicare con le anteprime, ed esiste il ripiego "presenza".
+- **Quadri scuri** (*Ronda*, *Zattera*): in sala serve buona luce.
+- **iPhone**: nessuna prova.
+
+**Come scegliere l'esperienza per un quadro reale**
+
+| Il quadro ha… | Esperienza consigliata |
+|---|---|
+| una storia da raccontare, o è scuro o uniforme | racconto |
+| poche figure o oggetti grandi e ben distinti | dettagli |
+| tante piccole scene o simboli sparsi | caccia |
+| un volto grande, frontale o di tre quarti, ben illuminato | personaggio |
+
 ## Come lo Studio calcola l'idoneità (euristica)
 
 - **Racconto**: sempre 100%, perché funziona con qualsiasi quadro ed è il ripiego universale.

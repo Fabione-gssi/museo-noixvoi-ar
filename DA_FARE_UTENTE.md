@@ -5,6 +5,39 @@ Per rispondere basta scrivermi in chat, per esempio: "1 iPhone: sì sì no".
 
 ---
 
+## Fase 6: rilascio dell'MVP
+
+Lo stato dei criteri di accettazione è in `docs/RILASCIO_MVP.md`. Per chiudere l'MVP mancano solo prove che puoi fare tu.
+
+### 1. Prova dello Studio: un settimo quadro in meno di 20 minuti (criterio b)
+
+Fai partire un cronometro e, **senza guardare la guida se puoi**:
+
+1. Doppio clic su **"Avvia Studio"**, poi **+ Aggiungi quadro** con un quadro a tua scelta. Va bene un'immagine qualsiasi di un quadro di pubblico dominio, da almeno 2000 pixel.
+2. Carica l'immagine e scrivi due righe di testo. Attiva la voce DEMO.
+3. Scheda **Interazione**: scegli **Racconto**.
+4. Scheda **Racconto**: carica un video breve qualsiasi.
+5. Scheda **Anteprima**: guardalo con la fotocamera simulata.
+6. **Verifica e pubblica** → **Pubblica**.
+
+Dimmi quanti minuti ci hai messo e dove ti sei bloccato. Alla fine, se vuoi, elimina il quadro di prova e ripubblica: con **↶ Annulla** o dalla **Cronologia** torni indietro.
+
+### 2. Test sul campo, in sala (quando i quadri veri sono pronti)
+
+Segui `docs/TEST_SUL_CAMPO.md`: luce, distanza, riflessi, affollamento, rumore. Aggiungi `&debug=1` all'indirizzo e, alla fine di ogni prova, tocca **"Copia rapporto"** e incollalo in chat.
+
+### 3. Cartellini
+
+Stampa https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/cartellini.pdf: c'è un cartellino con QR per ogni quadro, più uno con l'elenco di tutti i quadri. Ritagliali lungo la linea tratteggiata.
+
+### Ancora aperte dalle fasi precedenti
+
+- **Fase 4**: giudizio sulle 4 anteprime del volto e prova del personaggio sul Galaxy.
+- **Fase 5**: prova senza internet sul Galaxy e cronologia nello Studio.
+- **iPhone**: tutte le prove, appena ne hai uno, anche in prestito. È il rischio principale prima del pubblico.
+
+---
+
 ## Fase 5: uso senza internet e cronologia
 
 ### 1. Senza internet sul telefono (Galaxy A56), circa 10 minuti

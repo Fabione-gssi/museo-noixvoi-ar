@@ -2,7 +2,7 @@
 
 App per il telefono dei visitatori del museo: si inquadra un quadro e prende vita (particolari da scoprire, caccia con la lente, personaggio che parla, racconto animato). Funziona nel browser, senza installare nulla, a costo zero.
 
-**Stato: Fasi 0-5 completate**: motore generico; tutte e quattro le esperienze (racconto, dettagli, caccia, personaggio) con i loro editor nello Studio; uso senza internet; cronologia delle pubblicazioni. Manca la Fase 6 (rilascio). Quadri di prova:
+**Stato: versione 1.0.0, MVP pubblicato** (tutte le fasi 0-6). Ci sono tutte e quattro le esperienze, con i loro editor nello Studio, più l'uso senza internet, la cronologia, la pagina `?debug=1` e i cartellini con QR. Prima di aprire al pubblico servono le prove su iPhone e in sala: vedi [docs/RILASCIO_MVP.md](docs/RILASCIO_MVP.md). Quadri di prova:
 
 - *Autoritratto con pelliccia* di Dürer e *Ginevra de' Benci*: personaggi che si presentano e rispondono a 11 domande;
 - *La zattera della Medusa*: racconto;
@@ -16,7 +16,8 @@ Tutti hanno la voce DEMO.
 
 - **Gestire i quadri**: doppio clic su **"Avvia Studio"**. Guida: [docs/GUIDA_STUDIO.md](docs/GUIDA_STUDIO.md).
 - Sito: https://fabione-gssi.github.io/museo-noixvoi-ar/
-- Cose da fare: [DA_FARE_UTENTE.md](DA_FARE_UTENTE.md)
+- Cose da fare: [DA_FARE_UTENTE.md](DA_FARE_UTENTE.md) · Rilascio: [docs/RILASCIO_MVP.md](docs/RILASCIO_MVP.md) · Test in sala: [docs/TEST_SUL_CAMPO.md](docs/TEST_SUL_CAMPO.md)
+- Cartellini da stampare: https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/cartellini.pdf
 - Risultati dei test: [docs/RISULTATI_TEST.md](docs/RISULTATI_TEST.md) · Esperienze: [docs/ESPERIENZE.md](docs/ESPERIENZE.md)
 - Limiti noti: [docs/LIMITI_NOTI.md](docs/LIMITI_NOTI.md) · Hosting: [docs/HOSTING.md](docs/HOSTING.md)
 - Crediti e fonti: [crediti.md](crediti.md), [fonti.md](fonti.md)

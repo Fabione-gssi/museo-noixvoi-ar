@@ -10,6 +10,7 @@ import { startRacconto, type StoryHandle } from './experiences/racconto';
 import { startPersonaggio } from './experiences/personaggio';
 import { probe, log } from './probe';
 import { getPref, setPref } from './prefs';
+import { startDebug, debugInfo, APP_VERSION } from './debug';
 
 const params = new URLSearchParams(location.search);
 const DEBUG = params.has('debug');
@@ -29,13 +30,17 @@ let stream: MediaStream | null = null;
 let session: ArSession | null = null;
 let story: StoryHandle | null = null;
 let index: PaintingIndex = { paintings: [], totalBytes: 0 };
+/** Nomi dei target del quadro aperto (0 = quadro intero), per ?debug=1. */
+let targetLabels = new Map<number, string>();
 
 /** Esperienze non ancora realizzate usano il racconto, ripiego universale. */
 const experienceOf = (m: PaintingMeta) =>
   m.experience === 'dettagli' ? 'dettagli' : m.experience === 'caccia' && m.caccia ? 'caccia' : m.experience === 'personaggio' && m.personaggio ? 'personaggio' : 'racconto';
 
 async function init() {
-  if (DEBUG) $('#debug').hidden = false;
+  debugInfo.maxTrack = MAX_TRACK;
+  if (DEBUG) startDebug($('#debug'));
+  $('#version').textContent = `Versione ${APP_VERSION}`;
   $('#start').addEventListener('click', onStart);
   // Versione nuova dell'app: si ricarica solo se il visitatore non sta usando un quadro.
   void registerServiceWorker(() => {
@@ -79,6 +84,8 @@ async function onStart() {
     return;
   }
   downloadInBackground(index.paintings.find((p) => p.id === id));
+  debugInfo.painting = meta.title;
+  debugInfo.experience = experienceOf(meta);
   if (!unlock.camera) {
     probe.error = unlock.cameraError ?? 'camera';
     return withoutCamera(meta, unlock.cameraError);
@@ -113,6 +120,7 @@ async function runAr(meta: PaintingMeta) {
   let exp: { onFound(i: number): void; onFrame(): void; stop(): void } | null = null;
   let leaving = false;
   const labels = new Map<number, string>([[0, meta.title], ...meta.dettagli.filter((d) => d.targetIndex).map((d) => [d.targetIndex!, d.label] as [number, string])]);
+  targetLabels = labels;
   session = new ArSession({
     container: $('#ar'),
     video: $<HTMLVideoElement>('#camera'),
@@ -209,16 +217,8 @@ function updateDebug() {
   const s = session.tracker.stats();
   probe.renderFps = Math.round(session.view.renderFps);
   probe.trackerFps = Math.round(s.trackerFps);
-  probe.tracking = s.tracking.map(String);
+  probe.tracking = s.tracking.map((i) => targetLabels.get(i) ?? String(i));
   probe.video = `${$<HTMLVideoElement>('#camera').videoWidth}x${$<HTMLVideoElement>('#camera').videoHeight}`;
-  if (DEBUG) {
-    $('#debug').textContent = [
-      `render ${probe.renderFps} fps · tracker ${probe.trackerFps} fps`,
-      `video ${probe.video} · maxTrack ${MAX_TRACK}`,
-      `agganciati: ${probe.tracking.join(', ') || '—'}${probe.locked ? ' · BLOCCATO' : ''}`,
-      `primo riconoscimento: ${probe.firstFoundMs ?? '—'} ms`,
-    ].join('\n');
-  }
 }
 
 window.addEventListener('pagehide', () => {
