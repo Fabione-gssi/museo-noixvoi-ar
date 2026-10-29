@@ -105,3 +105,15 @@ button { font: inherit; cursor: pointer; }
 .detail-controls .detail-replay { background: #333; color: var(--fg); }
 .detail-progress { flex: 1; height: 6px; border-radius: 3px; background: #fff3; overflow: hidden; }
 .detail-progress span { display: block; height: 100%; width: 0; background: var(--accent); }
+
+/* Caccia: lente rivelatrice, indizio, contatore */
+.lens { position: fixed; z-index: 3; border-radius: 50%; box-shadow: 0 0 0 3px #fff, 0 0 0 6px #0006, 0 8px 30px #000a; pointer-events: none; }
+.lens[hidden] { display: none; }
+.hunt[hidden] { display: none; }
+.hunt-hint { position: fixed; z-index: 2; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, #fff8 0, #ffd16655 40%, transparent 70%); animation: shimmer 1.6s ease-in-out infinite; }
+.hunt-hint[hidden] { display: none; }
+@keyframes shimmer { 0%, 100% { transform: scale(0.7); opacity: 0.35; } 50% { transform: scale(1.15); opacity: 0.9; } }
+.fallback-hunt { position: relative; }
+.fallback-hunt img { display: block; width: 100%; height: auto; border-radius: 8px; touch-action: none; user-select: none; }
+.finale-btn { margin-top: 10px; width: 100%; }

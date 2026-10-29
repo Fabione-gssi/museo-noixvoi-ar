@@ -22,7 +22,7 @@ const id = process.argv[2];
 const meta = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data', id, 'meta.json'), 'utf8'));
 const OUT = path.join(ROOT, 'tests/video', id);
 const FW = 960, FH = 540, FPS = 20;
-const WALL_W = 6000, WALL_H = 3200, PAINT_H = 2400;
+const WALL_W = 6000, WALL_H = 3800, PAINT_H = 2400;
 
 const PAINT_W = Math.round(PAINT_H * meta.aspect);
 const PX = Math.round((WALL_W - PAINT_W) / 2), PY = Math.round((WALL_H - PAINT_H) / 2);
@@ -70,6 +70,17 @@ function shots() {
     // Da lontano al particolare, sosta a media distanza (mirino), poi vicinissimo (ritaglio).
     out[`avvicinamento-${d.id}`] = path_([full, full, mid, mid, mid, close, close, close], 14);
   }
+  // Caccia: a distanza normale (quadro quasi intero) la lente al centro passa su
+  // ogni elemento nascosto. Un video per i primi due elementi e un giro completo.
+  // L'app mette la lente a circa il 45% dell'altezza dello schermo: si centra lì.
+  const items = meta.caccia?.items ?? [];
+  const near = PAINT_H * 0.75;
+  const onItem = (it) => {
+    const p = toWall(it.x, it.y);
+    return { x: p.x, y: p.y + near * 0.05, h: near };
+  };
+  for (const it of items.slice(0, 2)) out[`caccia-${it.id}`] = path_([full, onItem(it), onItem(it), onItem(it), onItem(it)], 9);
+  if (items.length) out['caccia-giro'] = path_([full, ...items.flatMap((it) => [onItem(it), onItem(it), onItem(it)]), full], items.length * 4.5 + 2);
   const tl = { ...toWall(0.3, 0.25), h: PAINT_H * 0.5 }, br = { ...toWall(0.7, 0.8), h: PAINT_H * 0.5 };
   out.scansione = path_([full, tl, { ...toWall(0.7, 0.25), h: PAINT_H * 0.5 }, br, { ...toWall(0.3, 0.8), h: PAINT_H * 0.5 }, full], 14);
   out['nessun-quadro'] = path_([{ x: 900, y: 900, h: 900 }, { x: 1000, y: 950, h: 900 }], 6);

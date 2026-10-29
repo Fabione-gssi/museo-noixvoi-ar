@@ -5,31 +5,40 @@ Per rispondere basta scrivermi in chat, per esempio: "1 iPhone: sì sì no".
 
 ---
 
-## Fase 2: prova dei dettagli
+## Fase 3: prova della caccia
 
 ### 1. Prova sul telefono (Galaxy A56), circa 10 minuti
 
-Sul computer apri https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/prova.pdf: ci sono i QR di tutti i quadri. Mostra i quadri a schermo intero, oppure stampali (meglio):
-- https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/ronda-di-notte-A3.pdf
-- https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/arnolfini-A3.pdf
+1. Sul computer apri a schermo intero https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/proverbi-fiamminghi-A3.pdf, oppure stampalo: è meglio.
+2. Da https://fabione-gssi.github.io/museo-noixvoi-ar/stampa/prova.pdf inquadra il QR dei **Proverbi fiamminghi**.
+3. Tocca **Inizia** e inquadra il quadro a distanza normale (circa 1 metro). Al centro dello schermo c'è una lente: muovi il telefono e cerca le cose nascoste. Quando ne vedi una, tienila nella lente finché il bordo giallo si riempie.
 
-Per **La ronda di notte** e poi per l'**Arnolfini**: inquadra il QR, tocca **Inizia** e inquadra il quadro intero. In basso compare "Trova i N particolari" con le miniature. Avvicinati a un particolare, oppure tienilo dentro il cerchio al centro finché il cerchio si riempie.
-
-| Domanda | Ronda | Arnolfini |
-|---|---|---|
-| a. Quando trovi un particolare compare un anello verde sul quadro e poi la sua scheda? | | |
-| b. Nella scheda senti la voce che parla proprio di quel particolare (e solo di quello)? | | |
-| c. Quanti particolari sei riuscito a trovare (es. 5/7)? Quali no? | | |
-| d. Il metodo del cerchio al centro (mirino) è comprensibile? | | |
-| e. Chiudendo e riaprendo la pagina, i particolari trovati restano spuntati? | | |
-| f. "Ascolta tutto" fa partire il racconto completo del quadro? | | |
+| Domanda | Risposta |
+|---|---|
+| a. La lente mostra il quadro ingrandito e nitido proprio nel punto che stai guardando? | |
+| b. Quando un elemento entra nella lente lo vedi (bagliore, contorno o ingrandimento)? | |
+| c. Dopo la scoperta senti la storia di quel proverbio, e il contatore in basso sale (es. 2/6)? | |
+| d. Quanti ne hai trovati da solo? Ce n'è uno troppo difficile? | |
+| e. Se resti fermo per 20 secondi senza trovare nulla, compare un luccichio che indica dove cercare? | |
+| f. Trovati tutti, compare "Hai trovato tutto! Ascolta il finale"? | |
+| g. È divertente? Che cosa cambieresti? | |
 
 ### 2. Prova l'editor nello Studio, circa 5 minuti
 
-1. Doppio clic su **"Avvia Studio"** → **La ronda di notte** → scheda **Dettagli**.
-2. Prova a spostare un riquadro e a cambiare il contenuto di un particolare (per esempio "Solo testo"). Poi premi **↶ Annulla** in alto per tornare indietro.
+Doppio clic su **"Avvia Studio"** → **Proverbi fiamminghi** → scheda **Caccia**. Sposta un cerchio, cambia l'effetto di un elemento, poi premi **↶ Annulla**. Dimmi se è chiaro.
 
-Dimmi se è chiaro e se manca qualcosa.
+### 3. Revisione dei contenuti (quando hai tempo)
+
+- Testo: `contenuti/05-proverbi-fiamminghi/testo.txt`, con le fonti in `fonti.md`.
+- Punti della caccia: `revisione/proverbi-fiamminghi.jpg`.
+
+---
+
+## Fase 2: prova dei dettagli
+
+### 1. Dettagli sul telefono: ✅ fatto (funziona tutto)
+
+### 2. Editor nello Studio: ✅ fatto
 
 ### 3. Revisione dei contenuti (quando hai tempo)
 

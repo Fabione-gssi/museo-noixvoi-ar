@@ -96,3 +96,28 @@ Fonti:
 - il numero dei medaglioni (dieci secondo il museo, non indicato da Wikipedia);
 - la provenienza (Margherita d'Austria, collezione reale spagnola), su una sola fonte;
 - l'impronta del pollice del pittore, su una sola fonte.
+
+## 05 – Proverbi fiamminghi (Pieter Bruegel il Vecchio)
+
+Fonti:
+1. Wikipedia (inglese), "Netherlandish Proverbs", con l'elenco numerato dei proverbi: https://en.wikipedia.org/wiki/Netherlandish_Proverbs
+2. IamExpat, "Dutch proverbs, as painted by Pieter Bruegel" (2020): https://www.iamexpat.nl/expat-info/dutch-news/dutch-proverbs-painted-pieter-bruegel
+3. Museumsportal Berlin, pagina dell'evento "Mit dem Kopf durch die Wand" della Gemäldegalerie, con la descrizione del dipinto: https://www.museumsportal-berlin.de/de/veranstaltungen/mit-dem-kopf-durch-die-wand/ (letta tramite i risultati di ricerca; la pagina ha rifiutato la lettura diretta)
+4. Google Arts & Culture, scheda della Gemäldegalerie (olio su quercia, 163 × 117 cm): https://artsandculture.google.com/asset/the-dutch-proverbs-pieter-bruegel-the-elder/WwG8mD89xbELbQ (letta tramite i risultati di ricerca)
+
+| Fatto nel testo | Fonti |
+|---|---|
+| Pieter Bruegel il Vecchio, 1559, tavola di quercia, Gemäldegalerie di Berlino | 1, 4 (2 conferma museo e autore) |
+| Più di cento proverbi riconosciuti | 1 (circa 126), 2 (oltre 120), 3 (più di 100) |
+| Titolo originale "Il mantello blu" / "La follia del mondo" | 1 (titolo completo), 2 ("originariamente Il mantello blu") |
+| Testa contro il muro: impresa impossibile (in basso a sinistra) | 1 (n. 4), 2 |
+| Uno tosa le pecore e l'altro i maiali: uno ha tutti i vantaggi, l'altro nessuno | 1 (n. 10), 2 |
+| Il mondo alla rovescia: il globo con la croce in giù sotto la gronda | 1 (n. 24), 2; il globo sotto la gronda: risultati di ricerca da studi sul dipinto ⚠️ |
+| Il mantello blu: la moglie tradisce il marito; il blu colore dell'inganno; la scena dà il nome al quadro | 1 (n. 109), 2 |
+| Confessarsi al diavolo: rivelare i segreti al nemico | 1 (n. 114), 2 |
+| Il mondo che gira sul pollice: avere tutti i vantaggi (in basso a destra) | 1 (n. 103), 2 ("o credere di averli": lettura proposta da 2) |
+| La lettura di alcuni proverbi è cambiata con la lingua e alcuni restano incerti | 1 ⚠️ |
+
+**Elementi della caccia**: sono solo particolari reali del quadro, spiegati nel testo. Non ci sono elementi di fantasia, perché non è stato fornito un `caccia.txt`.
+
+**Omessi**: proverbi volgari o confermati da una sola fonte; i dettagli sulle copie di Pieter Brueghel il Giovane.

@@ -84,7 +84,7 @@ const python = (script, args, ctx) => {
 };
 const ffmpeg = (args, ctx) => run(ffmpegPath(), ['-v', 'error', '-y', ...args], ctx);
 
-async function reviewImage(srcImg, regions, timeline, outFile) {
+async function reviewImage(srcImg, regions, timeline, outFile, points = []) {
   const meta = await sharp(srcImg).metadata();
   const w = 1400;
   const h = Math.round((meta.height / meta.width) * w);
@@ -97,6 +97,14 @@ async function reviewImage(srcImg, regions, timeline, outFile) {
       <rect x="${x * w}" y="${Math.max(0, y * h - 30)}" width="${label.length * 11 + 16}" height="30" fill="#ff2d55"/>
       <text x="${x * w + 8}" y="${Math.max(0, y * h - 30) + 21}" font-family="Arial" font-size="19" fill="#fff">${esc(label)}</text>`;
   });
+  // Elementi della caccia: cerchio del raggio di scoperta e nome.
+  for (const [i, p] of points.entries()) {
+    const label = `${i + 1}. ${p.label} (${p.fx ?? 'glow'})`;
+    items.push(`<circle cx="${p.x * w}" cy="${p.y * h}" r="${(p.r ?? 0.05) * w}" fill="none" stroke="#00e5ff" stroke-width="4"/>
+      <circle cx="${p.x * w}" cy="${p.y * h}" r="5" fill="#00e5ff"/>
+      <rect x="${p.x * w + 8}" y="${p.y * h - 34}" width="${label.length * 11 + 16}" height="30" fill="#00838f"/>
+      <text x="${p.x * w + 16}" y="${p.y * h - 13}" font-family="Arial" font-size="19" fill="#fff">${esc(label)}</text>`);
+  }
   const svg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">${items.join('')}</svg>`);
   await sharp(srcImg).resize(w, h).composite([{ input: svg }]).jpeg({ quality: 82 }).toFile(outFile);
 }
@@ -262,6 +270,23 @@ async function buildPainting(folder, order, force) {
   }
   if (experience === 'dettagli') problems.push(...dettagliTxtProblems(dir, regions));
 
+  // Caccia: elementi nascosti (punti) con la loro storia, e il finale.
+  // Solo particolari reali del quadro; elementi di fantasia solo se descritti in caccia.txt.
+  let caccia;
+  if (experience === 'caccia') {
+    const c = regions.caccia ?? { items: [] };
+    const items = [];
+    for (const it of c.items ?? []) {
+      const content = await detailContent(it, { id, dir, outDir, alignment, audioMeta, problems });
+      items.push({ id: it.id, label: it.label, x: it.x, y: it.y, r: it.r ?? 0.05, fx: it.fx ?? 'glow', ...content });
+    }
+    if (items.length < 3) problems.push(`caccia: solo ${items.length} elementi nascosti (ne servono almeno 3)`);
+    const finale = c.finale ? await detailContent({ id: 'finale', label: 'Finale', ...c.finale }, { id, dir, outDir, alignment, audioMeta, problems }) : null;
+    if (!finale) problems.push('caccia: manca il finale');
+    caccia = { lensRadius: c.lensRadius ?? 0.18, items, ...(finale ? { finale } : {}) };
+    if (fs.existsSync(path.join(dir, 'caccia.txt'))) problems.push('caccia.txt presente: gli elementi descritti vanno posizionati nello Studio (scheda Caccia)');
+  }
+
   const meta = {
     schemaVersion: 1,
     id,
@@ -280,6 +305,7 @@ async function buildPainting(folder, order, force) {
     targets: { mind: 'targets.mind', main: { targetIndex: 0, image: 'target.jpg', points: stats[0].matchingPoints } },
     dettagli,
     ...(racconto ? { racconto } : {}),
+    ...(caccia ? { caccia } : {}),
   };
 
   // Budget di peso: le alternative (fallback) non si scaricano entrambe, quindi conta la più grande.
@@ -303,7 +329,7 @@ async function buildPainting(folder, order, force) {
 
   emit('step', { id, step: 'anteprima' });
   fs.mkdirSync(REVIEW, { recursive: true });
-  await reviewImage(image, regions, racconto?.timeline, path.join(REVIEW, `${id}.jpg`));
+  await reviewImage(image, regions, racconto?.timeline, path.join(REVIEW, `${id}.jpg`), experience === 'caccia' ? regions.caccia?.items : []);
 
   fs.writeFileSync(stamp, JSON.stringify({ key: fullKey, problems }));
   emit('done', { id, bytes });

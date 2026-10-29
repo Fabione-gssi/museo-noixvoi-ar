@@ -9,6 +9,7 @@ Tutte le immagini sono state scaricate da Wikimedia Commons il 27/10/2026 e sono
 | Jan van Eyck, *Ritratto dei coniugi Arnolfini* (1434), National Gallery, Londra | quadro 04-arnolfini (originale 4386×6000 px) | https://commons.wikimedia.org/wiki/File:Van_Eyck_-_Arnolfini_Portrait.jpg | Public domain (credito su Commons: sito della National Gallery, Londra) |
 
 | Rembrandt, *La ronda di notte* (1642), Rijksmuseum | quadro 03-ronda-di-notte (miniatura Commons a 3840 px, cornice ritagliata) | https://commons.wikimedia.org/wiki/File:The_Night_Watch_-_HD.jpg | Public domain |
+| Pieter Bruegel il Vecchio, *Proverbi fiamminghi* (1559), Gemäldegalerie, Berlino | quadro 05-proverbi-fiamminghi (miniatura Commons a 3840 px) | https://commons.wikimedia.org/wiki/File:Pieter_Brueghel_the_Elder_-_The_Dutch_Proverbs_-_Google_Art_Project.jpg | Public domain |
 | Théodore Géricault, *La zattera della Medusa* (1818-1819), Louvre | quadro 06-zattera-medusa (originale 5872×4008 px) | https://commons.wikimedia.org/wiki/File:JEAN_LOUIS_TH%C3%89ODORE_G%C3%89RICAULT_-_La_Balsa_de_la_Medusa_(Museo_del_Louvre,_1818-19).jpg | Public domain (riproduzione fedele di opera bidimensionale in pubblico dominio; fonte indicata su Commons: sconosciuta) |
 
 ## Voce e modelli (usati solo sul computer, non nell'app)

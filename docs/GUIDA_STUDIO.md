@@ -62,6 +62,20 @@ Accanto a ogni particolare vedi quanto è riconoscibile:
 - **"Riconoscibile da vicino e col mirino"**: il telefono lo riconosce sia avvicinandosi sia tenendolo nel cerchio al centro dello schermo;
 - **"Solo col mirino"**: c'è poca texture, quindi funziona solo con il cerchio al centro, guardando il quadro intero.
 
+## La caccia
+
+Se l'interazione è **Caccia**, nella scheda **Caccia** metti gli elementi nascosti. Il visitatore li vede solo quando li inquadra con la lente al centro dello schermo.
+
+1. **+ Aggiungi elemento**, poi **clicca sull'immagine** nel punto in cui si trova. Puoi anche trascinare il cerchio.
+2. Dai un **nome** e scegli **come si rivela nella lente**: bagliore dorato, contorno a inchiostro o ingrandimento.
+3. Regola la **grandezza dell'area da trovare**: più è piccola, più è difficile.
+4. Scegli **che cosa si ascolta**: il pezzo dell'audio che ne parla (automatico), un pezzo scelto da te o solo testo.
+5. In basso imposta il **finale**: il testo o l'audio che arriva quando il visitatore ha trovato tutto.
+6. Con il cursore **"Grandezza della lente"** decidi quanto è grande il cerchio sullo schermo del telefono.
+7. **Salva la caccia**, poi **Prepara**.
+
+Usa solo cose che si vedono davvero nel quadro: servono almeno 3 elementi.
+
 ## Provare
 
 Scheda **Anteprima**: a sinistra c'è la vera app in una cornice a forma di telefono.

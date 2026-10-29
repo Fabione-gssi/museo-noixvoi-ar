@@ -1,0 +1,16 @@
+{
+  "_nota": "Caccia: punti (x, y normalizzati 0-1) individuati guardando l'immagine. 'ancora' è la frase di testo.txt che spiega il proverbio: la pipeline ne ricava il pezzo di audio. Solo particolari reali del quadro (nessun elemento di fantasia: non c'è caccia.txt). Da confermare con revisione/proverbi-fiamminghi.jpg.",
+  "dettagli": [],
+  "caccia": {
+    "lensRadius": 0.18,
+    "items": [
+      { "id": "muro", "label": "La testa contro il muro", "x": 0.189, "y": 0.797, "r": 0.05, "fx": "glow", "ancora": "Cerca in basso a sinistra un uomo vestito di bianco" },
+      { "id": "tosatura", "label": "Pecore e maiali", "x": 0.3, "y": 0.853, "r": 0.06, "fx": "ink", "ancora": "due uomini tosano i loro animali" },
+      { "id": "mondo-rovescia", "label": "Il mondo alla rovescia", "x": 0.054, "y": 0.434, "r": 0.04, "fx": "zoom", "ancora": "Sotto la gronda è appeso un globo" },
+      { "id": "mantello", "label": "Il mantello blu", "x": 0.464, "y": 0.727, "r": 0.06, "fx": "glow", "ancora": "Una donna vestita di rosso posa un mantello blu" },
+      { "id": "diavolo", "label": "Confessarsi al diavolo", "x": 0.461, "y": 0.56, "r": 0.04, "fx": "ink", "ancora": "una figura inginocchiata parla con un diavolo" },
+      { "id": "pollice", "label": "Il mondo sul pollice", "x": 0.737, "y": 0.797, "r": 0.045, "fx": "zoom", "ancora": "Un uomo sdraiato fa girare un globo sul pollice" }
+    ],
+    "finale": { "ancora": "Hai trovato tutti i proverbi nascosti" }
+  }
+}

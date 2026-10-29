@@ -157,3 +157,8 @@ audio { width: 100%; margin: 8px 0; }
 .det-form { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
 .det-kinds { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
 .det-kinds legend { font-weight: 600; padding: 0 4px; }
+.hunt-stage { cursor: crosshair; }
+.hunt-dot { position: absolute; border: 3px solid #00e5ff; border-radius: 50%; background: #00e5ff22; pointer-events: auto; cursor: move; }
+.hunt-dot span { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); color: #fff; font-weight: 700; text-shadow: 0 1px 3px #000; }
+.hunt-dot.selected { border-color: #ffc400; background: #ffc40033; }
+.hunt-lens { position: absolute; border: 2px dashed #fff; border-radius: 50%; pointer-events: none; box-shadow: 0 0 0 1px #0006; }

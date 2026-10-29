@@ -338,6 +338,142 @@
           "type": "integer"
         }
       }
+    },
+    "caccia": {
+      "type": "object",
+      "required": [
+        "lensRadius",
+        "items"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "lensRadius": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 0.5
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "x",
+              "y",
+              "r",
+              "fx",
+              "media",
+              "text"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "x": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "y": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "r": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 0.5
+              },
+              "fx": {
+                "enum": [
+                  "glow",
+                  "ink",
+                  "zoom"
+                ]
+              },
+              "media": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "audio",
+                      "video",
+                      "text"
+                    ]
+                  },
+                  "src": {
+                    "$ref": "#/definitions/file"
+                  },
+                  "fallback": {
+                    "$ref": "#/definitions/file"
+                  },
+                  "audioSegment": {
+                    "$ref": "#/definitions/segment"
+                  }
+                }
+              },
+              "text": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "finale": {
+          "type": "object",
+          "required": [
+            "media",
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "media": {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "enum": [
+                    "audio",
+                    "video",
+                    "text"
+                  ]
+                },
+                "src": {
+                  "$ref": "#/definitions/file"
+                },
+                "fallback": {
+                  "$ref": "#/definitions/file"
+                },
+                "audioSegment": {
+                  "$ref": "#/definitions/segment"
+                }
+              }
+            },
+            "text": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   }
 }

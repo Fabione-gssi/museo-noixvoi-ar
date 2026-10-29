@@ -2,6 +2,32 @@
 
 > **Avviso importante.** Questi test girano su un computer Windows, con Chromium headless e una fotocamera *simulata* (video sintetici generati dall'immagine del quadro). **Non sostituiscono la prova su telefoni reali**: non riproducono autofocus, esposizione automatica, mosso vero, riflessi e moiré reali, né la potenza di calcolo di un telefono. I numeri veri arriveranno dalle prove in `DA_FARE_UTENTE.md`.
 
+## Fase 3 (29/10/2026)
+
+Esito: **17 test unitari e 42 test E2E superati su 42**.
+
+### Caccia: *Proverbi fiamminghi*, fotocamera simulata
+
+| Prova | Esito |
+|---|---|
+| Precisione della lente: punto del quadro sotto il centro dello schermo rispetto al punto atteso | scarto < 0,005 (meno dello 0,5% della larghezza) |
+| La lente scopre "La testa contro il muro": parte il suo pezzo di audio, il contatore va a 1/6 e resta dopo il ricaricamento | ✅ (quadro riconosciuto in 0,2 s, scoperta dopo circa 1 s di permanenza nella lente) |
+| Idem per "Pecore e maiali" (effetto inchiostro) | ✅ |
+| Giro completo: tutti e 6 gli elementi, poi compare "Hai trovato tutto! Ascolta il finale" e parte il finale | ✅ |
+| Indizio: dopo 20 s senza scoperte compare il luccichio | ✅ |
+| Senza fotocamera: la lente si trascina sull'immagine e scopre l'elemento | ✅ |
+
+**Studio**: nuovo test dell'editor della caccia.
+- Si clicca sull'immagine per mettere un elemento.
+- Si sceglie l'effetto "inchiostro" e "Solo testo", poi si scrive il finale.
+- Si salva e si prepara.
+
+Le coordinate corrispondono al clic e il `meta.json` è valido. Tutti e 6 i test dello Studio sono superati.
+
+**Corretto durante lo sviluppo**: i video di prova tagliavano l'inquadratura contro il bordo della parete finta. Questo falsava di circa il 5% la misura della lente; ora la parete è più grande.
+
+**Non verificato**: la caccia su telefono vero (vedi DA_FARE_UTENTE.md, Fase 3).
+
 ## Fase 2 (27/10/2026)
 
 Esito: **16 test unitari e 36 test E2E superati su 36**. I nuovi test unitari verificano la ricerca del pezzo di audio di un particolare.

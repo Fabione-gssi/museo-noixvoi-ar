@@ -12,6 +12,8 @@ export const probe = {
   error: '',
   locked: false,
   storyTime: 0,
+  /** Caccia: punto del quadro sotto il centro della lente (u, v 0-1). */
+  lens: null as null | { u: number; v: number; rW: number },
 };
 (window as unknown as { __ar: typeof probe }).__ar = probe;
 

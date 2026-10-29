@@ -1,6 +1,6 @@
 # Limiti noti
 
-Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 2.
+Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 3.
 
 ## Riconoscimento delle immagini (MindAR)
 
@@ -31,6 +31,13 @@ Elenco aggiornato a ogni fase. Ultimo aggiornamento: Fase 2.
 - I movimenti di camera automatici dipendono dalle frasi "ancora" in `regioni.json`: se il testo cambia e una frase non si trova più, quel movimento salta e la pipeline lo segnala. Dallo Studio si può sempre passare a una sequenza fatta a mano.
 - La parallasse col giroscopio è leggera per scelta (niente effetti che diano fastidio). Su iPhone richiede il permesso al primo tap: se viene negato, il racconto funziona lo stesso.
 - Il video caricato non ha sottotitoli automatici (vanno inclusi nel video stesso).
+
+## Caccia
+
+- La lente mostra l'immagine ad alta risoluzione nel punto del quadro che sta sotto il centro dello schermo (precisione misurata nei test: meno di 0,5% della larghezza). Ignora però la prospettiva: se si guarda il quadro molto di lato, il contenuto della lente è leggermente diverso da quello visto dalla fotocamera.
+- Mentre la scheda di una scoperta è aperta, la lente non scopre altri elementi: si chiude la scheda e si continua.
+- L'indizio (luccichio) compare dopo 20 secondi senza scoperte, sull'elemento non ancora trovato che viene per primo nell'elenco.
+- Il finale fa parte del testo del quadro, quindi si sente anche alla fine di "Ascolta tutto".
 
 ## Blocca/Sblocca
 

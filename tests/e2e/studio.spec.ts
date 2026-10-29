@@ -81,7 +81,7 @@ test.describe.serial('Studio', () => {
     await expect(page.locator('#toast')).toContainText('Interazione: Dettagli');
     await page.getByRole('button', { name: /^Racconto/ }).click();
     await expect(page.locator('#toast')).toContainText('Interazione: Racconto');
-    await expect(page.getByRole('button', { name: /^Caccia/ })).toBeDisabled();
+    await expect(page.getByRole('button', { name: /^Personaggio/ })).toBeDisabled();
 
     // Racconto: caricamento di un video
     await page.getByRole('tab', { name: 'Racconto' }).click();
@@ -158,6 +158,39 @@ test.describe.serial('Studio', () => {
     expect(validate(meta), JSON.stringify(validate.errors)).toBe(true);
     expect(meta.experience).toBe('dettagli');
     expect(meta.dettagli[0]).toMatchObject({ label: 'Il corpo in primo piano', media: { type: 'text' }, text: 'Un corpo abbandonato sulle assi.' });
+  });
+
+  test('editor della caccia: mettere un elemento nascosto con un clic', async ({ page }) => {
+    test.setTimeout(300_000);
+    await page.setViewportSize({ width: 1366, height: 900 });
+    const folder = folderOf()!;
+    await page.goto(`${STUDIO}#/q/${folder}/interazione`);
+    await page.getByRole('button', { name: /^Caccia/ }).click();
+    await expect(page.locator('#toast')).toContainText('Interazione: Caccia');
+    await page.getByRole('tab', { name: 'Caccia' }).click();
+    await page.getByRole('button', { name: '+ Aggiungi elemento' }).click();
+    const stage = page.locator('.hunt-stage');
+    await expect.poll(() => stage.locator('img').evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0)).toBe(true);
+    const box = (await stage.boundingBox())!;
+    await page.mouse.click(box.x + box.width * 0.3, box.y + box.height * 0.7);
+    await page.getByLabel('Nome dell\'elemento').fill('La zattera nascosta');
+    await page.getByLabel('Effetto nella lente').selectOption('ink');
+    await page.locator('.det-form').getByLabel('Solo testo').check();
+    await page.getByLabel('Storia dell\'elemento').fill('Una storia di prova.');
+    await page.getByLabel('Testo del finale').fill('Finale di prova.');
+    await page.getByRole('button', { name: 'Salva la caccia' }).click();
+    await expect(page.locator('#toast')).toContainText('Caccia salvata');
+    await page.getByRole('button', { name: 'Prepara', exact: true }).first().click();
+    await waitJob(page);
+
+    const meta = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data', ID, 'meta.json'), 'utf8'));
+    expect(validate(meta), JSON.stringify(validate.errors)).toBe(true);
+    expect(meta.experience).toBe('caccia');
+    const it = meta.caccia.items[0];
+    expect(it).toMatchObject({ label: 'La zattera nascosta', fx: 'ink', media: { type: 'text' }, text: 'Una storia di prova.' });
+    expect(it.x).toBeCloseTo(0.3, 1);
+    expect(it.y).toBeCloseTo(0.7, 1);
+    expect(meta.caccia.finale.text).toBe('Finale di prova.');
   });
 
   test('eliminare con conferma e recuperare con Annulla', async ({ page }) => {

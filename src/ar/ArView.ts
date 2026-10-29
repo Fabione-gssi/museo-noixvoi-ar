@@ -80,6 +80,23 @@ export class ArView {
     return { x: this.box.left + ((p.x + 1) / 2) * this.box.width, y: this.box.top + ((1 - p.y) / 2) * this.box.height };
   }
 
+  private raycaster = new THREE.Raycaster();
+  private plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+
+  /**
+   * Punto dello schermo (viewport) → punto del piano di un ancoraggio, in
+   * coordinate locali (target largo 1, centrato nell'origine). null se il
+   * target non è agganciato o il raggio non incontra il piano.
+   */
+  toLocal(targetIndex: number, x: number, y: number) {
+    const g = this.anchors.get(targetIndex);
+    if (!g?.visible) return null;
+    const ndc = new THREE.Vector2(((x - this.box.left) / this.box.width) * 2 - 1, -(((y - this.box.top) / this.box.height) * 2 - 1));
+    this.raycaster.setFromCamera(ndc, this.camera);
+    const ray = this.raycaster.ray.clone().applyMatrix4(g.matrix.clone().invert());
+    return ray.intersectPlane(this.plane, new THREE.Vector3());
+  }
+
   render() {
     this.renderer.render(this.scene, this.camera);
     this.frames++;

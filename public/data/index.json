@@ -21,6 +21,16 @@
       "bytes": 5146740
     },
     {
+      "id": "proverbi-fiamminghi",
+      "title": "Proverbi fiamminghi",
+      "artist": "Pieter Bruegel il Vecchio",
+      "year": "1559",
+      "room": "",
+      "experience": "caccia",
+      "demo": true,
+      "bytes": 3178645
+    },
+    {
       "id": "zattera-medusa",
       "title": "La zattera della Medusa",
       "artist": "Théodore Géricault",
@@ -31,5 +41,5 @@
       "bytes": 2949869
     }
   ],
-  "totalBytes": 13618507
+  "totalBytes": 16797152
 }

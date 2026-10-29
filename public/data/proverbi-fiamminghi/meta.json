@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "id": "proverbi-fiamminghi",
+  "order": 3,
+  "title": "Proverbi fiamminghi",
+  "artist": "Pieter Bruegel il Vecchio",
+  "year": "1559",
+  "room": "",
+  "experience": "caccia",
+  "demo": true,
+  "aspect": 1.4122839279146746,
+  "image": "immagine.jpg",
+  "audio": {
+    "src": "audio.opus",
+    "fallback": "audio.m4a",
+    "durationSec": 129.3
+  },
+  "subtitles": "subtitles.vtt",
+  "alignment": "alignment.json",
+  "targets": {
+    "mind": "targets.mind",
+    "main": {
+      "targetIndex": 0,
+      "image": "target.jpg",
+      "points": 3950
+    }
+  },
+  "dettagli": [],
+  "caccia": {
+    "lensRadius": 0.18,
+    "items": [
+      {
+        "id": "muro",
+        "label": "La testa contro il muro",
+        "x": 0.189,
+        "y": 0.797,
+        "r": 0.05,
+        "fx": "glow",
+        "media": {
+          "type": "audio",
+          "audioSegment": {
+            "from": 39.63,
+            "to": 48.79
+          }
+        },
+        "text": "Cerca in basso a sinistra un uomo vestito di bianco che spinge la testa contro un muro di mattoni. Sbattere la testa contro il muro: ostinarsi in un'impresa impossibile.",
+        "source": "testo.txt: \"Cerca in basso a sinistra un uomo vestito di bianco che spinge la testa contro un muro di …\""
+      },
+      {
+        "id": "tosatura",
+        "label": "Pecore e maiali",
+        "x": 0.3,
+        "y": 0.853,
+        "r": 0.06,
+        "fx": "ink",
+        "media": {
+          "type": "audio",
+          "audioSegment": {
+            "from": 49.69,
+            "to": 60.7
+          }
+        },
+        "text": "Poco più in là, due uomini tosano i loro animali: uno tosa una pecora, l'altro un maiale. Uno tosa le pecore e l'altro i maiali: uno ha tutti i vantaggi, l'altro nessuno.",
+        "source": "testo.txt: \"Poco più in là, due uomini tosano i loro animali: uno tosa una pecora, l'altro un maiale. …\""
+      },
+      {
+        "id": "mondo-rovescia",
+        "label": "Il mondo alla rovescia",
+        "x": 0.054,
+        "y": 0.434,
+        "r": 0.04,
+        "fx": "zoom",
+        "media": {
+          "type": "audio",
+          "audioSegment": {
+            "from": 63.87,
+            "to": 72.32
+          }
+        },
+        "text": "Sotto la gronda è appeso un globo con la croce rivolta verso il basso. È l'insegna del mondo alla rovescia: tutto è al contrario di come dovrebbe essere.",
+        "source": "testo.txt: \"Sotto la gronda è appeso un globo con la croce rivolta verso il basso. È l'insegna del mon…\""
+      },
+      {
+        "id": "mantello",
+        "label": "Il mantello blu",
+        "x": 0.464,
+        "y": 0.727,
+        "r": 0.06,
+        "fx": "glow",
+        "media": {
+          "type": "audio",
+          "audioSegment": {
+            "from": 74.61,
+            "to": 83.76
+          }
+        },
+        "text": "Una donna vestita di rosso posa un mantello blu sulle spalle del marito. Mettere il mantello blu al marito voleva dire tradirlo: il blu era il colore dell'inganno.",
+        "source": "testo.txt: \"Una donna vestita di rosso posa un mantello blu sulle spalle del marito. Mettere il mantel…\""
+      },
+      {
+        "id": "diavolo",
+        "label": "Confessarsi al diavolo",
+        "x": 0.461,
+        "y": 0.56,
+        "r": 0.04,
+        "fx": "ink",
+        "media": {
+          "type": "audio",
+          "audioSegment": {
+            "from": 86.86,
+            "to": 95.5
+          }
+        },
+        "text": "Proprio dietro, sotto il piccolo tempietto, una figura inginocchiata parla con un diavolo. Confessarsi al diavolo: rivelare i propri segreti al nemico.",
+        "source": "testo.txt: \"Proprio dietro, sotto il piccolo tempietto, una figura inginocchiata parla con un diavolo.…\""
+      },
+      {
+        "id": "pollice",
+        "label": "Il mondo sul pollice",
+        "x": 0.737,
+        "y": 0.797,
+        "r": 0.045,
+        "fx": "zoom",
+        "media": {
+          "type": "audio",
+          "audioSegment": {
+            "from": 98.79,
+            "to": 106.4
+          }
+        },
+        "text": "Un uomo sdraiato fa girare un globo sul pollice. Avere il mondo che gira sul pollice: avere tutti i vantaggi, o credere di averli.",
+        "source": "testo.txt: \"Un uomo sdraiato fa girare un globo sul pollice. Avere il mondo che gira sul pollice: aver…\""
+      }
+    ],
+    "finale": {
+      "media": {
+        "type": "audio",
+        "audioSegment": {
+          "from": 120.62,
+          "to": 128.44
+        }
+      },
+      "text": "Hai trovato tutti i proverbi nascosti. Bruegel ne ha dipinti più di cento: ora che conosci il gioco, prova a cercarne altri con i tuoi occhi.",
+      "source": "testo.txt: \"Hai trovato tutti i proverbi nascosti. Bruegel ne ha dipinti più di cento: ora che conosci…\""
+    }
+  },
+  "budget": {
+    "bytes": 3178645,
+    "limit": 6291456
+  }
+}

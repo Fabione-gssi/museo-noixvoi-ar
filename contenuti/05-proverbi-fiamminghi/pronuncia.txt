@@ -1,0 +1,5 @@
+# Come la voce demo deve leggere le parole difficili (parola = lettura).
+Pieter Bruegel il Vecchio = Pìter Bròighel il Vecchio
+Bruegel = Bròighel
+Gemäldegalerie = Ghemèldegaleri
+Berlino = Berlìno

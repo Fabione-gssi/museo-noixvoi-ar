@@ -69,14 +69,34 @@ export interface RegionDetail {
   media?: { type: 'segmento'; from: number; to: number } | { type: 'audio' | 'video'; file: string } | { type: 'testo' };
 }
 
+/** Elemento nascosto della caccia in regioni.json. */
+export interface RegionHuntItem {
+  id: string;
+  label: string;
+  x: number;
+  y: number;
+  r?: number;
+  fx?: 'glow' | 'ink' | 'zoom';
+  ancora?: string;
+  text?: string;
+  media?: RegionDetail['media'];
+}
+
+export interface RegionHunt {
+  lensRadius?: number;
+  items: RegionHuntItem[];
+  finale?: { ancora?: string; text?: string; media?: RegionDetail['media'] };
+}
+
 export interface PaintingDetails extends PaintingSummary {
   text: string;
   pronuncia: string;
-  regions: { dettagli: RegionDetail[]; racconto?: { inquadraturaIntera?: string[]; timeline?: Keyframe[] } };
+  regions: { dettagli: RegionDetail[]; caccia?: RegionHunt; racconto?: { inquadraturaIntera?: string[]; timeline?: Keyframe[] } };
   meta: null | {
     aspect: number; demo: boolean; audio?: { durationSec: number }; racconto?: { timeline: Keyframe[]; video?: unknown };
     budget?: { bytes: number; limit: number }; targets: { main: { points: number } };
     dettagli: { id: string; points?: number; trigger: string[]; text?: string; media?: { type: string; audioSegment?: { from: number; to: number } } }[];
+    caccia?: { items: { id: string; text: string; media: { type: string; audioSegment?: { from: number; to: number } } }[]; finale?: { text: string; media: { type: string; audioSegment?: { from: number; to: number } } } };
   };
   alignment: Alignment | null;
   quality: null | { width: number; height: number; points?: number; tips: { level: string; text: string }[] };

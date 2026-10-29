@@ -18,6 +18,19 @@ export interface DettaglioMeta {
   source?: string;
 }
 
+/** Elemento nascosto della caccia: punto (x, y 0-1), raggio in larghezze immagine, effetto. */
+export interface CacciaItem {
+  id: string;
+  label: string;
+  x: number;
+  y: number;
+  r: number;
+  fx: 'glow' | 'ink' | 'zoom';
+  media: DettaglioMeta['media'];
+  text: string;
+  source?: string;
+}
+
 export interface PaintingMeta {
   schemaVersion: 1;
   id: string;
@@ -36,6 +49,7 @@ export interface PaintingMeta {
   alignment?: string;
   targets: { mind: string; main: { targetIndex: 0; image: string; points: number } };
   dettagli: DettaglioMeta[];
+  caccia?: { lensRadius: number; items: CacciaItem[]; finale?: { media: DettaglioMeta['media']; text: string } };
   racconto?: { auto: boolean; video?: { src: string; fallback?: string }; timeline: Keyframe[] };
 }
 

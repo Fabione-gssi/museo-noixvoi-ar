@@ -4,6 +4,7 @@ import { makeFrame } from './ar/ArView';
 import { unlockAll } from './media';
 import { loadIndex, loadMeta, dataUrl, type PaintingMeta } from './data';
 import { setupDettagli, dettagliWithoutCamera } from './experiences/dettagli';
+import { setupCaccia, cacciaWithoutCamera } from './experiences/caccia';
 import { startRacconto, type StoryHandle } from './experiences/racconto';
 import { probe, log } from './probe';
 import { getPref, setPref } from './prefs';
@@ -18,6 +19,7 @@ const show = (id: string) => document.querySelectorAll<HTMLElement>('.screen').f
 const TUTORIAL: Record<string, string> = {
   racconto: 'Inquadra il quadro intero. Quando lo riconosco parte il racconto: puoi abbassare il telefono e ascoltare.',
   dettagli: 'Inquadra il quadro, poi avvicinati ai particolari tenendoli nel cerchio al centro.',
+  caccia: 'Muovi il telefono sul quadro: la lente al centro rivela cose nascoste. Quando ne vedi una, tienila nella lente per un secondo.',
 };
 
 let stream: MediaStream | null = null;
@@ -25,7 +27,7 @@ let session: ArSession | null = null;
 let story: StoryHandle | null = null;
 
 /** Esperienze non ancora realizzate usano il racconto, ripiego universale. */
-const experienceOf = (m: PaintingMeta) => (m.experience === 'dettagli' ? 'dettagli' : 'racconto');
+const experienceOf = (m: PaintingMeta) => (m.experience === 'dettagli' ? 'dettagli' : m.experience === 'caccia' && m.caccia ? 'caccia' : 'racconto');
 
 async function init() {
   if (DEBUG) $('#debug').hidden = false;
@@ -127,8 +129,10 @@ async function runAr(meta: PaintingMeta) {
   setStatus('Preparo il riconoscimento…');
   await session.start();
   $('#find').hidden = true;
+  $('#hunt').hidden = true;
   $('#reticle').hidden = true;
   if (kind === 'dettagli') exp = setupDettagli(meta, session);
+  else if (kind === 'caccia') exp = setupCaccia(meta, session);
   else session.view.anchor(0).add(makeFrame(1, 1 / session.aspects[0], 0xffd166));
 
   $('#lock').onclick = () => (session!.locked ? session!.unlock() : session!.lock());
@@ -169,7 +173,11 @@ function withoutCamera(meta: PaintingMeta, reason?: string) {
   $('#fallback-reason').textContent = reason ?? '';
   $<HTMLImageElement>('#fallback-img').src = dataUrl(meta.id, meta.image);
   $('#fallback-title').textContent = meta.title;
-  dettagliWithoutCamera(meta);
+  if (experienceOf(meta) === 'caccia') {
+    $('#fallback-img').hidden = true;
+    $('#fallback-find').hidden = true;
+    cacciaWithoutCamera(meta);
+  } else dettagliWithoutCamera(meta);
 }
 
 function setStatus(text: string) {

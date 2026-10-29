@@ -170,7 +170,7 @@ function triage(meta, regions) {
   return {
     racconto: { score: 100, note: 'Sempre possibile: è il ripiego per ogni quadro.' },
     dettagli: { score: Math.min(100, strong * 30 + (regions.dettagli?.length ?? 0) * 10), note: regions.dettagli?.length ? `${regions.dettagli.length} particolari segnati, ${strong} ben riconoscibili da vicino.` : 'Nessun particolare segnato.' },
-    caccia: { score: null, note: 'Disponibile dalla Fase 3.' },
+    caccia: { score: Math.min(100, (regions.caccia?.items?.length ?? 0) * 18), note: regions.caccia?.items?.length ? `${regions.caccia.items.length} elementi nascosti segnati (ne servono almeno 3).` : 'Nessun elemento nascosto segnato: servono particolari descritti nel testo.' },
     personaggio: { score: null, note: 'Disponibile dalla Fase 4.' },
   };
 }
